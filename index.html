@@ -19,7 +19,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .85s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--text2);font-size:13px;margin-top:16px}
-.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:56px}
+.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:max(56px, calc(56px + env(safe-area-inset-bottom)))}
 .tab-content.active{display:flex;flex-direction:column}
 .page-header{padding:18px 20px 10px}
 .page-label{color:var(--text2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
@@ -65,8 +65,8 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .cash-card{display:flex;justify-content:space-between;align-items:center;padding:16px}
 .cash-label{color:var(--text2);font-size:13px}
 .cash-value{color:var(--white);font-size:14px;font-weight:600}
-.tab-bar{position:fixed;bottom:0;left:0;right:0;height:48px;display:flex;justify-content:space-around;align-items:stretch;padding:0;background:rgba(10,10,10,.98);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:50}
-.tab-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;padding:4px 12px;min-width:0}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;height:48px;padding-bottom:env(safe-area-inset-bottom);display:flex;justify-content:space-around;align-items:center;background:rgba(10,10,10,.98);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:50}
+.tab-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;padding:6px 12px;min-width:0}
 .tab-icon{font-size:22px;line-height:1}
 .tab-label{font-size:10px;font-weight:600;color:var(--text2);line-height:1}
 .tab-label.active{color:var(--green)}
@@ -184,7 +184,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
   <div class="tab-content" id="tab-holdings">
     <div class="page-header">
       <div class="page-label">Portfolio Holdings</div>
-      <div class="section-title" style="font-size:28px;margin-top:4px">Holdings</div>
+      <div style="font-size:28px;font-weight:700;margin-top:4px">Holdings</div>
       <div class="section-sub">Current position sizes and live returns</div>
     </div>
     <div class="section" style="padding-top:0">
@@ -241,7 +241,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
       <div class="detail-change" id="detail-change">--</div>
     </div>
     <div class="period-bar">
-      <button class="pill active">1D</button><button class="pill">1W</button><button class="pill">1M</button><button class="pill">6M</button><button class="pill">1Y</button><button class="pill">All</button>
+      <button class="pill active" onclick="setPeriod('1D',true)">1D</button><button class="pill" onclick="setPeriod('1W',true)">1W</button><button class="pill" onclick="setPeriod('1M',true)">1M</button><button class="pill" onclick="setPeriod('6M',true)">6M</button><button class="pill" onclick="setPeriod('1Y',true)">1Y</button><button class="pill" onclick="setPeriod('ALL',true)">All</button>
     </div>
     <div class="chart-container"><canvas id="detail-chart"></canvas></div>
     <div class="stats-card" id="detail-stats"></div>
@@ -303,6 +303,7 @@ let CURRENT_DETAIL='TSLA';
 function fmt(n){return '$'+Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
 function fmt0(n){return '$'+Math.round(Number(n)).toLocaleString('en-US')}
 function pct(n){const v=Number(n); return (v>=0?'+':'')+v.toFixed(2)+'%';}
+function pct0(n){return (Number(n)>=0?'+':'')+Number(n).toFixed(2)+'%';}
 function shortMoney(n){const v=Number(n); return Math.abs(v)>=1000 ? '$'+(v/1000).toFixed(1)+'K' : fmt(v);}
 function safeNum(n){return Number.isFinite(Number(n)) ? Number(n) : 0;}
 
@@ -415,7 +416,8 @@ function renderTransactions(filter){
   const cols={BUY:'#00D4AA',SELL:'#FF4D4F',DEPOSIT:'#007AFF',WITHDRAW:'#FF9F0A'};
   document.getElementById('tx-list').innerHTML = txs.map(t=>{
     const c=cols[t.w], sign=(t.w==='BUY'||t.w==='WITHDRAW')?'-':'+';
-    return `<div class="tx-card"><div class="tx-icon" style="background:${c}22;color:${c}">${icons[t.w]}</div><div class="tx-info"><div class="tx-symbol">${t.w==='BUY'||t.w==='SELL'?t.s:'USD'}</div><div class="tx-type">${t.w} ${t.w==='BUY'||t.w==='SELL'?`${t.sh} ${t.s}`:fmt(t.c)}</div><div class="tx-date">${new Date(t.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>${t.n?`<div class="tx-notes">${t.n}</div>`:''}</div><div><div class="tx-amount" style="color:${c}">${sign}${fmt(t.c)}</div></div></div>`;
+    const showNote = t.n && !t.n.startsWith('SYNC-') && !t.n.startsWith('SYNC_') && t.n.trim();
+    return `<div class="tx-card"><div class="tx-icon" style="background:${c}22;color:${c}">${icons[t.w]}</div><div class="tx-info"><div class="tx-symbol">${t.w==='BUY'||t.w==='SELL'?t.s:'USD'}</div><div class="tx-type">${t.w} ${t.w==='BUY'||t.w==='SELL'?`${t.sh} ${t.s}`:fmt(t.c)}</div><div class="tx-date">${new Date(t.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>${showNote?`<div class="tx-notes">${showNote}</div>`:''}</div><div><div class="tx-amount" style="color:${c}">${sign}${fmt(t.c)}</div></div></div>`;
   }).join('');
 }
 
@@ -426,7 +428,8 @@ function renderHoldings(state){
   document.getElementById('holdings-donut-total').textContent = fmt0(state.totalValue);
   document.getElementById('holdings-list').innerHTML = state.holdings.map(h=>{
     const gain = h.value - h.costBasis; const gp = h.costBasis ? gain / h.costBasis * 100 : 0;
-    return `<div class="card"><div class="holding-row" onclick="openStock('${h.symbol}')"><div class="holding-left"><div class="holding-icon" style="background:${h.color}22;color:${h.color}">${h.symbol.slice(0,2)}</div><div><div class="holding-symbol">${h.symbol}</div><div class="holding-name">${h.name}</div><div class="holding-name">${h.shares.toFixed(h.symbol==='HOOD'?2:0)} shares · avg ${fmt(h.avgCost)}</div></div></div><div class="holding-right"><div class="holding-value">${fmt(h.value)}</div><div class="holding-change ${gp>=0?'up':'down'}">${pct(gp)}</div><div class="holding-change ${gain>=0?'up':'down'}">${gain>=0?'+':''}${fmt(gain)}</div></div></div></div>`;
+    const sharesStr = h.symbol==='HOOD' ? h.shares.toFixed(2) : (Number.isInteger(h.shares) ? h.shares.toString() : h.shares.toFixed(2));
+    return `<div class="card"><div class="holding-row" onclick="openStock('${h.symbol}')"><div class="holding-left"><div class="holding-icon" style="background:${h.color}22;color:${h.color}">${h.symbol.slice(0,2)}</div><div><div class="holding-symbol">${h.symbol}</div><div class="holding-name">${h.name}</div><div class="holding-name">${sharesStr} shares · avg ${fmt(h.avgCost)}</div></div></div><div class="holding-right"><div class="holding-value">${fmt(h.value)}</div><div class="holding-change ${gp>=0?'up':'down'}">${pct(gp)}</div><div class="holding-change ${gain>=0?'up':'down'}">${gain>=0?'+':''}${fmt(gain)}</div></div></div></div>`;
   }).join('');
 }
 
@@ -441,8 +444,8 @@ function renderDashboard(state){
   document.getElementById('chart-header').style.display='flex';
   document.getElementById('chart-price').textContent = fmt(state.totalValue);
   const chartChange = document.getElementById('chart-change');
-  chartChange.textContent = `${state.totalReturn>=0?'+':''}${fmt(state.totalReturn)} (${state.totalReturn>=0?'+':''}${state.totalReturnPct.toFixed(2)}%) All time`;
-  chartChange.style.color = state.totalReturn>=0 ? 'var(--green)' : 'var(--red)';
+  chartChange.textContent = `${state.dailyChange>=0?'+':''}${fmt(state.dailyChange)} (${state.dailyChangePct>=0?'+':''}${state.dailyChangePct.toFixed(2)}%) Today`;
+  chartChange.style.color = state.dailyChange>=0 ? 'var(--green)' : 'var(--red)';
   drawArea('main-chart', PORTFOLIO_HISTORY, state.totalReturn>=0 ? '#00D4AA' : '#FF4D4F', 180);
 
   const donut = state.holdings.map(h=>({label:h.symbol, v:h.value, color:h.color}));
@@ -501,18 +504,65 @@ function openStock(symbol){
     <div class="stat-row"><span class="stat-label">Market Value</span><span class="stat-val">${fmt(h.value)}</span></div>
     <div class="stat-divider"></div>
     <div class="stat-row"><span class="stat-label">Total Return</span><span class="stat-val" style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${fmt(gain)} (${gp>=0?'+':''}${gp.toFixed(2)}%)</span></div>`;
+  function getHistPct(sym, days){
+    const hist = STOCK_HISTORY[sym] || [];
+    if(hist.length < 2) return null;
+    const now = new Date();
+    const cutoff = new Date(now.setDate(now.getDate() - days));
+    const cutoffStr = cutoff.toISOString().slice(0,7); // YYYY-MM
+    // find nearest data points
+    let before = hist[0], after = hist[hist.length-1];
+    for(const pt of hist){ if(pt.d <= cutoffStr) before=pt; if(pt.d >= cutoffStr) {after=pt; break;} }
+    if(!before || !after || before.d === after.d) return null;
+    return (after.v - before.v) / before.v * 100;
+  }
+  const p1w = getHistPct(h.symbol, 7);
+  const p1m = getHistPct(h.symbol, 30);
+  const p1y = getHistPct(h.symbol, 365);
   document.getElementById('detail-perf').innerHTML = `
     <div style="font-size:16px;font-weight:700;margin-bottom:10px">Performance</div>
-    <div class="perf-row"><span class="perf-label">1 Week</span><span class="perf-val ${h.change>=0?'up':'down'}">${h.change>=0?'+':''}${h.changePct.toFixed(2)}%</span></div>
-    <div class="perf-row"><span class="perf-label">1 Month</span><span class="perf-val ${h.change>=0?'up':'down'}">${h.change>=0?'+':''}${(h.changePct*2.4).toFixed(2)}%</span></div>
-    <div class="perf-row"><span class="perf-label">1 Year</span><span class="perf-val ${h.change>=0?'up':'down'}">${h.change>=0?'+':''}${(h.changePct*7.5).toFixed(2)}%</span></div>`;
+    <div class="perf-row"><span class="perf-label">1 Week</span><span class="perf-val ${(p1w||0)>=0?'up':'down'}">${p1w!==null?pct0(p1w):'--'}</span></div>
+    <div class="perf-row"><span class="perf-label">1 Month</span><span class="perf-val ${(p1m||0)>=0?'up':'down'}">${p1m!==null?pct0(p1m):'--'}</span></div>
+    <div class="perf-row"><span class="perf-label">1 Year</span><span class="perf-val ${(p1y||0)>=0?'up':'down'}">${p1y!==null?pct0(p1y):'--'}</span></div>`;
   const hist = STOCK_HISTORY[h.symbol] || [];
   drawArea('detail-chart', hist, h.color, 180);
   switchTab('stock-detail');
 }
 
 function setTxFilter(f){ CURRENT_FILTER=f; renderTransactions(f); }
-function setPeriod(p){ CURRENT_PERIOD=p; document.querySelectorAll('#period-bar .pill').forEach(x=>x.classList.remove('active')); const idx=['1D','1W','1M','6M','1Y','ALL'].indexOf(p); if(idx>=0) document.querySelectorAll('#period-bar .pill')[idx].classList.add('active'); }
+function setPeriod(p, isDetail=false){
+  CURRENT_PERIOD=p;
+  document.querySelectorAll('#period-bar .pill').forEach(x=>x.classList.remove('active'));
+  const periods=['1D','1W','1M','6M','1Y','ALL'];
+  const idx=periods.indexOf(p);
+  if(idx>=0){
+    const bars=document.querySelectorAll('#period-bar .pill');
+    if(bars[idx]) bars[idx].classList.add('active');
+  }
+  if(isDetail && CURRENT_DETAIL){
+    const h=CURRENT_STATE.holdings.find(x=>x.symbol===CURRENT_DETAIL);
+    if(h){
+      const filtered=filterStockHistory(CURRENT_DETAIL, p);
+      drawArea('detail-chart', filtered, h.color, 180);
+    }
+  }
+}
+
+function filterStockHistory(sym, period){
+  const hist=STOCK_HISTORY[sym]||[];
+  if(!hist.length) return [];
+  const now=new Date();
+  const cutoff=new Date();
+  let keep=true;
+  if(period==='1D'){cutoff.setDate(now.getDate()-1); keep=false;}
+  else if(period==='1W'){cutoff.setDate(now.getDate()-7)}
+  else if(period==='1M'){cutoff.setMonth(now.getMonth()-1)}
+  else if(period==='6M'){cutoff.setMonth(now.getMonth()-6)}
+  else if(period==='1Y'){cutoff.setFullYear(now.getFullYear()-1)}
+  else return hist; // ALL
+  const cs=cutoff.toISOString().slice(0,7);
+  return hist.filter(pt=>pt.d>=cs).length ? hist.filter(pt=>pt.d>=cs) : (keep ? hist : hist.slice(-2));
+}
 function switchTab(name){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   const el=document.getElementById('tab-'+name); if(el) el.classList.add('active');
