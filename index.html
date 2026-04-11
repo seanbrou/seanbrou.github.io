@@ -19,7 +19,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .85s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--text2);font-size:13px;margin-top:16px}
-.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:calc(52px + env(safe-area-inset-bottom))}
+.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:calc(58px + env(safe-area-inset-bottom))}
 .tab-content.no-bar{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 .tab-content.active{display:flex;flex-direction:column}
 .page-header{padding:18px 20px 10px}
@@ -28,14 +28,14 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .return-row{display:flex;align-items:center;gap:6px;margin-top:4px}
 .return-text{font-size:14px;font-weight:600}
 .return-label{color:#666;font-size:12px}
-.period-bar{display:flex;gap:8px;padding:8px 20px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.period-bar{display:flex;gap:8px;padding:10px 20px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-shrink:0;align-items:center}
 .period-bar::-webkit-scrollbar{display:none}
-.pill{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:7px 14px;border-radius:20px;background:var(--card);color:var(--text2);font-size:13px;font-weight:600;line-height:1;cursor:pointer;white-space:nowrap;border:1px solid transparent}
+.pill{display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;min-height:32px;padding:7px 14px;border-radius:20px;background:var(--card);color:var(--text2);font-size:13px;font-weight:600;line-height:1;cursor:pointer;white-space:nowrap;border:1px solid transparent}
 .pill.active{background:rgba(0,212,170,.14);color:var(--green);border-color:rgba(0,212,170,.28)}
 .chart-header{padding:2px 16px 0;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .chart-price{color:var(--white);font-size:32px;font-weight:700;line-height:1;display:none}
 .chart-change{font-size:13px;font-weight:600;text-align:right;line-height:1.2}
-.chart-container{padding:2px 8px 0;position:relative}
+.chart-container{padding:2px 8px 8px;position:relative;flex-shrink:0}
 .chart-container canvas{width:100%!important;height:180px!important;display:block}
 .section{padding:16px 20px 0}
 .section-header{display:flex;justify-content:space-between;align-items:center}
@@ -66,18 +66,18 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .cash-card{display:flex;justify-content:space-between;align-items:center;padding:16px}
 .cash-label{color:var(--text2);font-size:13px}
 .cash-value{color:var(--white);font-size:14px;font-weight:600}
-.tab-bar{position:fixed;bottom:0;left:0;right:0;padding:2px 0 calc(4px + env(safe-area-inset-bottom));display:flex;justify-content:space-evenly;align-items:center;background:#000;border-top:1px solid rgba(255,255,255,.18);z-index:50}
-.tab-item{display:flex;align-items:center;justify-content:center;cursor:pointer;min-width:44px;min-height:36px;position:relative;flex:1;background:none;border:none;color:var(--white);padding:0}
-.tab-item::before{content:'';position:absolute;top:2px;right:calc(50% - 18px);width:7px;height:7px;border-radius:50%;background:var(--blue);opacity:0;transition:opacity .2s}
-.tab-item.active::before{opacity:1}
-.tab-icon{width:26px;height:26px;display:block;color:var(--white)}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;align-items:flex-end;background:#000;border-top:1px solid rgba(255,255,255,.18);z-index:50;padding:4px 0 calc(4px + env(safe-area-inset-bottom))}
+.tab-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;flex:1;max-width:25%;height:50px;background:none;border:none;color:#666;padding:0 4px;transition:color .15s}
+.tab-item::before{display:none}
+.tab-item.active{color:var(--white)}
+.tab-icon{width:28px;height:28px;display:block;color:currentColor}
 .tab-icon svg{width:100%;height:100%;display:block}
 .tab-icon .icon-fill{fill:currentColor}
 .tab-icon .icon-stroke{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.tab-label{display:none}
-.tx-filters{display:flex;gap:8px;padding:8px 20px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab-label{font-size:10px;font-weight:600;letter-spacing:.3px;color:inherit;line-height:1}
+.tx-filters{display:flex;gap:8px;padding:10px 20px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-shrink:0;align-items:center}
 .tx-filters::-webkit-scrollbar{display:none}
-.tx-summary{display:flex;justify-content:space-between;gap:12px;padding:12px 20px 0;color:var(--text2);font-size:12px}
+.tx-summary{display:flex;justify-content:space-between;gap:12px;padding:12px 20px 0;color:var(--text2);font-size:12px;flex-shrink:0}
 .tx-card{align-items:flex-start}
 .tx-icon{width:40px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0}
 .tx-info{flex:1;margin-left:12px;min-width:0}
@@ -253,9 +253,8 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
   <div class="tab-bar" id="tab-bar">
     <button class="tab-item active" id="nav-dashboard" type="button" aria-label="Portfolio" onclick="switchTab('dashboard')"><span class="tab-icon" data-icon="home"></span><span class="tab-label active" data-name="dashboard">Portfolio</span></button>
     <button class="tab-item" id="nav-holdings" type="button" aria-label="Holdings" onclick="switchTab('holdings')"><span class="tab-icon" data-icon="search"></span><span class="tab-label" data-name="holdings">Holdings</span></button>
-    <button class="tab-item" id="nav-transactions" type="button" aria-label="Activity" onclick="switchTab('transactions')"><span class="tab-icon" data-icon="eye-off"></span><span class="tab-label" data-name="transactions">Activity</span></button>
-    <button class="tab-item" id="nav-analytics" type="button" aria-label="Analytics" onclick="switchTab('analytics')"><span class="tab-icon" data-icon="bell"></span><span class="tab-label" data-name="analytics">Analytics</span></button>
-    <button class="tab-item" id="nav-bookmarks" type="button" aria-label="Allocation" onclick="openAllocationTab()"><span class="tab-icon" data-icon="bookmark"></span><span class="tab-label" data-name="allocation">Allocation</span></button>
+    <button class="tab-item" id="nav-transactions" type="button" aria-label="Activity" onclick="switchTab('transactions')"><span class="tab-icon" data-icon="activity"></span><span class="tab-label" data-name="transactions">Activity</span></button>
+    <button class="tab-item" id="nav-analytics" type="button" aria-label="Analytics" onclick="switchTab('analytics')"><span class="tab-icon" data-icon="chart"></span><span class="tab-label" data-name="analytics">Analytics</span></button>
   </div>
 </div>
 
@@ -303,11 +302,10 @@ let CURRENT_FILTER='ALL';
 let CURRENT_PERIOD='1Y';
 let CURRENT_DETAIL='TSLA';
 const TAB_ICONS={
-  home:{active:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M12 4.25 4.6 10.1a1.05 1.05 0 0 0-.4.82v7.13c0 .92.74 1.66 1.66 1.66h4.39a.75.75 0 0 0 .75-.75v-4.12c0-.55.45-1 1-1h.01c.55 0 1 .45 1 1v4.12a.75.75 0 0 0 .75.75h4.38c.92 0 1.66-.74 1.66-1.66v-7.13c0-.32-.14-.62-.39-.82L12 4.25Z"/></svg>',inactive:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-stroke" d="M3.75 10.4 12 3.9l8.25 6.5"/><path class="icon-stroke" d="M5.25 9.85v8.2c0 .83.67 1.5 1.5 1.5h3.75v-4.1c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v4.1h3.75c.83 0 1.5-.67 1.5-1.5v-8.2"/></svg>'},
-  search:{active:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle class="icon-stroke" cx="10.5" cy="10.5" r="5.75"/><path class="icon-stroke" d="m15.1 15.1 4.15 4.15"/></svg>',inactive:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle class="icon-stroke" cx="10.5" cy="10.5" r="5.75"/><path class="icon-stroke" d="m15.1 15.1 4.15 4.15"/></svg>'},
-  'eye-off':{active:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle class="icon-stroke" cx="12" cy="12" r="6.2"/><path class="icon-stroke" d="M8 16 16.6 8.4"/></svg>',inactive:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle class="icon-stroke" cx="12" cy="12" r="6.2"/><path class="icon-stroke" d="M8 16 16.6 8.4"/></svg>'},
-  bell:{active:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-stroke" d="M8.2 16.75V10.9a3.8 3.8 0 1 1 7.6 0v5.85"/><path class="icon-stroke" d="M6.1 16.75h11.8"/><path class="icon-stroke" d="M10.2 18.2a1.95 1.95 0 0 0 3.6 0"/></svg>',inactive:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-stroke" d="M8.2 16.75V10.9a3.8 3.8 0 1 1 7.6 0v5.85"/><path class="icon-stroke" d="M6.1 16.75h11.8"/><path class="icon-stroke" d="M10.2 18.2a1.95 1.95 0 0 0 3.6 0"/></svg>'},
-  bookmark:{active:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-stroke" d="M7.2 4.5h9.6c.5 0 .9.4.9.9v13.55l-5.7-3.5-5.7 3.5V5.4c0-.5.4-.9.9-.9Z"/></svg>',inactive:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-stroke" d="M7.2 4.5h9.6c.5 0 .9.4.9.9v13.55l-5.7-3.5-5.7 3.5V5.4c0-.5.4-.9.9-.9Z"/></svg>'}
+  home:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M12 3 4 10v11h5v-6h6v6h5V10z"/></svg>',
+  search:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle class="icon-stroke" cx="11" cy="11" r="7"/><path class="icon-stroke" d="m16.5 16.5 4 4"/></svg>',
+  activity:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-stroke" d="M4 13h4l3-8 4 16 3-8h4"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-stroke" d="M4 20h4V12H4zM10 20h4V8h-4zM16 20h4V4h-4z"/></svg>'
 };
 
 function fmt(n){return '$'+Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
@@ -575,21 +573,9 @@ function filterStockHistory(sym, period){
 }
 function renderTabIcons(){
   document.querySelectorAll('.tab-item .tab-icon').forEach(icon=>{
-    const parent=icon.parentElement;
     const key=icon.dataset.icon;
-    const icons=TAB_ICONS[key];
-    if(!icons) return;
-    const isActive=parent.classList.contains('active');
-    icon.innerHTML = isActive ? icons.active : icons.inactive;
+    if(TAB_ICONS[key]) icon.innerHTML = TAB_ICONS[key];
   });
-}
-function openAllocationTab(){
-  switchTab('dashboard');
-  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
-  document.getElementById('nav-bookmarks')?.classList.add('active');
-  renderTabIcons();
-  const allocationCard=document.getElementById('allocation-card');
-  if(allocationCard) allocationCard.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function switchTab(name){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
