@@ -19,7 +19,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .85s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--text2);font-size:13px;margin-top:16px}
-.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:60px}
+.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:56px}
 .tab-content.active{display:flex;flex-direction:column}
 .page-header{padding:18px 20px 10px}
 .page-label{color:var(--text2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
@@ -27,7 +27,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .return-row{display:flex;align-items:center;gap:6px;margin-top:4px}
 .return-text{font-size:14px;font-weight:600}
 .return-label{color:#666;font-size:12px}
-.period-bar{display:flex;gap:8px;padding:0 20px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.period-bar{display:flex;gap:8px;padding:0 20px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .period-bar::-webkit-scrollbar{display:none}
 .pill{padding:7px 14px;border-radius:20px;background:var(--card);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid transparent}
 .pill.active{background:rgba(0,212,170,.14);color:var(--green);border-color:rgba(0,212,170,.28)}
@@ -135,7 +135,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
       </div>
     </div>
 
-    <div class="chart-header">
+    <div class="chart-header" id="chart-header" style="display:none">
       <span class="chart-price" id="chart-price">--</span>
       <span class="chart-change" id="chart-change">--</span>
     </div>
@@ -240,7 +240,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
       <div class="detail-price" id="detail-price">--</div>
       <div class="detail-change" id="detail-change">--</div>
     </div>
-    <div class="period-bar" style="margin-bottom:4px">
+    <div class="period-bar">
       <button class="pill active">1D</button><button class="pill">1W</button><button class="pill">1M</button><button class="pill">6M</button><button class="pill">1Y</button><button class="pill">All</button>
     </div>
     <div class="chart-container"><canvas id="detail-chart"></canvas></div>
@@ -438,6 +438,7 @@ function renderDashboard(state){
   const histVals = PORTFOLIO_HISTORY.map(h=>h.v);
   const histGain = histVals[histVals.length-1] - histVals[0];
   const histPct = histVals[0] ? (histGain / histVals[0] * 100) : 0;
+  document.getElementById('chart-header').style.display='flex';
   document.getElementById('chart-price').textContent = fmt(state.totalValue);
   const chartChange = document.getElementById('chart-change');
   chartChange.textContent = `${state.totalReturn>=0?'+':''}${fmt(state.totalReturn)} (${state.totalReturn>=0?'+':''}${state.totalReturnPct.toFixed(2)}%) All time`;
