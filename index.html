@@ -66,11 +66,11 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .cash-label{color:var(--text2);font-size:13px}
 .cash-value{color:var(--white);font-size:14px;font-weight:600}
 .tab-bar{position:fixed;bottom:0;left:0;right:0;height:48px;padding-bottom:env(safe-area-inset-bottom);display:flex;justify-content:space-around;align-items:center;background:rgba(10,10,10,.98);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:50}
-.tab-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;padding:6px 12px;min-width:0;border-radius:20px;transition:background .15s}
-.tab-item.active{background:rgba(0,212,170,.14)}
-.tab-icon{font-size:22px;line-height:1}
-.tab-label{font-size:10px;font-weight:600;color:var(--text2);line-height:1}
-.tab-item.active .tab-label{color:var(--green)}
+.tab-item{display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;padding:6px 14px;min-width:56px;position:relative}
+.tab-item::before{content:'';position:absolute;top:2px;width:6px;height:6px;border-radius:50%;background:var(--green);opacity:0;transition:opacity .2s}
+.tab-item.active::before{opacity:1}
+.tab-icon{font-size:24px;line-height:1}
+.tab-label{display:none}
 .tx-filters{display:flex;gap:8px;padding:0 20px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tx-filters::-webkit-scrollbar{display:none}
 .tx-summary{display:flex;justify-content:space-between;gap:12px;padding:12px 20px 0;color:var(--text2);font-size:12px}
