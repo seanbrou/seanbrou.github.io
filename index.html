@@ -13,13 +13,13 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0A0A0A;--card:#141414;--border:#1C1C1E;--green:#00D4AA;--red:#FF4D4F;--blue:#007AFF;--white:#FFFFFF;--text2:#888;--text3:#555}
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
-#app{height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+#app{height:100dvh;display:flex;flex-direction:column;position:relative;overflow:hidden}
 .loading-overlay{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000}
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .85s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--text2);font-size:13px;margin-top:16px}
-.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:92px;scroll-padding-bottom:92px}
+.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:72px;scroll-padding-bottom:72px}
 .tab-content.active{display:flex;flex-direction:column}
 .page-header{padding:18px 20px 10px}
 .page-label{color:var(--text2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
@@ -65,8 +65,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--white);fo
 .cash-card{display:flex;justify-content:space-between;align-items:center;padding:16px}
 .cash-label{color:var(--text2);font-size:13px}
 .cash-value{color:var(--white);font-size:14px;font-weight:600}
-.tab-bar{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;align-items:flex-start;padding:8px 0 4px;background:rgba(10,10,10,.98);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:50}
-.tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 14px;min-width:72px}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;height:64px;display:flex;justify-content:space-around;align-items:center;padding:0;background:rgba(10,10,10,.98);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:50}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:0 14px;min-width:72px}
 .tab-icon{font-size:22px;line-height:1}
 .tab-label{font-size:10px;font-weight:600;color:var(--text2)}
 .tab-label.active{color:var(--green)}
@@ -254,7 +254,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--white);fo
     <div class="tab-item" onclick="switchTab('transactions')"><span class="tab-icon">📋</span><span class="tab-label" data-name="transactions">Activity</span></div>
     <div class="tab-item" onclick="switchTab('analytics')"><span class="tab-icon">📈</span><span class="tab-label" data-name="analytics">Analytics</span></div>
   </div>
-  <div class="home-indicator"></div>
 </div>
 
 <script>
