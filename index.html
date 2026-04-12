@@ -204,7 +204,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
     </div>
 
     <div class="chart-container"><canvas id="main-chart"></canvas></div>
-    <div class="cash-toggle-wrap"><button class="pill cash-toggle-pill" id="cash-totals-toggle" type="button" onclick="toggleCashInTotals()">Cash in totals: On</button></div>
+    <div class="cash-toggle-wrap"><button class="pill cash-toggle-pill" id="cash-totals-toggle" type="button" onclick="toggleCashInTotals()">Include cash in totals: Off</button></div>
 
     <div class="section">
       <div class="section-header">
@@ -393,7 +393,7 @@ let CHART_SCRUB_STATE={};
 let DONUT_INTERACTION_META={};
 let DONUT_SELECTION={};
 let PRIVACY_MODE=false;
-let INCLUDE_CASH_IN_TOTALS=(()=>{ try{ return localStorage.getItem('portfolio_includeCashTotals_v1')!=='false'; }catch(e){ return true; } })();
+let INCLUDE_CASH_IN_TOTALS=(()=>{ try{ return localStorage.getItem('portfolio_includeCashTotals_v1')==='true'; }catch(e){ return false; } })();
 let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:'#00D4AA',shares:'',price:'',date:formatDayKey(new Date()),note:''};
 let PRICE_REFRESH_TIMER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
@@ -548,7 +548,7 @@ function saveHistoryCache(cache){ localStorage.setItem(HISTORY_CACHE_KEY, JSON.s
 function syncCashTotalsToggle(){
   const btn=document.getElementById('cash-totals-toggle');
   if(!btn) return;
-  btn.textContent = `Cash in totals: ${INCLUDE_CASH_IN_TOTALS ? 'On' : 'Off'}`;
+  btn.textContent = `Include cash in totals: ${INCLUDE_CASH_IN_TOTALS ? 'On' : 'Off'}`;
   btn.classList.toggle('active', INCLUDE_CASH_IN_TOTALS);
 }
 function toggleCashInTotals(){
