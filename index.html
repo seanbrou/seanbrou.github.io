@@ -36,6 +36,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .chart-change{font-size:13px;font-weight:600;text-align:right;line-height:1.2}
 .chart-container{padding:2px 8px 8px;position:relative;flex-shrink:0}
 .chart-container canvas{width:100%!important;height:180px!important;display:block}
+.chart-container canvas.scrubbable-chart{touch-action:none;cursor:crosshair}
 .section{padding:16px 20px 0}
 .section-header{display:flex;justify-content:space-between;align-items:center}
 .section-title{color:var(--white);font-size:17px;font-weight:700}
@@ -384,6 +385,8 @@ let CURRENT_PRICES=FALLBACK;
 let CURRENT_LOOKUP_RESULTS=[];
 let CURRENT_LOOKUP_LOADING=false;
 let LOOKUP_REQUEST_ID=0;
+let CHART_INTERACTION_META={};
+let CHART_SCRUB_STATE={};
 let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:'#00D4AA',shares:'',price:'',date:formatDayKey(new Date()),note:''};
 let PRICE_REFRESH_TIMER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
@@ -793,15 +796,100 @@ function buildPortfolioState(prices){
   };
 }
 
+function formatChartScrubDate(raw){
+  const dt = new Date(raw);
+  if(Number.isNaN(dt.getTime())) return String(raw || '');
+  return dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+function renderChartValueDisplay(chartId, point){
+  if(chartId==='main-chart'){
+    const priceEl=document.getElementById('total-value');
+    const changeEl=document.getElementById('total-return');
+    const labelEl=document.querySelector('.return-label');
+    if(!priceEl || !changeEl || !labelEl || !CURRENT_STATE) return;
+    if(point){
+      const meta=CHART_INTERACTION_META[chartId];
+      const first=meta?.data?.[0]?.v ?? meta?.data?.[0]?.value ?? point.value;
+      const delta=point.value-safeNum(first);
+      const pctDelta=safeNum(first) ? delta/safeNum(first)*100 : 0;
+      priceEl.textContent=fmt(point.value);
+      changeEl.textContent=`${delta>=0?'+':''}${fmt(delta)} (${pctDelta>=0?'+':''}${pctDelta.toFixed(2)}%)`;
+      changeEl.style.color=delta>=0 ? 'var(--green)' : 'var(--red)';
+      labelEl.textContent=formatChartScrubDate(point.raw?.d ?? point.raw?.date ?? point.raw?.t);
+      return;
+    }
+    priceEl.textContent=fmt(CURRENT_STATE.totalValue);
+    changeEl.textContent=`${CURRENT_STATE.totalReturn>=0?'+':''}${fmt(CURRENT_STATE.totalReturn)} (${CURRENT_STATE.totalReturn>=0?'+':''}${CURRENT_STATE.totalReturnPct.toFixed(2)}%)`;
+    changeEl.style.color=CURRENT_STATE.totalReturn>=0 ? 'var(--green)' : 'var(--red)';
+    labelEl.textContent='All time';
+    return;
+  }
+  if(chartId==='detail-chart' && CURRENT_DETAIL && CURRENT_STATE){
+    const h=CURRENT_STATE.holdings.find(x=>x.symbol===CURRENT_DETAIL);
+    const priceEl=document.getElementById('detail-price');
+    const changeEl=document.getElementById('detail-change');
+    if(!h || !priceEl || !changeEl) return;
+    if(point){
+      const liveNow=safeNum(h.price);
+      const delta=point.value-liveNow;
+      const pctDelta=liveNow ? delta/liveNow*100 : 0;
+      priceEl.textContent=fmt(point.value);
+      changeEl.textContent=`${formatChartScrubDate(point.raw?.d ?? point.raw?.date ?? point.raw?.t)} · ${delta>=0?'+':''}${fmt(delta)} (${pctDelta>=0?'+':''}${pctDelta.toFixed(2)}%) vs now`;
+      changeEl.style.color=delta>=0 ? 'var(--green)' : 'var(--red)';
+      return;
+    }
+    priceEl.textContent=fmt(h.price);
+    changeEl.textContent=`${h.change>=0?'+':''}${h.change.toFixed(2)} (${h.changePct>=0?'+':''}${h.changePct.toFixed(2)}%) Today`;
+    changeEl.style.color=h.change>=0 ? 'var(--green)' : 'var(--red)';
+  }
+}
+function attachChartScrubInteractions(id){
+  const cv=document.getElementById(id); if(!cv || cv.dataset.scrubBound==='1') return;
+  cv.dataset.scrubBound='1';
+  cv.classList.add('scrubbable-chart');
+  const nearestPoint=(clientX)=>{
+    const meta=CHART_INTERACTION_META[id];
+    if(!meta?.pts?.length) return null;
+    const rect=cv.getBoundingClientRect();
+    const x=Math.max(0, Math.min(rect.width, clientX-rect.left));
+    let idx=0, best=Infinity;
+    for(let i=0;i<meta.pts.length;i++){
+      const dist=Math.abs(meta.pts[i].x-x);
+      if(dist<best){ best=dist; idx=i; }
+    }
+    return {idx, point:meta.pts[idx]};
+  };
+  const updateFromEvent=(evt)=>{
+    const touch=evt.touches?.[0] || evt.changedTouches?.[0] || evt;
+    const match=nearestPoint(touch.clientX);
+    if(!match) return;
+    CHART_SCRUB_STATE[id]={idx:match.idx};
+    drawArea(id, CHART_INTERACTION_META[id].data, CHART_INTERACTION_META[id].color, CHART_INTERACTION_META[id].height);
+    renderChartValueDisplay(id,{value:match.point.value,raw:match.point.raw,index:match.idx});
+  };
+  const clearScrub=()=>{
+    delete CHART_SCRUB_STATE[id];
+    const meta=CHART_INTERACTION_META[id];
+    if(meta) drawArea(id, meta.data, meta.color, meta.height);
+    renderChartValueDisplay(id,null);
+  };
+  cv.addEventListener('pointerdown',(evt)=>{ evt.preventDefault(); try{ cv.setPointerCapture?.(evt.pointerId); }catch(e){} updateFromEvent(evt); if(navigator.vibrate) navigator.vibrate(5); }, {passive:false});
+  cv.addEventListener('pointermove',(evt)=>{ if(!(evt.buttons&1) && !CHART_SCRUB_STATE[id]) return; evt.preventDefault(); updateFromEvent(evt); }, {passive:false});
+  cv.addEventListener('pointerup',clearScrub);
+  cv.addEventListener('pointercancel',clearScrub);
+  cv.addEventListener('pointerleave',()=>{ if(!CHART_SCRUB_STATE[id]) return; clearScrub(); });
+}
 function drawArea(id,data,color,height=180){
   const cv=document.getElementById(id); if(!cv) return;
   const dpr=window.devicePixelRatio||1; const rect=cv.getBoundingClientRect();
-  cv.width=rect.width*dpr; cv.height=height*dpr; const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  cv.width=rect.width*dpr; cv.height=height*dpr; const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,rect.width,height);
   const W=rect.width, H=height, pad=4;
   const vals=data.map(d=>safeNum(d.v ?? d.value));
   if(vals.length<2){ctx.fillStyle='#888';ctx.font='14px -apple-system';ctx.fillText('No data',W/2-20,H/2);return;}
   const mn=Math.min(...vals), mx=Math.max(...vals), rng=(mx-mn)||1;
-  const pts=vals.map((v,i)=>({x: pad + i/(vals.length-1)*(W-pad*2), y: H-pad-(v-mn)/rng*(H-pad*4)}));
+  const pts=vals.map((v,i)=>({x: pad + i/(vals.length-1)*(W-pad*2), y: H-pad-(v-mn)/rng*(H-pad*4), value:v, raw:data[i]}));
+  CHART_INTERACTION_META[id]={data,color,height,pts};
+  attachChartScrubInteractions(id);
   const grad=ctx.createLinearGradient(0,0,0,H); grad.addColorStop(0,color+'44'); grad.addColorStop(1,color+'00');
   ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
   for(let i=1;i<pts.length;i++){ const cpx=(pts[i-1].x+pts[i].x)/2; ctx.bezierCurveTo(cpx, pts[i-1].y, cpx, pts[i].y, pts[i].x, pts[i].y); }
@@ -809,7 +897,15 @@ function drawArea(id,data,color,height=180){
   ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
   for(let i=1;i<pts.length;i++){ const cpx=(pts[i-1].x+pts[i].x)/2; ctx.bezierCurveTo(cpx, pts[i-1].y, cpx, pts[i].y, pts[i].x, pts[i].y); }
   ctx.strokeStyle=color; ctx.lineWidth=2.5; ctx.stroke();
-  const last=pts[pts.length-1]; ctx.beginPath(); ctx.arc(last.x,last.y,4,0,Math.PI*2); ctx.fillStyle=color; ctx.fill();
+  const active=CHART_SCRUB_STATE[id];
+  if(active && pts[active.idx]){
+    const p=pts[active.idx];
+    ctx.beginPath(); ctx.moveTo(p.x, 0); ctx.lineTo(p.x, H); ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.beginPath(); ctx.arc(p.x,p.y,5,0,Math.PI*2); ctx.fillStyle='#000'; ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fillStyle=color; ctx.fill();
+  } else {
+    const last=pts[pts.length-1]; ctx.beginPath(); ctx.arc(last.x,last.y,4,0,Math.PI*2); ctx.fillStyle=color; ctx.fill();
+  }
 }
 
 function drawDonut(id,data){
@@ -862,6 +958,7 @@ function renderHoldings(state){
 }
 
 function renderDashboard(state){
+  delete CHART_SCRUB_STATE['main-chart'];
   document.getElementById('total-value').textContent = fmt(state.totalValue);
   document.getElementById('total-return').textContent = `${state.totalReturn>=0?'+':''}${fmt(state.totalReturn)} (${state.totalReturn>=0?'+':''}${state.totalReturnPct.toFixed(2)}%)`;
   document.getElementById('total-return').style.color = state.totalReturn>=0 ? 'var(--green)' : 'var(--red)';
@@ -925,6 +1022,7 @@ function renderAnalytics(state){
 
 function openStock(symbol){
   const h=CURRENT_STATE.holdings.find(x=>x.symbol===symbol); if(!h) return;
+  delete CHART_SCRUB_STATE['detail-chart'];
   CURRENT_DETAIL = symbol;
   const livePrice = (CURRENT_PRICES[h.symbol] || FALLBACK[h.symbol]).p;
   const fullHistory = buildSymbolDailyHistory(h.symbol, livePrice);
@@ -980,6 +1078,7 @@ function openStock(symbol){
 
 function setTxFilter(f){ CURRENT_FILTER=f; renderTransactions(f); }
 function setPeriod(p, isDetail=false){
+  delete CHART_SCRUB_STATE[isDetail ? 'detail-chart' : 'main-chart'];
   CURRENT_PERIOD=p;
   document.querySelectorAll('#period-bar .pill').forEach(x=>x.classList.remove('active'));
   const periods=['1D','1W','1M','6M','1Y','ALL'];
