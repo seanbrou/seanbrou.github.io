@@ -121,13 +121,13 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .last-updated{text-align:center;padding:10px 8px 0;color:var(--text3);font-size:11px}
 .holding-empty{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;color:var(--text2);font-size:13px}
 .fab-add{position:fixed;right:20px;bottom:68px;width:56px;height:56px;border-radius:28px;border:none;background:var(--green);color:#001410;font-size:32px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,212,170,.35);z-index:55;font-weight:500}
-.add-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:120;display:none;align-items:flex-end}
+.add-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:120;display:none;align-items:stretch}
 .add-modal.open{display:flex}
-.add-sheet{background:var(--bg);width:100%;max-height:var(--modal-safe-bottom,100dvh);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .22s ease-out;will-change:transform;overscroll-behavior:contain}
+.add-sheet{background:var(--bg);width:100%;height:100%;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .22s ease-out;will-change:transform;overscroll-behavior:contain}
 .add-modal.open .add-sheet{transform:translateY(0)}
-.add-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border);flex:0 0 auto}
+.add-header{display:flex;align-items:center;justify-content:space-between;padding:8px 20px 12px;border-bottom:1px solid var(--border);flex:0 0 auto;padding-top:max(0px, env(safe-area-inset-top))}
 .add-title{font-size:16px;font-weight:700}.add-subtitle{font-size:12px;color:var(--text2);margin-top:2px}
-.add-body{padding:16px 20px 24px;overflow:auto;display:flex;flex-direction:column;gap:14px;flex:1 1 auto;min-height:0}
+.add-body{padding:12px 20px 24px;overflow:auto;display:flex;flex-direction:column;gap:14px;flex:1 1 auto;min-height:0}
 .icon-btn{background:none;border:none;color:var(--white);font-size:16px;font-weight:600}.back-btn{font-size:24px;font-weight:300;line-height:1;padding:4px 8px}
 .field{display:flex;flex-direction:column;gap:8px}.field label{font-size:12px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
 .field input,.field select{width:100%;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--white);padding:14px 14px;font-size:15px;outline:none}
@@ -369,7 +369,6 @@ let CURRENT_LOOKUP_RESULTS=[];
 let CURRENT_LOOKUP_LOADING=false;
 let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:'#00D4AA',shares:'',price:'',date:formatDayKey(new Date()),note:''};
 let PRICE_REFRESH_TIMER=null;
-let MODAL_VIEWPORT_HANDLER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
 const HISTORY_CACHE_KEY='portfolio_history_cache_v1';
 const COLOR_POOL=['#00D4AA','#007AFF','#FF9F0A','#BF5AF2','#FF375F','#30D158','#FFD60A','#64D2FF','#AC8E68','#FF6B6B'];
@@ -612,8 +611,24 @@ async function hydrateHistoricalSeries(symbols, prices){
   }));
   saveHistoryCache(cache);
 }
+const SYMBOL_SEARCH_CACHE={};
+const QUICK_SYMBOLS={A:'Agilent Technologies',AAPL:'Apple Inc',ABBV:'AbbVie Inc',ABNB:'Airbnb Inc',AMD:'Advanced Micro Devices',AMZN:'Amazon.com Inc',ARM:'Arm Holdings',AVGO:'Broadcom Inc',BA:'Boeing Co',BABA:'Alibaba Group','BRK.B':'Berkshire Hathaway',COIN:'Coinbase Global',CRM:'Salesforce Inc',CRWD:'CrowdStrike Inc',CVX:'Chevron Corp',DIS:'Walt Disney Co',F:'Ford Motor Co',GME:'GameStop Corp',GOOGL:'Alphabet Inc',HOOD:'Robinhood Markets',INTC:'Intel Corp',IONQ:'IonQ Inc',IVV:'iShares Core S&P 500 ETF',JNJ:'Johnson & Johnson',JPM:'JPMorgan Chase',KO:'Coca-Cola Co',MARA:'MARA Holdings',META:'Meta Platforms',MSFT:'Microsoft Corp',NFLX:'Netflix Inc',NKE:'Nike Inc',NVDA:'NVIDIA Corp',ORCL:'Oracle Corp',PLTR:'Palantir Technologies',PYPL:'PayPal Holdings',QQQ:'Invesco QQQ Trust',RBLX:'Roblox Corp',RIVN:'Rivian Automotive',RVI:'Robinhood Ventures Fund I',SHOP:'Shopify Inc',SMCI:'Super Micro Computer',SOFI:'SoFi Technologies',SPY:'SPDR S&P 500 ETF',SQ:'Block Inc',TSLA:'Tesla Inc',UBER:'Uber Technologies',V:'Visa Inc'};
+function getInstantSymbolMatches(raw){
+  const key=raw.trim().toUpperCase();
+  if(!key) return [];
+  const out=[];
+  for(const [sym,name] of Object.entries(QUICK_SYMBOLS)){
+    if(sym.startsWith(key) || name.toUpperCase().startsWith(key)) out.push({symbol:sym,name,exchange:sym.length<=3?'NYSE':'Nasdaq',type:sym.includes('.')||sym.length<=3?'FUND':'STOCK'});
+    if(out.length>=6) break;
+  }
+  return out;
+}
 async function fetchSymbolSearch(query){
   if(!query || query.trim().length<1) return [];
+  const key=query.trim().toUpperCase();
+  if(SYMBOL_SEARCH_CACHE[key]) return SYMBOL_SEARCH_CACHE[key];
+  const instant=[];
+  for(const[sym,name]of Object.entries(QUICK_SYMBOLS)){if(sym.startsWith(key)||name.toUpperCase().startsWith(query.trim().toUpperCase()))instant.push({symbol:sym,name,exchange:sym.length<=3?'NYSE':'Nasdaq',type:sym.includes('.')||sym.length<=3?'FUND':'STOCK'});}
   const base=`https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(query.trim())}&quotesCount=6&newsCount=0`;
   const urls=[base, `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`, `https://corsproxy.io/?${encodeURIComponent(base)}`];
   for(const url of urls){
@@ -621,7 +636,9 @@ async function fetchSymbolSearch(query){
       const resp=await fetch(url,{signal:AbortSignal.timeout(8000)});
       if(!resp.ok) continue;
       const data=await resp.json();
-      return (data?.quotes || []).filter(q=>q.symbol).slice(0,6).map(q=>({symbol:q.symbol,name:q.shortname || q.longname || q.symbol,exchange:q.exchange || q.exchDisp || '',type:(q.quoteType || '').toUpperCase().includes('ETF') ? 'FUND' : 'STOCK'}));
+      const results=(data?.quotes || []).filter(q=>q.symbol).slice(0,6).map(q=>({symbol:q.symbol,name:q.shortname || q.longname || q.symbol,exchange:q.exchange || q.exchDisp || '',type:(q.quoteType || '').toUpperCase().includes('ETF') ? 'FUND' : 'STOCK'}));
+      SYMBOL_SEARCH_CACHE[key]=results;
+      return results;
     }catch(e){}
   }
   return [];
@@ -913,11 +930,6 @@ function resetAddStockState(overrides={}){
   ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:nextHoldingColor(),shares:'',price:'',date:formatDayKey(new Date()),note:'',...overrides};
   CURRENT_LOOKUP_RESULTS=[];
 }
-function syncModalViewport(){
-  const height=(window.visualViewport?.height ?? window.innerHeight);
-  document.documentElement.style.setProperty('--modal-safe-bottom', `${height}px`);
-  updateLookupDropdownHeight();
-}
 function openAddStockModal(symbol=''){
   if(symbol && HOLDING_META[symbol]){
     resetAddStockState({step:2,symbol,name:HOLDING_META[symbol].name,exchange:HOLDING_META[symbol].exchange,type:HOLDING_META[symbol].type,color:HOLDING_META[symbol].color});
@@ -926,17 +938,11 @@ function openAddStockModal(symbol=''){
   }
   document.getElementById('add-stock-modal').classList.add('open');
   document.getElementById('add-stock-modal').setAttribute('aria-hidden','false');
-  MODAL_VIEWPORT_HANDLER=syncModalViewport;
-  window.visualViewport?.addEventListener('resize', MODAL_VIEWPORT_HANDLER);
-  syncModalViewport();
   renderAddStockModal();
 }
 function closeAddStockModal(){
   document.getElementById('add-stock-modal').classList.remove('open');
   document.getElementById('add-stock-modal').setAttribute('aria-hidden','true');
-  window.visualViewport?.removeEventListener('resize', MODAL_VIEWPORT_HANDLER);
-  MODAL_VIEWPORT_HANDLER=null;
-  document.documentElement.style.removeProperty('--modal-safe-bottom');
   CURRENT_LOOKUP_RESULTS=[];
   CURRENT_LOOKUP_LOADING=false;
 }
@@ -949,14 +955,13 @@ function updateLookupDropdownHeight(){
   const input=document.getElementById('lookup-query');
   if(!box || !input) return;
   const inputRect=input.getBoundingClientRect();
-  const visualH=window.visualViewport?.height ?? window.innerHeight;
-  const availBelow=Math.max(120, visualH - inputRect.bottom - 16);
+  const availBelow=Math.max(120, window.screen.height - inputRect.bottom - 16);
   box.style.maxHeight=`${Math.min(availBelow, 320)}px`;
 }
 function renderLookupResults(){
   const box=document.getElementById('lookup-results-list');
   if(!box) return;
-  if(CURRENT_LOOKUP_LOADING){
+  if(!CURRENT_LOOKUP_RESULTS.length && CURRENT_LOOKUP_LOADING){
     box.className='lookup-results visible';
     box.innerHTML='<div class="lookup-row active"><div style="text-align:left"><div class="lookup-symbol">Searching…</div><div class="lookup-name">Looking up symbols</div></div><span class="exchange-pill">…</span></div>';
     updateLookupDropdownHeight();
@@ -969,7 +974,9 @@ function renderLookupResults(){
     return;
   }
   box.className='lookup-results visible';
-  box.innerHTML=CURRENT_LOOKUP_RESULTS.map((r,i)=>`<button type="button" class="lookup-row ${i===0?'active':''}" style="animation-delay:${i*30}ms" onclick="selectLookupResult(${i})"><div style="text-align:left"><div class="lookup-symbol">${r.symbol}</div><div class="lookup-name">${r.name}</div></div><span class="exchange-pill">${r.exchange || r.type}</span></button>`).join('');
+  const rows=CURRENT_LOOKUP_RESULTS.map((r,i)=>`<button type="button" class="lookup-row ${i===0?'active':''}" style="animation-delay:${i*30}ms" onclick="selectLookupResult(${i})"><div style="text-align:left"><div class="lookup-symbol">${r.symbol}</div><div class="lookup-name">${r.name}</div></div><span class="exchange-pill">${r.exchange || r.type}</span></button>`).join('');
+  const loadingRow=CURRENT_LOOKUP_LOADING ? '<div class="lookup-row" style="min-height:44px;opacity:.75"><div style="text-align:left"><div class="lookup-name">Fetching more matches…</div></div><span class="exchange-pill">…</span></div>' : '';
+  box.innerHTML=rows + loadingRow;
   updateLookupDropdownHeight();
 }
 function renderAddStockModal(){
@@ -982,7 +989,7 @@ function renderAddStockModal(){
     sub.textContent='Step 1 of 3 · Symbol';
     back.onclick=closeAddStockModal;
     body.innerHTML=`
-      <div class="lookup-wrap"><div class="field"><label>Search</label><input id="lookup-query" placeholder="Search symbol or company" value="${ADD_STOCK_STATE.symbol || ''}" onfocus="setTimeout(()=>this.scrollIntoView({block:'center',behavior:'smooth'}),150)" oninput="handleLookupInput(this.value)"></div><div id="lookup-results-list" class="lookup-results"></div></div>
+      <div class="lookup-wrap"><div class="field"><label>Search</label><input id="lookup-query" autocomplete="off" enterkeyhint="search" inputmode="text" placeholder="Search symbol or company" value="${ADD_STOCK_STATE.symbol || ''}" oninput="handleLookupInput(this.value)"></div><div id="lookup-results-list" class="lookup-results"></div></div>
       <div class="field"><label>Symbol</label><input id="add-symbol" maxlength="6" value="${ADD_STOCK_STATE.symbol}" oninput="ADD_STOCK_STATE.symbol=this.value.toUpperCase();this.value=ADD_STOCK_STATE.symbol"></div>
       <div class="field"><label>Name</label><input id="add-name" maxlength="60" value="${ADD_STOCK_STATE.name}" oninput="ADD_STOCK_STATE.name=this.value"></div>
       <div class="field"><label>Exchange</label><input id="add-exchange" maxlength="20" value="${ADD_STOCK_STATE.exchange}" oninput="ADD_STOCK_STATE.exchange=this.value"></div>
@@ -1015,15 +1022,24 @@ function renderAddStockModal(){
 }
 let LOOKUP_TIMER=null;
 function handleLookupInput(value){
-  ADD_STOCK_STATE.symbol=value.toUpperCase();
+  const raw=value.trim();
+  ADD_STOCK_STATE.symbol=raw.toUpperCase();
   clearTimeout(LOOKUP_TIMER);
-  CURRENT_LOOKUP_LOADING=!!value.trim();
+  const instantMatches=getInstantSymbolMatches(raw);
+  if(instantMatches.length){
+    CURRENT_LOOKUP_RESULTS=instantMatches;
+    CURRENT_LOOKUP_LOADING=!SYMBOL_SEARCH_CACHE[raw.toUpperCase()];
+  } else {
+    CURRENT_LOOKUP_RESULTS=[];
+    CURRENT_LOOKUP_LOADING=!!raw;
+  }
   renderLookupResults();
+  if(!raw) return;
   LOOKUP_TIMER=setTimeout(async()=>{
-    CURRENT_LOOKUP_RESULTS=await fetchSymbolSearch(value);
+    CURRENT_LOOKUP_RESULTS=await fetchSymbolSearch(raw);
     CURRENT_LOOKUP_LOADING=false;
     renderLookupResults();
-  }, 180);
+  }, 75);
 }
 async function selectLookupResult(idx){
   const r=CURRENT_LOOKUP_RESULTS[idx]; if(!r) return;
