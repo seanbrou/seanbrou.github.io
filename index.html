@@ -367,6 +367,7 @@ let CURRENT_DETAIL='TSLA';
 let CURRENT_PRICES=FALLBACK;
 let CURRENT_LOOKUP_RESULTS=[];
 let CURRENT_LOOKUP_LOADING=false;
+let LOOKUP_REQUEST_ID=0;
 let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:'#00D4AA',shares:'',price:'',date:formatDayKey(new Date()),note:''};
 let PRICE_REFRESH_TIMER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
@@ -1023,12 +1024,14 @@ function renderAddStockModal(){
 let LOOKUP_TIMER=null;
 function handleLookupInput(value){
   const raw=value.trim();
-  ADD_STOCK_STATE.symbol=raw.toUpperCase();
+  const key=raw.toUpperCase();
+  ADD_STOCK_STATE.symbol=key;
   clearTimeout(LOOKUP_TIMER);
+  const requestId=++LOOKUP_REQUEST_ID;
   const instantMatches=getInstantSymbolMatches(raw);
   if(instantMatches.length){
     CURRENT_LOOKUP_RESULTS=instantMatches;
-    CURRENT_LOOKUP_LOADING=!SYMBOL_SEARCH_CACHE[raw.toUpperCase()];
+    CURRENT_LOOKUP_LOADING=!SYMBOL_SEARCH_CACHE[key];
   } else {
     CURRENT_LOOKUP_RESULTS=[];
     CURRENT_LOOKUP_LOADING=!!raw;
@@ -1036,21 +1039,43 @@ function handleLookupInput(value){
   renderLookupResults();
   if(!raw) return;
   LOOKUP_TIMER=setTimeout(async()=>{
-    CURRENT_LOOKUP_RESULTS=await fetchSymbolSearch(raw);
+    const results=await fetchSymbolSearch(raw);
+    const queryInput=document.getElementById('lookup-query');
+    const activeValue=(queryInput?.value || '').trim().toUpperCase();
+    if(requestId!==LOOKUP_REQUEST_ID || activeValue!==key || ADD_STOCK_STATE.step!==1) return;
+    CURRENT_LOOKUP_RESULTS=results;
     CURRENT_LOOKUP_LOADING=false;
     renderLookupResults();
   }, 75);
 }
+function autofillAddStockStep1Fields(){
+  const symbolInput=document.getElementById('add-symbol');
+  const nameInput=document.getElementById('add-name');
+  const exchangeInput=document.getElementById('add-exchange');
+  const typeInput=document.getElementById('add-type');
+  const queryInput=document.getElementById('lookup-query');
+  if(symbolInput) symbolInput.value=ADD_STOCK_STATE.symbol || '';
+  if(nameInput) nameInput.value=ADD_STOCK_STATE.name || '';
+  if(exchangeInput) exchangeInput.value=ADD_STOCK_STATE.exchange || '';
+  if(typeInput) typeInput.value=ADD_STOCK_STATE.type || 'STOCK';
+  if(queryInput) queryInput.value=ADD_STOCK_STATE.symbol || '';
+}
 async function selectLookupResult(idx){
   const r=CURRENT_LOOKUP_RESULTS[idx]; if(!r) return;
+  clearTimeout(LOOKUP_TIMER);
+  LOOKUP_REQUEST_ID++;
   CURRENT_LOOKUP_RESULTS=[];
   CURRENT_LOOKUP_LOADING=false;
   const list=document.getElementById('lookup-results-list');
   if(list){ list.className='lookup-results'; list.innerHTML=''; list.style.maxHeight=''; }
   ADD_STOCK_STATE={...ADD_STOCK_STATE,symbol:r.symbol,name:r.name,exchange:r.exchange || 'Nasdaq',type:r.type || 'STOCK',color:HOLDING_META[r.symbol]?.color || nextHoldingColor()};
+  autofillAddStockStep1Fields();
   const details=await fetchQuoteDetails(r.symbol);
-  if(details.price) ADD_STOCK_STATE.price=details.price;
-  renderAddStockModal();
+  if(details.name && !ADD_STOCK_STATE.name) ADD_STOCK_STATE.name=details.name;
+  if(details.exchange && (!ADD_STOCK_STATE.exchange || ADD_STOCK_STATE.exchange==='Nasdaq')) ADD_STOCK_STATE.exchange=details.exchange;
+  if(details.type && (!ADD_STOCK_STATE.type || ADD_STOCK_STATE.type==='STOCK')) ADD_STOCK_STATE.type=details.type;
+  if(details.price && !ADD_STOCK_STATE.price) ADD_STOCK_STATE.price=details.price;
+  autofillAddStockStep1Fields();
 }
 async function proceedAddStockStep1(){
   ADD_STOCK_STATE.symbol=(ADD_STOCK_STATE.symbol || '').trim().toUpperCase();
