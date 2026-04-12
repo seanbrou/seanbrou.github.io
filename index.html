@@ -121,13 +121,13 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .last-updated{text-align:center;padding:10px 8px 0;color:var(--text3);font-size:11px}
 .holding-empty{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;color:var(--text2);font-size:13px}
 .fab-add{position:fixed;right:20px;bottom:68px;width:56px;height:56px;border-radius:28px;border:none;background:var(--green);color:#001410;font-size:32px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,212,170,.35);z-index:55;font-weight:500}
-.add-modal{position:absolute;left:0;right:0;top:0;bottom:54px;background:rgba(0,0,0,.72);z-index:120;display:none;align-items:flex-end}
+.add-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:120;display:none;align-items:flex-end}
 .add-modal.open{display:flex}
-.add-sheet{background:var(--bg);width:100%;height:100%;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .22s ease-out;will-change:transform}
+.add-sheet{background:var(--bg);width:100%;max-height:var(--modal-safe-bottom,100dvh);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .22s ease-out;will-change:transform;overscroll-behavior:contain}
 .add-modal.open .add-sheet{transform:translateY(0)}
-.add-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border)}
+.add-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border);flex:0 0 auto}
 .add-title{font-size:16px;font-weight:700}.add-subtitle{font-size:12px;color:var(--text2);margin-top:2px}
-.add-body{padding:16px 20px 24px;overflow:auto;display:flex;flex-direction:column;gap:14px}
+.add-body{padding:16px 20px 24px;overflow:auto;display:flex;flex-direction:column;gap:14px;flex:1 1 auto;min-height:0}
 .icon-btn{background:none;border:none;color:var(--white);font-size:16px;font-weight:600}.back-btn{font-size:24px;font-weight:300;line-height:1;padding:4px 8px}
 .field{display:flex;flex-direction:column;gap:8px}.field label{font-size:12px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
 .field input,.field select{width:100%;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--white);padding:14px 14px;font-size:15px;outline:none}
@@ -137,7 +137,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .helper{font-size:12px;color:var(--text2)}
 .helper.error{color:var(--red)}
 .lookup-wrap{position:relative}
-.lookup-results{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:130;display:flex;flex-direction:column;gap:8px;padding:8px;border-radius:16px;background:var(--bg);border:1px solid rgba(255,255,255,.06);box-shadow:0 8px 32px rgba(0,0,0,.55);max-height:280px;overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .12s ease,transform .12s ease}
+.lookup-results{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:130;display:flex;flex-direction:column;gap:8px;padding:8px;border-radius:16px;background:var(--bg);border:1px solid rgba(255,255,255,.06);box-shadow:0 8px 32px rgba(0,0,0,.55);overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .12s ease,transform .12s ease}
 .lookup-results.visible{opacity:1;transform:translateY(0);pointer-events:auto}
 .lookup-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid rgba(255,255,255,.05);transition:background .1s ease, transform .12s ease;animation:fadeSlideIn .15s ease forwards}
 .lookup-row:hover,.lookup-row.active{background:rgba(0,212,170,.08)}
@@ -257,6 +257,16 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
     </div>
 
     <div class="section" style="padding-top:12px">
+      <div class="section-header"><div><div class="section-title">Today's Movers</div><div class="section-sub">Best and worst performers across your portfolio</div></div></div>
+      <div class="card" id="analytics-movers"></div>
+    </div>
+
+    <div class="section" style="padding-top:12px">
+      <div class="section-header"><div><div class="section-title">Cash Flow</div><div class="section-sub">Deposits, withdrawals, and net cash into the portfolio</div></div></div>
+      <div class="card" id="analytics-cashflow"></div>
+    </div>
+
+    <div class="section" style="padding-top:12px">
       <div class="section-header"><div><div class="section-title">Position Details</div><div class="section-sub">Current price, cost basis, and today’s move</div></div></div>
       <div class="card" id="analytics-positions"></div>
     </div>
@@ -359,6 +369,7 @@ let CURRENT_LOOKUP_RESULTS=[];
 let CURRENT_LOOKUP_LOADING=false;
 let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:'#00D4AA',shares:'',price:'',date:formatDayKey(new Date()),note:''};
 let PRICE_REFRESH_TIMER=null;
+let MODAL_VIEWPORT_HANDLER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
 const HISTORY_CACHE_KEY='portfolio_history_cache_v1';
 const COLOR_POOL=['#00D4AA','#007AFF','#FF9F0A','#BF5AF2','#FF375F','#30D158','#FFD60A','#64D2FF','#AC8E68','#FF6B6B'];
@@ -801,22 +812,35 @@ function renderDashboard(state){
 
 function renderAnalytics(state){
   const totalPosValue = state.holdingsValue;
-  const largest = state.holdings[0];
-  const topMover = [...state.holdings].sort((a,b)=>Math.abs((b.value-b.costBasis)) - Math.abs((a.value-a.costBasis)))[0];
-  const bestToday = [...state.holdings].sort((a,b)=>(b.change*b.shares) - (a.change*a.shares))[0];
+  const sortedToday=[...state.holdings].sort((a,b)=>(b.change*b.shares) - (a.change*a.shares));
+  const bestToday = sortedToday[0];
+  const worstToday = sortedToday[sortedToday.length-1];
+  const weights = state.holdings.map(h => state.totalValue ? h.value / state.totalValue : 0);
+  const hhi = weights.reduce((s,w)=>s+w*w,0) * 10000;
+  const diversification = hhi < 2500 ? 'Well diversified' : hhi < 5000 ? 'Moderately concentrated' : 'Highly concentrated';
   const metrics=[
     {k:'Current Holdings', v:fmt0(state.totalValue), s:'Live market value of open positions', p:100},
     {k:'Cost Basis', v:fmt0(state.invested), s:'Book cost of current holdings', p:Math.min(100,Math.round(state.invested/Math.max(1,state.totalValue)*100))},
     {k:'Unrealized P/L', v:`${state.unrealized>=0?'+':''}${fmt(state.unrealized)}`, s:`${state.invested ? ((state.unrealized / state.invested) * 100).toFixed(2) : '0.00'}% on open positions`, p:Math.min(100,Math.round(Math.abs(state.unrealized)/Math.max(1,state.invested)*100))},
     {k:'Lifetime P/L', v:`${state.totalReturn>=0?'+':''}${fmt(state.totalReturn)}`, s:`Includes ${fmt(state.realized)} realized and ${fmt(state.unrealized)} unrealized`, p:Math.min(100,Math.round(Math.abs(state.totalReturn)/Math.max(1,state.invested + state.closedCostBasis)*100))},
+    {k:'Realized Gains', v:`${state.realized>=0?'+':''}${fmt(state.realized)}`, s:'Profit from closed positions', p:Math.min(100,Math.round(Math.abs(state.realized)/Math.max(1,state.closedCostBasis||1)*100))},
+    {k:'Daily Change', v:`${state.dailyChange>=0?'+':''}${fmt(state.dailyChange)}`, s:`${pct0(state.dailyChangePct)} across all positions`, p:Math.min(100,Math.round(Math.abs(state.dailyChange)/Math.max(1,state.totalValue)*100))},
+    {k:'Concentration Risk', v:hhi < 2500 ? 'Low' : hhi < 5000 ? 'Medium' : 'High', s:`HHI ${hhi.toFixed(0)} · ${diversification}`, p:Math.min(100, Math.round(hhi/100))},
   ];
   document.getElementById('analytics-metrics').innerHTML = metrics.map(m=>`<div class="metric-card"><div><div class="metric-kicker">${m.k}</div><div class="metric-value">${m.v}</div><div class="metric-sub">${m.s}</div></div><div class="mini-bar"><div style="width:${m.p}%"></div></div></div>`).join('');
 
   document.getElementById('analytics-concentration').innerHTML = state.holdings.map(h=>{
     const w = totalPosValue ? h.value/totalPosValue*100 : 0;
     const g = h.value-h.costBasis;
-    return `<div class="small-row"><div class="small-left"><div class="small-title">${h.symbol}</div><div class="small-sub">${w.toFixed(1)}% of portfolio · ${h.shares} shares</div></div><div class="small-right">${g>=0?'+':''}${fmt(g)}<div class="small-sub" style="text-align:right;color:${h.change>=0?'var(--green)':'var(--red)'}">Today ${h.change>=0?'+':''}${h.change.toFixed(2)}</div></div></div>`;
+    return `<div class="small-row"><div class="small-left"><div class="small-title">${h.symbol}</div><div class="small-sub">${w.toFixed(1)}% of portfolio · ${formatShares(h.shares)} shares</div></div><div class="small-right">${g>=0?'+':''}${fmt(g)}<div class="small-sub" style="text-align:right;color:${h.change>=0?'var(--green)':'var(--red)'}">Today ${h.change>=0?'+':''}${h.change.toFixed(2)}</div></div></div>`;
   }).join('');
+
+  document.getElementById('analytics-movers').innerHTML = [bestToday, worstToday].filter(Boolean).filter((h,i,arr)=>arr.findIndex(x=>x.symbol===h.symbol)===i).map((h,idx)=>`<div class="small-row"><div class="small-left"><div class="small-title">${idx===0?'🟢 Best Today':'🔴 Worst Today'} · ${h.symbol}</div><div class="small-sub">${h.name}</div></div><div class="small-right"><div style="color:${(h.change*h.shares)>=0?'var(--green)':'var(--red)'}">${(h.change*h.shares)>=0?'+':''}${fmt(h.change*h.shares)}</div><div class="small-sub" style="text-align:right;color:${h.change>=0?'var(--green)':'var(--red)'}">${pct0(h.changePct)}</div></div></div>`).join('');
+
+  document.getElementById('analytics-cashflow').innerHTML = `
+    <div class="small-row"><div class="small-left"><div class="small-title">Deposits</div></div><div class="small-right" style="color:var(--green)">+${fmt(state.deposits)}</div></div>
+    <div class="small-row"><div class="small-left"><div class="small-title">Withdrawals</div></div><div class="small-right" style="color:var(--red)">-${fmt(state.withdrawals)}</div></div>
+    <div class="small-row"><div class="small-left"><div class="small-title">Net Cash Flow</div><div class="small-sub">Money added minus money taken out</div></div><div class="small-right" style="color:${state.netCashFlow>=0?'var(--green)':'var(--red)'}">${state.netCashFlow>=0?'+':''}${fmt(state.netCashFlow)}</div></div>`;
 
   document.getElementById('analytics-positions').innerHTML = state.holdings.map(h=>{
     const gain = h.value-h.costBasis; const gp = h.costBasis ? gain/h.costBasis*100 : 0;
@@ -889,6 +913,11 @@ function resetAddStockState(overrides={}){
   ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:nextHoldingColor(),shares:'',price:'',date:formatDayKey(new Date()),note:'',...overrides};
   CURRENT_LOOKUP_RESULTS=[];
 }
+function syncModalViewport(){
+  const height=(window.visualViewport?.height ?? window.innerHeight);
+  document.documentElement.style.setProperty('--modal-safe-bottom', `${height}px`);
+  updateLookupDropdownHeight();
+}
 function openAddStockModal(symbol=''){
   if(symbol && HOLDING_META[symbol]){
     resetAddStockState({step:2,symbol,name:HOLDING_META[symbol].name,exchange:HOLDING_META[symbol].exchange,type:HOLDING_META[symbol].type,color:HOLDING_META[symbol].color});
@@ -897,15 +926,32 @@ function openAddStockModal(symbol=''){
   }
   document.getElementById('add-stock-modal').classList.add('open');
   document.getElementById('add-stock-modal').setAttribute('aria-hidden','false');
+  MODAL_VIEWPORT_HANDLER=syncModalViewport;
+  window.visualViewport?.addEventListener('resize', MODAL_VIEWPORT_HANDLER);
+  syncModalViewport();
   renderAddStockModal();
 }
 function closeAddStockModal(){
   document.getElementById('add-stock-modal').classList.remove('open');
   document.getElementById('add-stock-modal').setAttribute('aria-hidden','true');
+  window.visualViewport?.removeEventListener('resize', MODAL_VIEWPORT_HANDLER);
+  MODAL_VIEWPORT_HANDLER=null;
+  document.documentElement.style.removeProperty('--modal-safe-bottom');
+  CURRENT_LOOKUP_RESULTS=[];
+  CURRENT_LOOKUP_LOADING=false;
 }
 function handleAddStockBack(){
   if(ADD_STOCK_STATE.step===2){ ADD_STOCK_STATE.step=1; renderAddStockModal(); return; }
   closeAddStockModal();
+}
+function updateLookupDropdownHeight(){
+  const box=document.getElementById('lookup-results-list');
+  const input=document.getElementById('lookup-query');
+  if(!box || !input) return;
+  const inputRect=input.getBoundingClientRect();
+  const visualH=window.visualViewport?.height ?? window.innerHeight;
+  const availBelow=Math.max(120, visualH - inputRect.bottom - 16);
+  box.style.maxHeight=`${Math.min(availBelow, 320)}px`;
 }
 function renderLookupResults(){
   const box=document.getElementById('lookup-results-list');
@@ -913,15 +959,18 @@ function renderLookupResults(){
   if(CURRENT_LOOKUP_LOADING){
     box.className='lookup-results visible';
     box.innerHTML='<div class="lookup-row active"><div style="text-align:left"><div class="lookup-symbol">Searching…</div><div class="lookup-name">Looking up symbols</div></div><span class="exchange-pill">…</span></div>';
+    updateLookupDropdownHeight();
     return;
   }
   if(!CURRENT_LOOKUP_RESULTS.length){
     box.className='lookup-results';
     box.innerHTML='';
+    box.style.maxHeight='';
     return;
   }
   box.className='lookup-results visible';
   box.innerHTML=CURRENT_LOOKUP_RESULTS.map((r,i)=>`<button type="button" class="lookup-row ${i===0?'active':''}" style="animation-delay:${i*30}ms" onclick="selectLookupResult(${i})"><div style="text-align:left"><div class="lookup-symbol">${r.symbol}</div><div class="lookup-name">${r.name}</div></div><span class="exchange-pill">${r.exchange || r.type}</span></button>`).join('');
+  updateLookupDropdownHeight();
 }
 function renderAddStockModal(){
   const title=document.getElementById('add-stock-title');
@@ -933,7 +982,7 @@ function renderAddStockModal(){
     sub.textContent='Step 1 of 3 · Symbol';
     back.onclick=closeAddStockModal;
     body.innerHTML=`
-      <div class="lookup-wrap"><div class="field"><label>Search</label><input id="lookup-query" placeholder="Search symbol or company" value="${ADD_STOCK_STATE.symbol || ''}" oninput="handleLookupInput(this.value)"></div><div id="lookup-results-list" class="lookup-results"></div></div>
+      <div class="lookup-wrap"><div class="field"><label>Search</label><input id="lookup-query" placeholder="Search symbol or company" value="${ADD_STOCK_STATE.symbol || ''}" onfocus="setTimeout(()=>this.scrollIntoView({block:'center',behavior:'smooth'}),150)" oninput="handleLookupInput(this.value)"></div><div id="lookup-results-list" class="lookup-results"></div></div>
       <div class="field"><label>Symbol</label><input id="add-symbol" maxlength="6" value="${ADD_STOCK_STATE.symbol}" oninput="ADD_STOCK_STATE.symbol=this.value.toUpperCase();this.value=ADD_STOCK_STATE.symbol"></div>
       <div class="field"><label>Name</label><input id="add-name" maxlength="60" value="${ADD_STOCK_STATE.name}" oninput="ADD_STOCK_STATE.name=this.value"></div>
       <div class="field"><label>Exchange</label><input id="add-exchange" maxlength="20" value="${ADD_STOCK_STATE.exchange}" oninput="ADD_STOCK_STATE.exchange=this.value"></div>
@@ -953,7 +1002,7 @@ function renderAddStockModal(){
       <div class="field"><label>Shares</label><input id="add-shares" type="number" step="0.00001" min="0" value="${ADD_STOCK_STATE.shares}" oninput="ADD_STOCK_STATE.shares=this.value"></div>
       <div class="field"><label>Price per share</label><input id="add-price" type="number" step="0.0001" min="0" value="${ADD_STOCK_STATE.price}" oninput="ADD_STOCK_STATE.price=this.value"></div>
       <div class="summary-card"><div class="summary-line"><span>Total Cost</span><strong>${fmt(total || 0)}</strong></div><div class="summary-line"><span>Date</span><strong>${ADD_STOCK_STATE.date}</strong></div></div>
-      <div class="field"><label>Date</label><input id="add-date" type="date" value="${ADD_STOCK_STATE.date}" oninput="ADD_STOCK_STATE.date=this.value"></div>
+      <div class="field"><label>Date</label><input id="add-date" type="date" value="${ADD_STOCK_STATE.date}" oninput="ADD_STOCK_STATE.date=this.value" onchange="ADD_STOCK_STATE.date=this.value" onclick="this.showPicker && this.showPicker()"></div>
       <div class="field"><label>Note</label><input id="add-note" maxlength="80" placeholder="Optional note" value="${ADD_STOCK_STATE.note}" oninput="ADD_STOCK_STATE.note=this.value"></div>
       <button class="cta-btn" type="button" onclick="submitAddStock()">Add Position</button>`;
     return;
@@ -980,6 +1029,8 @@ async function selectLookupResult(idx){
   const r=CURRENT_LOOKUP_RESULTS[idx]; if(!r) return;
   CURRENT_LOOKUP_RESULTS=[];
   CURRENT_LOOKUP_LOADING=false;
+  const list=document.getElementById('lookup-results-list');
+  if(list){ list.className='lookup-results'; list.innerHTML=''; list.style.maxHeight=''; }
   ADD_STOCK_STATE={...ADD_STOCK_STATE,symbol:r.symbol,name:r.name,exchange:r.exchange || 'Nasdaq',type:r.type || 'STOCK',color:HOLDING_META[r.symbol]?.color || nextHoldingColor()};
   const details=await fetchQuoteDetails(r.symbol);
   if(details.price) ADD_STOCK_STATE.price=details.price;
@@ -1029,6 +1080,9 @@ function renderTabIcons(){
   });
 }
 function switchTab(name){
+  closeAddStockModal();
+  CURRENT_LOOKUP_RESULTS=[];
+  CURRENT_LOOKUP_LOADING=false;
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   const el=document.getElementById('tab-'+name); if(el) el.classList.add('active');
   document.getElementById('tab-bar').style.display = 'flex';
