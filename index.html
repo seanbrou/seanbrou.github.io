@@ -398,6 +398,7 @@ let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',col
 let PRICE_REFRESH_TIMER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
 const HISTORY_CACHE_KEY='portfolio_history_cache_v1';
+const QUOTE_CACHE_KEY='portfolio_quote_cache_v1';
 const CASH_TOTALS_PREF_KEY='portfolio_includeCashTotals_v1';
 const COLOR_POOL=['#00D4AA','#007AFF','#FF9F0A','#BF5AF2','#FF375F','#30D158','#FFD60A','#64D2FF','#AC8E68','#FF6B6B'];
 const TAB_ICONS={
@@ -545,6 +546,21 @@ function loadHistoryCache(){
   catch(e){ return {}; }
 }
 function saveHistoryCache(cache){ localStorage.setItem(HISTORY_CACHE_KEY, JSON.stringify(cache)); }
+function loadQuoteCache(){
+  try{
+    const parsed=JSON.parse(localStorage.getItem(QUOTE_CACHE_KEY) || '{}');
+    return parsed?.quotes && typeof parsed.quotes==='object' ? parsed.quotes : {};
+  }catch(e){ return {}; }
+}
+function saveQuoteCache(quotes){
+  try{ localStorage.setItem(QUOTE_CACHE_KEY, JSON.stringify({quotes, updatedAt:new Date().toISOString()})); }catch(e){}
+}
+function primeHistoricalSeriesFromCache(){
+  const cache=loadHistoryCache();
+  Object.keys(HOLDING_META).forEach(sym=>{
+    if(cache[sym]?.series?.length) STOCK_HISTORY[sym]=cache[sym].series;
+  });
+}
 function syncCashTotalsToggle(){
   const btn=document.getElementById('cash-totals-toggle');
   if(!btn) return;
@@ -768,7 +784,15 @@ async function refreshLivePricesInBackground(includeHistory=false){
   try{
     const latest=await fetchLivePrices();
     CURRENT_PRICES={...CURRENT_PRICES,...latest};
+    saveQuoteCache(CURRENT_PRICES);
     if(includeHistory) await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
+    CURRENT_STATE=buildPortfolioState(CURRENT_PRICES);
+    applyStateToUI();
+  }catch(e){}
+}
+async function refreshHistoryOnlyInBackground(){
+  try{
+    await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
     CURRENT_STATE=buildPortfolioState(CURRENT_PRICES);
     applyStateToUI();
   }catch(e){}
@@ -1434,16 +1458,13 @@ function switchTab(name){
 async function init(){
   renderTabIcons();
   refreshDataModel();
-  try{
-    CURRENT_PRICES = await fetchLivePrices();
-    CURRENT_STATE = buildPortfolioState(CURRENT_PRICES);
-  }catch(e){
-    CURRENT_PRICES = FALLBACK;
-    CURRENT_STATE = buildPortfolioState(FALLBACK);
-  }
+  primeHistoricalSeriesFromCache();
+  CURRENT_PRICES = {...FALLBACK, ...loadQuoteCache()};
+  CURRENT_STATE = buildPortfolioState(CURRENT_PRICES);
   applyStateToUI();
   document.getElementById('loader').style.display='none';
-  refreshLivePricesInBackground(true);
+  setTimeout(()=>{ refreshLivePricesInBackground(false); }, 0);
+  setTimeout(()=>{ refreshHistoryOnlyInBackground(); }, 0);
   startBackgroundPriceRefresh();
   document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) refreshLivePricesInBackground(false); }, {passive:true});
 }
