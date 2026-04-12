@@ -196,6 +196,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
       <button class="pill" onclick="setPeriod('1W')">1W</button>
       <button class="pill" onclick="setPeriod('1M')">1M</button>
       <button class="pill" onclick="setPeriod('6M')">6M</button>
+      <button class="pill" onclick="setPeriod('YTD')">YTD</button>
       <button class="pill active" onclick="setPeriod('1Y')">1Y</button>
       <button class="pill" onclick="setPeriod('ALL')">All</button>
     </div>
@@ -298,8 +299,8 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
       <div class="detail-price" id="detail-price">--</div>
       <div class="detail-change" id="detail-change">--</div>
     </div>
-    <div class="period-bar">
-      <button class="pill active" onclick="setPeriod('1D',true)">1D</button><button class="pill" onclick="setPeriod('1W',true)">1W</button><button class="pill" onclick="setPeriod('1M',true)">1M</button><button class="pill" onclick="setPeriod('6M',true)">6M</button><button class="pill" onclick="setPeriod('1Y',true)">1Y</button><button class="pill" onclick="setPeriod('ALL',true)">All</button>
+    <div class="period-bar" id="detail-period-bar">
+      <button class="pill active" onclick="setPeriod('1D',true)">1D</button><button class="pill" onclick="setPeriod('1W',true)">1W</button><button class="pill" onclick="setPeriod('1M',true)">1M</button><button class="pill" onclick="setPeriod('6M',true)">6M</button><button class="pill" onclick="setPeriod('YTD',true)">YTD</button><button class="pill" onclick="setPeriod('1Y',true)">1Y</button><button class="pill" onclick="setPeriod('ALL',true)">All</button>
     </div>
     <div class="chart-container"><canvas id="detail-chart"></canvas></div>
     <div class="detail-position-card" id="detail-position"></div>
@@ -426,7 +427,7 @@ function startOfUTCDay(value){
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
 }
 function formatDayKey(date){ return startOfUTCDay(date).toISOString().slice(0,10); }
-function periodLabel(period){ return period==='ALL' ? 'All Time' : period; }
+function periodLabel(period){ return period==='ALL' ? 'All Time' : (period==='YTD' ? 'YTD' : period); }
 function normalizeSeries(points, livePrice=null){
   const map = new Map();
   (points||[]).forEach(pt=>{
@@ -464,6 +465,13 @@ function buildSymbolDailyHistory(sym, livePrice){
 }
 function filterHistoryByPeriod(hist, period){
   if(!hist.length || period==='ALL') return hist;
+  if(period==='YTD'){
+    const now=new Date();
+    const cutoffTs=Date.UTC(now.getUTCFullYear(),0,1);
+    const filtered=hist.filter(pt=>parsePointDate(pt.d).getTime() >= cutoffTs);
+    if(filtered.length >= 2) return filtered;
+    return hist.slice(-Math.max(2, Math.min(hist.length, 366)));
+  }
   const days = PERIOD_DAYS[period] || 365;
   const cutoffTs = startOfUTCDay(Date.now() - days * DAY_MS).getTime();
   let filtered = hist.filter(pt=>parsePointDate(pt.d).getTime() >= cutoffTs);
@@ -1150,11 +1158,12 @@ function setTxFilter(f){ CURRENT_FILTER=f; renderTransactions(f); }
 function setPeriod(p, isDetail=false){
   delete CHART_SCRUB_STATE[isDetail ? 'detail-chart' : 'main-chart'];
   CURRENT_PERIOD=p;
-  document.querySelectorAll('#period-bar .pill').forEach(x=>x.classList.remove('active'));
-  const periods=['1D','1W','1M','6M','1Y','ALL'];
+  const barSelector=isDetail ? '#detail-period-bar .pill' : '#period-bar .pill';
+  document.querySelectorAll(barSelector).forEach(x=>x.classList.remove('active'));
+  const periods=['1D','1W','1M','6M','YTD','1Y','ALL'];
   const idx=periods.indexOf(p);
   if(idx>=0){
-    const bars=document.querySelectorAll('#period-bar .pill');
+    const bars=document.querySelectorAll(barSelector);
     if(bars[idx]) bars[idx].classList.add('active');
   }
   if(isDetail && CURRENT_DETAIL){
