@@ -341,12 +341,14 @@ const SEED_HOLDING_META={
 };
 const SEED_TRANSACTIONS=[
   {d:'2020-08-17T18:37:00.000Z',w:'BUY',sh:1,s:'TSLA',c:344.07,n:'',sync:false,ot:'market'},
+  {d:'2020-08-31T13:30:00.000Z',w:'SPLIT',sh:0,s:'TSLA',c:0,n:'5:1 stock split',sync:false,rt:5},
   {d:'2021-09-22T18:52:23.000Z',w:'BUY',sh:24,s:'HOOD',c:893.52,n:'',sync:false,ot:'market'},
   {d:'2021-09-22T18:54:42.000Z',w:'BUY',sh:24,s:'IVV',c:8259.36,n:'',sync:false,ot:'market'},
+  {d:'2022-08-25T13:30:00.000Z',w:'SPLIT',sh:0,s:'TSLA',c:0,n:'3:1 stock split',sync:false,rt:3},
   {d:'2023-03-13T23:34:00.000Z',w:'BUY',sh:2,s:'TSLA',c:400,n:'',sync:true,ot:'market'},
   {d:'2023-03-13T23:34:00.000Z',w:'WITHDRAW',sh:0,s:'USD',c:400,n:'SYNC-BASE-HOLDINGS_BUY_TSLA/USD',sync:true},
   {d:'2024-03-20T21:23:15.000Z',w:'DEPOSIT',sh:0,s:'USD',c:111.43,n:'Schwab dry powder',sync:false},
-  {d:'2025-03-21T17:38:33.000Z',w:'BUY',sh:2,s:'TSLA',c:491.95,n:'',sync:false,ot:'market'},
+  {d:'2025-03-21T17:38:33.000Z',w:'BUY',sh:2,s:'TSLA',c:490.70,n:'',sync:false,ot:'market'},
   {d:'2025-03-21T17:38:59.000Z',w:'BUY',sh:5.97083,s:'HOOD',c:258.05,n:'',sync:false,ot:'market'},
   {d:'2025-03-27T21:38:00.000Z',w:'BUY',sh:29,s:'HOOD',c:1312.83,n:'',sync:false,ot:'market'},
   {d:'2025-03-27T21:39:00.000Z',w:'SELL',sh:3,s:'IVV',c:1719.33,n:'',sync:false,ot:'market'},
@@ -361,10 +363,6 @@ const SEED_TRANSACTIONS=[
   {d:'2026-01-27T04:12:21.000Z',w:'DEPOSIT',sh:0,s:'USD',c:901.19,n:'',sync:false},
   {d:'2026-02-06T18:51:39.000Z',w:'BUY',sh:33,s:'NBIS',c:2607,n:'',sync:false,ot:'market'},
   {d:'2026-02-17T20:00:00.000Z',w:'BUY',sh:40,s:'RVI',c:1000,n:'IPO allocation',sync:false,ot:'ipo'},
-  {d:'2026-03-06T14:30:00.000Z',w:'BUY',sh:2,s:'TSLA',c:797.86,n:'',sync:false,ot:'market'},
-  {d:'2026-03-06T15:15:00.000Z',w:'SELL',sh:2,s:'TSLA',c:792.46,n:'',sync:false,ot:'market'},
-  {d:'2026-03-06T16:00:00.000Z',w:'BUY',sh:2,s:'TSLA',c:793.25,n:'',sync:false,ot:'market'},
-  {d:'2026-03-06T16:45:00.000Z',w:'SELL',sh:2,s:'TSLA',c:797,n:'',sync:false,ot:'limit'},
   {d:'2026-03-10T16:55:00.000Z',w:'BUY',sh:11,s:'NBIS',c:1100,n:'',sync:false,ot:'market'},
 ];
 const SEED_STOCK_HISTORY={
@@ -504,6 +502,7 @@ function buildPortfolioHistory(prices){
       if(tx.status==='CANCELED') continue;
       if(tx.w==='BUY') shares[tx.s] = safeNum(shares[tx.s]) + safeNum(tx.sh);
       if(tx.w==='SELL') shares[tx.s] = Math.max(0, safeNum(shares[tx.s]) - safeNum(tx.sh));
+      if(tx.w==='SPLIT') shares[tx.s] = safeNum(shares[tx.s]) * Math.max(1, safeNum(tx.rt) || 1);
     }
     let total = 0;
     Object.keys(HOLDING_META).forEach(sym=>{
@@ -540,7 +539,8 @@ function normalizeTransaction(tx){
     n: tx.n || '',
     sync: !!tx.sync,
     ot: tx.ot || '',
-    status: tx.status || ''
+    status: tx.status || '',
+    rt: safeNum(tx.rt || tx.ratio)
   };
 }
 function refreshDataModel(){
@@ -556,6 +556,7 @@ function transactionTitle(t){
   const symbol = t.s || 'USD';
   if(t.w==='DEPOSIT') return 'Cash deposit';
   if(t.w==='WITHDRAW') return 'Cash withdrawal';
+  if(t.w==='SPLIT') return `${symbol} stock split`;
   const side = t.w.toLowerCase();
   const orderType = t.ot ? `${t.ot.charAt(0).toUpperCase()}${t.ot.slice(1)} ` : '';
   return `${symbol} ${orderType}${side}`.trim();
@@ -760,6 +761,8 @@ function buildPortfolioState(prices){
     if(t.w==='BUY'){
       h.shares += t.sh;
       h.costBasis += t.c;
+    } else if(t.w==='SPLIT'){
+      h.shares *= Math.max(1, safeNum(t.rt) || 1);
     } else if(t.w==='SELL'){
       const prevShares = h.shares || 1;
       const perShareCost = prevShares ? (h.costBasis / prevShares) : 0;
@@ -1001,18 +1004,19 @@ function renderTransactions(filter){
   document.getElementById('tx-summary-left').textContent=`${txs.length} transactions`;
   document.getElementById('tx-summary-right').textContent=`Net external cash flow: ${fmt(CURRENT_STATE.netCashFlow)}`;
   const filters=['ALL','BUY','SELL','DEPOSIT','WITHDRAW'];
+  if(TRANSACTIONS.some(t=>t.w==='SPLIT')) filters.splice(3,0,'SPLIT');
   if(TRANSACTIONS.some(t=>t.status==='CANCELED')) filters.push('CANCELED');
   document.getElementById('tx-filters').innerHTML = filters.map(f=>`<button class="pill ${f===filter?'active':''}" onclick="setTxFilter('${f}')">${f}</button>`).join('');
-  const icons={BUY:'↓',SELL:'↑',DEPOSIT:'+',WITHDRAW:'-',CANCELED:'×'};
-  const cols={BUY:'#00D4AA',SELL:'#FF4D4F',DEPOSIT:'#007AFF',WITHDRAW:'#FF9F0A',CANCELED:'#888'};
+  const icons={BUY:'↓',SELL:'↑',DEPOSIT:'+',WITHDRAW:'-',SPLIT:'↻',CANCELED:'×'};
+  const cols={BUY:'#00D4AA',SELL:'#FF4D4F',DEPOSIT:'#007AFF',WITHDRAW:'#FF9F0A',SPLIT:'#64D2FF',CANCELED:'#888'};
   document.getElementById('tx-list').innerHTML = txs.map(t=>{
     const isCanceled=t.status==='CANCELED';
     const key=isCanceled?'CANCELED':t.w;
     const c=cols[key];
-    const showNote = t.n && !t.n.startsWith('SYNC-') && !t.n.startsWith('SYNC_') && t.n.trim() && !isCanceled;
+    const showNote = t.n && !t.n.startsWith('SYNC-') && !t.n.startsWith('SYNC_') && t.n.trim() && !isCanceled && t.w!=='SPLIT';
     const dateLabel=new Date(t.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-    const subtitle=isCanceled ? `${dateLabel} · Canceled` : (t.w==='BUY'||t.w==='SELL' ? `${formatShares(t.sh)} shares at ${fmt(t.sh ? t.c / t.sh : 0)}` : fmt(t.c));
-    const amountHtml=isCanceled ? '' : `<div class="tx-amount" style="color:${c}">${(t.w==='BUY'||t.w==='WITHDRAW')?'-':'+'}${fmt(t.c)}</div>`;
+    const subtitle=isCanceled ? `${dateLabel} · Canceled` : (t.w==='BUY'||t.w==='SELL' ? `${formatShares(t.sh)} shares at ${fmt(t.sh ? t.c / t.sh : 0)}` : (t.w==='SPLIT' ? `${formatShares(t.rt || 0)}:1 split` : fmt(t.c)));
+    const amountHtml=(isCanceled || t.w==='SPLIT') ? '' : `<div class="tx-amount" style="color:${c}">${(t.w==='BUY'||t.w==='WITHDRAW')?'-':'+'}${fmt(t.c)}</div>`;
     return `<div class="tx-card"><div class="tx-icon" style="background:${c}22;color:${c}">${icons[key]}</div><div class="tx-info"><div class="tx-symbol">${transactionTitle(t)}</div><div class="tx-type">${subtitle}</div><div class="tx-date">${isCanceled ? '' : dateLabel}</div>${showNote?`<div class="tx-notes">${t.n}</div>`:''}</div><div>${amountHtml}</div></div>`;
   }).join('');
 }
@@ -1146,8 +1150,9 @@ function openStock(symbol){
     <div class="perf-row"><span class="perf-label">1 Year</span><span class="perf-val ${p1y>=0?'up':'down'}">${pct0(p1y)}</span></div>`;
   document.getElementById('detail-activity').innerHTML = recentTx.length ? recentTx.map(t=>{
     const isBuy=t.w==='BUY';
+    const isSplit=t.w==='SPLIT';
     const amount=isBuy ? -(safeNum(t.c)) : safeNum(t.c);
-    return `<div class="small-row"><div class="small-left"><div class="small-title">${transactionTitle(t)}</div><div class="small-sub">${new Date(t.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} · ${formatShares(t.sh || 0)} shares</div></div><div class="small-right"><div style="color:${isBuy?'var(--red)':'var(--green)'}">${isBuy?'-':'+'}${fmt(Math.abs(amount))}</div><div class="small-sub" style="text-align:right">${t.ot || 'trade'}</div></div></div>`;
+    return `<div class="small-row"><div class="small-left"><div class="small-title">${transactionTitle(t)}</div><div class="small-sub">${new Date(t.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} · ${isSplit ? `${formatShares(t.rt || 0)}:1 split` : `${formatShares(t.sh || 0)} shares`}</div></div><div class="small-right"><div style="color:${isSplit?'var(--blue)':(isBuy?'var(--red)':'var(--green)')}">${isSplit ? `${formatShares(t.rt || 0)}:1` : `${isBuy?'-':'+'}${fmt(Math.abs(amount))}`}</div><div class="small-sub" style="text-align:right">${isSplit ? 'corporate action' : (t.ot || 'trade')}</div></div></div>`;
   }).join('') : `<div class="detail-activity-empty">No recent activity for this holding yet.</div>`;
   drawArea('detail-chart', filterHistoryByPeriod(fullHistory, CURRENT_PERIOD), h.color, 180);
   switchTab('stock-detail');
