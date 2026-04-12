@@ -613,6 +613,9 @@ async function hydrateHistoricalSeries(symbols, prices){
   saveHistoryCache(cache);
 }
 const SYMBOL_SEARCH_CACHE={};
+const QUOTE_DETAILS_CACHE={};
+const QUOTE_DETAILS_INFLIGHT={};
+const QUOTE_DETAILS_TTL_MS=60000;
 const QUICK_SYMBOLS={A:'Agilent Technologies',AAPL:'Apple Inc',ABBV:'AbbVie Inc',ABNB:'Airbnb Inc',AMD:'Advanced Micro Devices',AMZN:'Amazon.com Inc',ARM:'Arm Holdings',AVGO:'Broadcom Inc',BA:'Boeing Co',BABA:'Alibaba Group','BRK.B':'Berkshire Hathaway',COIN:'Coinbase Global',CRM:'Salesforce Inc',CRWD:'CrowdStrike Inc',CVX:'Chevron Corp',DIS:'Walt Disney Co',F:'Ford Motor Co',GME:'GameStop Corp',GOOGL:'Alphabet Inc',HOOD:'Robinhood Markets',INTC:'Intel Corp',IONQ:'IonQ Inc',IVV:'iShares Core S&P 500 ETF',JNJ:'Johnson & Johnson',JPM:'JPMorgan Chase',KO:'Coca-Cola Co',MARA:'MARA Holdings',META:'Meta Platforms',MSFT:'Microsoft Corp',NFLX:'Netflix Inc',NKE:'Nike Inc',NVDA:'NVIDIA Corp',ORCL:'Oracle Corp',PLTR:'Palantir Technologies',PYPL:'PayPal Holdings',QQQ:'Invesco QQQ Trust',RBLX:'Roblox Corp',RIVN:'Rivian Automotive',RVI:'Robinhood Ventures Fund I',SHOP:'Shopify Inc',SMCI:'Super Micro Computer',SOFI:'SoFi Technologies',SPY:'SPDR S&P 500 ETF',SQ:'Block Inc',TSLA:'Tesla Inc',UBER:'Uber Technologies',V:'Visa Inc'};
 function getInstantSymbolMatches(raw){
   const key=raw.trim().toUpperCase();
@@ -644,10 +647,45 @@ async function fetchSymbolSearch(query){
   }
   return [];
 }
+function getCachedQuoteDetails(sym){
+  const cached=QUOTE_DETAILS_CACHE[sym];
+  if(cached && Date.now()-cached.ts<QUOTE_DETAILS_TTL_MS) return cached.data;
+  return null;
+}
+function updateAddStockStep2PriceField(){
+  const priceInput=document.getElementById('add-price');
+  if(priceInput && ADD_STOCK_STATE.price) priceInput.value=ADD_STOCK_STATE.price;
+  const totalValue=document.getElementById('add-total-value');
+  if(totalValue) totalValue.textContent=fmt(safeNum(ADD_STOCK_STATE.shares) * safeNum(ADD_STOCK_STATE.price));
+}
+function applyQuoteDetailsToAddStock(details){
+  if(!details || ADD_STOCK_STATE.symbol!==details.symbol) return;
+  if(details.name && !ADD_STOCK_STATE.name) ADD_STOCK_STATE.name=details.name;
+  if(details.exchange && (!ADD_STOCK_STATE.exchange || ADD_STOCK_STATE.exchange==='Nasdaq')) ADD_STOCK_STATE.exchange=details.exchange;
+  if(details.type && (!ADD_STOCK_STATE.type || ADD_STOCK_STATE.type==='STOCK')) ADD_STOCK_STATE.type=details.type;
+  if(details.price && !ADD_STOCK_STATE.price) ADD_STOCK_STATE.price=details.price;
+  autofillAddStockStep1Fields();
+  updateAddStockStep2PriceField();
+}
 async function fetchQuoteDetails(sym){
-  const price=CURRENT_PRICES[sym] || (await fetchLivePrices())[sym] || FALLBACK[sym] || {p:0,chg:0,cpct:0,pc:0};
-  const found=(await fetchSymbolSearch(sym)).find(x=>x.symbol===sym) || {};
-  return {symbol:sym,name:found.name || HOLDING_META[sym]?.name || sym,exchange:found.exchange || HOLDING_META[sym]?.exchange || 'Nasdaq',type:found.type || HOLDING_META[sym]?.type || 'STOCK',price:price.p};
+  const cached=getCachedQuoteDetails(sym);
+  if(cached) return cached;
+  if(QUOTE_DETAILS_INFLIGHT[sym]) return QUOTE_DETAILS_INFLIGHT[sym];
+  QUOTE_DETAILS_INFLIGHT[sym]=(async()=>{
+    const price=CURRENT_PRICES[sym] || (await fetchLivePrices())[sym] || FALLBACK[sym] || {p:0,chg:0,cpct:0,pc:0};
+    const found=(await fetchSymbolSearch(sym)).find(x=>x.symbol===sym) || {};
+    const details={symbol:sym,name:found.name || HOLDING_META[sym]?.name || sym,exchange:found.exchange || HOLDING_META[sym]?.exchange || 'Nasdaq',type:found.type || HOLDING_META[sym]?.type || 'STOCK',price:price.p};
+    QUOTE_DETAILS_CACHE[sym]={data:details,ts:Date.now()};
+    return details;
+  })().finally(()=>{ delete QUOTE_DETAILS_INFLIGHT[sym]; });
+  return QUOTE_DETAILS_INFLIGHT[sym];
+}
+function preloadQuoteDetails(sym){
+  if(!sym) return Promise.resolve(null);
+  return fetchQuoteDetails(sym).then(details=>{
+    applyQuoteDetailsToAddStock(details);
+    return details;
+  }).catch(()=>null);
 }
 function applyStateToUI(){
   if(!CURRENT_STATE) return;
@@ -1007,9 +1045,9 @@ function renderAddStockModal(){
     const total=safeNum(ADD_STOCK_STATE.shares) * safeNum(ADD_STOCK_STATE.price);
     body.innerHTML=`
       <div><div class="add-title" style="font-size:24px">${ADD_STOCK_STATE.symbol}</div><div class="add-subtitle">${ADD_STOCK_STATE.name}</div></div>
-      <div class="field"><label>Shares</label><input id="add-shares" type="number" step="0.00001" min="0" value="${ADD_STOCK_STATE.shares}" oninput="ADD_STOCK_STATE.shares=this.value"></div>
-      <div class="field"><label>Price per share</label><input id="add-price" type="number" step="0.0001" min="0" value="${ADD_STOCK_STATE.price}" oninput="ADD_STOCK_STATE.price=this.value"></div>
-      <div class="summary-card"><div class="summary-line"><span>Total Cost</span><strong>${fmt(total || 0)}</strong></div><div class="summary-line"><span>Date</span><strong>${ADD_STOCK_STATE.date}</strong></div></div>
+      <div class="field"><label>Shares</label><input id="add-shares" type="number" step="0.00001" min="0" value="${ADD_STOCK_STATE.shares}" oninput="ADD_STOCK_STATE.shares=this.value;updateAddStockStep2PriceField()"></div>
+      <div class="field"><label>Price per share</label><input id="add-price" type="number" step="0.0001" min="0" value="${ADD_STOCK_STATE.price}" oninput="ADD_STOCK_STATE.price=this.value;updateAddStockStep2PriceField()"></div>
+      <div class="summary-card"><div class="summary-line"><span>Total Cost</span><strong id="add-total-value">${fmt(total || 0)}</strong></div><div class="summary-line"><span>Date</span><strong>${ADD_STOCK_STATE.date}</strong></div></div>
       <div class="field"><label>Date</label><input id="add-date" type="date" value="${ADD_STOCK_STATE.date}" oninput="ADD_STOCK_STATE.date=this.value" onchange="ADD_STOCK_STATE.date=this.value" onclick="this.showPicker && this.showPicker()"></div>
       <div class="field"><label>Note</label><input id="add-note" maxlength="80" placeholder="Optional note" value="${ADD_STOCK_STATE.note}" oninput="ADD_STOCK_STATE.note=this.value"></div>
       <button class="cta-btn" type="button" onclick="submitAddStock()">Add Position</button>`;
@@ -1070,12 +1108,7 @@ async function selectLookupResult(idx){
   if(list){ list.className='lookup-results'; list.innerHTML=''; list.style.maxHeight=''; }
   ADD_STOCK_STATE={...ADD_STOCK_STATE,symbol:r.symbol,name:r.name,exchange:r.exchange || 'Nasdaq',type:r.type || 'STOCK',color:HOLDING_META[r.symbol]?.color || nextHoldingColor()};
   autofillAddStockStep1Fields();
-  const details=await fetchQuoteDetails(r.symbol);
-  if(details.name && !ADD_STOCK_STATE.name) ADD_STOCK_STATE.name=details.name;
-  if(details.exchange && (!ADD_STOCK_STATE.exchange || ADD_STOCK_STATE.exchange==='Nasdaq')) ADD_STOCK_STATE.exchange=details.exchange;
-  if(details.type && (!ADD_STOCK_STATE.type || ADD_STOCK_STATE.type==='STOCK')) ADD_STOCK_STATE.type=details.type;
-  if(details.price && !ADD_STOCK_STATE.price) ADD_STOCK_STATE.price=details.price;
-  autofillAddStockStep1Fields();
+  preloadQuoteDetails(r.symbol);
 }
 async function proceedAddStockStep1(){
   ADD_STOCK_STATE.symbol=(ADD_STOCK_STATE.symbol || '').trim().toUpperCase();
@@ -1087,14 +1120,17 @@ async function proceedAddStockStep1(){
     ADD_STOCK_STATE.type=HOLDING_META[ADD_STOCK_STATE.symbol].type;
   }
   if(!ADD_STOCK_STATE.price){
-    const details=await fetchQuoteDetails(ADD_STOCK_STATE.symbol);
-    if(details.price) ADD_STOCK_STATE.price=details.price;
-    ADD_STOCK_STATE.name=ADD_STOCK_STATE.name || details.name;
-    ADD_STOCK_STATE.exchange=ADD_STOCK_STATE.exchange || details.exchange;
-    ADD_STOCK_STATE.type=ADD_STOCK_STATE.type || details.type;
+    const details=await preloadQuoteDetails(ADD_STOCK_STATE.symbol);
+    if(details){
+      if(details.price) ADD_STOCK_STATE.price=details.price;
+      ADD_STOCK_STATE.name=ADD_STOCK_STATE.name || details.name;
+      ADD_STOCK_STATE.exchange=ADD_STOCK_STATE.exchange || details.exchange;
+      ADD_STOCK_STATE.type=ADD_STOCK_STATE.type || details.type;
+    }
   }
   ADD_STOCK_STATE.step=2;
   renderAddStockModal();
+  if(!ADD_STOCK_STATE.price) preloadQuoteDetails(ADD_STOCK_STATE.symbol);
 }
 async function submitAddStock(){
   const shares=safeNum(ADD_STOCK_STATE.shares), price=safeNum(ADD_STOCK_STATE.price);
