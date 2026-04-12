@@ -85,7 +85,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .tx-date{color:var(--text3);font-size:11px;margin-top:2px}
 .tx-notes{color:#666;font-size:11px;margin-top:4px;font-style:italic}
 .tx-amount{font-size:14px;font-weight:600;text-align:right;white-space:nowrap}
-.detail-header{padding:16px 20px 8px}
+.detail-header{padding:14px 20px 4px;position:sticky;top:0;z-index:3;background:linear-gradient(180deg,#000 75%,rgba(0,0,0,0))}
 .detail-header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .detail-header-left{display:flex;align-items:flex-start;gap:8px;min-width:0}
 .detail-symbol{color:var(--white);font-size:30px;font-weight:800;line-height:1}
@@ -94,15 +94,28 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .detail-price-section{padding:4px 20px 6px}
 .detail-price{color:var(--white);font-size:40px;font-weight:700;line-height:1}
 .detail-change{font-size:16px;font-weight:600;margin-top:4px}
-.stats-card{background:var(--card);border-radius:18px;margin:0 20px 16px;overflow:hidden;border:1px solid rgba(255,255,255,.02)}
+.detail-position-card,.stats-card,.perf-card,.detail-activity-card{background:var(--card);border-radius:18px;margin:0 20px 16px;border:1px solid rgba(255,255,255,.02)}
+.detail-position-card{padding:16px}
+.detail-position-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.detail-kicker{color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:.7px;font-weight:700}
+.detail-big{color:var(--white);font-size:20px;font-weight:700;margin-top:6px;line-height:1.1}
+.detail-sub{color:var(--text2);font-size:12px;margin-top:4px}
+.detail-stats-strip{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 16px}
+.detail-stat-pill{background:#111214;border:1px solid rgba(255,255,255,.04);border-radius:16px;padding:12px 14px}
+.detail-stat-pill .detail-sub{margin-top:2px}
+.stats-card{overflow:hidden}
 .stat-row{padding:14px 16px;display:flex;justify-content:space-between;gap:12px}
 .stat-divider{height:1px;background:var(--border);margin:0 16px}
 .stat-label{color:var(--text2);font-size:13px}
 .stat-val{color:var(--white);font-size:14px;font-weight:600;text-align:right}
-.perf-card{background:var(--card);border-radius:18px;margin:0 20px 20px;padding:16px;border:1px solid rgba(255,255,255,.02)}
+.perf-card{padding:16px}
 .perf-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0}
 .perf-label{color:var(--text2);font-size:14px}
 .perf-val{font-size:14px;font-weight:600;text-align:right}
+.detail-activity-card{overflow:hidden;margin-bottom:20px}
+.detail-activity-head{padding:14px 16px 0;color:var(--white);font-size:16px;font-weight:700}
+.detail-activity-empty{padding:14px 16px 18px;color:var(--text2);font-size:13px}
+.quote-pending{color:var(--text2);font-size:12px;margin-top:8px}
 .analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 20px 0}
 .metric-card{background:var(--card);border-radius:18px;padding:14px;border:1px solid rgba(255,255,255,.02);min-height:92px;display:flex;flex-direction:column;justify-content:space-between}
 .metric-kicker{color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:.7px;font-weight:600}
@@ -287,8 +300,11 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
       <button class="pill active" onclick="setPeriod('1D',true)">1D</button><button class="pill" onclick="setPeriod('1W',true)">1W</button><button class="pill" onclick="setPeriod('1M',true)">1M</button><button class="pill" onclick="setPeriod('6M',true)">6M</button><button class="pill" onclick="setPeriod('1Y',true)">1Y</button><button class="pill" onclick="setPeriod('ALL',true)">All</button>
     </div>
     <div class="chart-container"><canvas id="detail-chart"></canvas></div>
+    <div class="detail-position-card" id="detail-position"></div>
+    <div class="detail-stats-strip" id="detail-stats-strip"></div>
     <div class="stats-card" id="detail-stats"></div>
     <div class="perf-card" id="detail-perf"></div>
+    <div class="detail-activity-card"><div class="detail-activity-head">Recent Activity</div><div id="detail-activity"></div></div>
   </div>
 
   <button class="fab-add" id="add-stock-fab" type="button" aria-label="Add stock" onclick="openAddStockModal()">+</button>
@@ -652,11 +668,14 @@ function getCachedQuoteDetails(sym){
   if(cached && Date.now()-cached.ts<QUOTE_DETAILS_TTL_MS) return cached.data;
   return null;
 }
+function isQuoteDetailsLoading(sym){ return !!QUOTE_DETAILS_INFLIGHT[sym]; }
 function updateAddStockStep2PriceField(){
   const priceInput=document.getElementById('add-price');
   if(priceInput && ADD_STOCK_STATE.price) priceInput.value=ADD_STOCK_STATE.price;
   const totalValue=document.getElementById('add-total-value');
   if(totalValue) totalValue.textContent=fmt(safeNum(ADD_STOCK_STATE.shares) * safeNum(ADD_STOCK_STATE.price));
+  const pending=document.getElementById('add-price-pending');
+  if(pending) pending.style.display=ADD_STOCK_STATE.price ? 'none' : (isQuoteDetailsLoading(ADD_STOCK_STATE.symbol) ? 'block' : 'none');
 }
 function applyQuoteDetailsToAddStock(details){
   if(!details || ADD_STOCK_STATE.symbol!==details.symbol) return;
@@ -910,6 +929,13 @@ function openStock(symbol){
   const livePrice = (CURRENT_PRICES[h.symbol] || FALLBACK[h.symbol]).p;
   const fullHistory = buildSymbolDailyHistory(h.symbol, livePrice);
   const gain = h.value-h.costBasis; const gp = h.costBasis ? gain/h.costBasis*100 : 0;
+  const dailyPnL = h.change * h.shares;
+  const p1w = historyChange(filterHistoryByPeriod(fullHistory, '1W')).pct;
+  const p1m = historyChange(filterHistoryByPeriod(fullHistory, '1M')).pct;
+  const p1y = historyChange(filterHistoryByPeriod(fullHistory, '1Y')).pct;
+  const low52 = fullHistory.length ? Math.min(...fullHistory.map(x=>safeNum(x.v ?? x.value))) : h.price;
+  const high52 = fullHistory.length ? Math.max(...fullHistory.map(x=>safeNum(x.v ?? x.value))) : h.price;
+  const recentTx = TRANSACTIONS.filter(t=>t.s===symbol && t.w!=='DEPOSIT' && t.w!=='WITHDRAW').sort((a,b)=>new Date(b.d)-new Date(a.d)).slice(0,3);
   document.getElementById('detail-symbol').textContent = h.symbol;
   document.getElementById('detail-name').textContent = h.name;
   document.getElementById('detail-exchange').textContent = h.exchange;
@@ -917,24 +943,37 @@ function openStock(symbol){
   const ch = document.getElementById('detail-change');
   ch.textContent = `${h.change>=0?'+':''}${h.change.toFixed(2)} (${h.changePct>=0?'+':''}${h.changePct.toFixed(2)}%) Today`;
   ch.style.color = h.change>=0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('detail-position').innerHTML = `
+    <div class="detail-kicker">Your Position</div>
+    <div class="detail-position-grid">
+      <div><div class="detail-kicker">Shares Held</div><div class="detail-big">${formatShares(h.shares)}</div><div class="detail-sub">Avg cost ${fmt(h.avgCost)}</div></div>
+      <div><div class="detail-kicker">Market Value</div><div class="detail-big">${fmt(h.value)}</div><div class="detail-sub" style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${fmt(gain)} (${gp.toFixed(2)}%)</div></div>
+    </div>`;
+  document.getElementById('detail-stats-strip').innerHTML = `
+    <div class="detail-stat-pill"><div class="detail-kicker">Today</div><div class="detail-big" style="font-size:18px;color:${dailyPnL>=0?'var(--green)':'var(--red)'}">${dailyPnL>=0?'+':''}${fmt(dailyPnL)}</div><div class="detail-sub">${pct0(h.changePct)}</div></div>
+    <div class="detail-stat-pill"><div class="detail-kicker">Day Range</div><div class="detail-big" style="font-size:18px">${fmt(h.dayRange[0])}</div><div class="detail-sub">to ${fmt(h.dayRange[1])}</div></div>
+    <div class="detail-stat-pill"><div class="detail-kicker">52W Low</div><div class="detail-big" style="font-size:18px">${fmt(low52)}</div><div class="detail-sub">From chart history</div></div>
+    <div class="detail-stat-pill"><div class="detail-kicker">52W High</div><div class="detail-big" style="font-size:18px">${fmt(high52)}</div><div class="detail-sub">From chart history</div></div>`;
   document.getElementById('detail-stats').innerHTML = `
-    <div class="stat-row"><span class="stat-label">Day Range</span><span class="stat-val">${fmt(h.dayRange[0])} — ${fmt(h.dayRange[1])}</span></div>
+    <div class="stat-row"><span class="stat-label">Live Price</span><span class="stat-val">${fmt(h.price)}</span></div>
     <div class="stat-divider"></div>
-    <div class="stat-row"><span class="stat-label">Avg Cost</span><span class="stat-val">${fmt(h.avgCost)}</span></div>
+    <div class="stat-row"><span class="stat-label">Average Cost</span><span class="stat-val">${fmt(h.avgCost)}</span></div>
     <div class="stat-divider"></div>
-    <div class="stat-row"><span class="stat-label">Shares</span><span class="stat-val">${h.shares.toFixed(h.symbol==='HOOD'?2:0)}</span></div>
+    <div class="stat-row"><span class="stat-label">Cost Basis</span><span class="stat-val">${fmt(h.costBasis)}</span></div>
     <div class="stat-divider"></div>
     <div class="stat-row"><span class="stat-label">Market Value</span><span class="stat-val">${fmt(h.value)}</span></div>
     <div class="stat-divider"></div>
     <div class="stat-row"><span class="stat-label">Total Return</span><span class="stat-val" style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${fmt(gain)} (${gp>=0?'+':''}${gp.toFixed(2)}%)</span></div>`;
-  const p1w = historyChange(filterHistoryByPeriod(fullHistory, '1W')).pct;
-  const p1m = historyChange(filterHistoryByPeriod(fullHistory, '1M')).pct;
-  const p1y = historyChange(filterHistoryByPeriod(fullHistory, '1Y')).pct;
   document.getElementById('detail-perf').innerHTML = `
     <div style="font-size:16px;font-weight:700;margin-bottom:10px">Performance</div>
     <div class="perf-row"><span class="perf-label">1 Week</span><span class="perf-val ${p1w>=0?'up':'down'}">${pct0(p1w)}</span></div>
     <div class="perf-row"><span class="perf-label">1 Month</span><span class="perf-val ${p1m>=0?'up':'down'}">${pct0(p1m)}</span></div>
     <div class="perf-row"><span class="perf-label">1 Year</span><span class="perf-val ${p1y>=0?'up':'down'}">${pct0(p1y)}</span></div>`;
+  document.getElementById('detail-activity').innerHTML = recentTx.length ? recentTx.map(t=>{
+    const isBuy=t.w==='BUY';
+    const amount=isBuy ? -(safeNum(t.c)) : safeNum(t.c);
+    return `<div class="small-row"><div class="small-left"><div class="small-title">${transactionTitle(t)}</div><div class="small-sub">${new Date(t.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} · ${formatShares(t.sh || 0)} shares</div></div><div class="small-right"><div style="color:${isBuy?'var(--red)':'var(--green)'}">${isBuy?'-':'+'}${fmt(Math.abs(amount))}</div><div class="small-sub" style="text-align:right">${t.ot || 'trade'}</div></div></div>`;
+  }).join('') : `<div class="detail-activity-empty">No recent activity for this holding yet.</div>`;
   drawArea('detail-chart', filterHistoryByPeriod(fullHistory, CURRENT_PERIOD), h.color, 180);
   switchTab('stock-detail');
 }
@@ -1046,7 +1085,7 @@ function renderAddStockModal(){
     body.innerHTML=`
       <div><div class="add-title" style="font-size:24px">${ADD_STOCK_STATE.symbol}</div><div class="add-subtitle">${ADD_STOCK_STATE.name}</div></div>
       <div class="field"><label>Shares</label><input id="add-shares" type="number" step="0.00001" min="0" value="${ADD_STOCK_STATE.shares}" oninput="ADD_STOCK_STATE.shares=this.value;updateAddStockStep2PriceField()"></div>
-      <div class="field"><label>Price per share</label><input id="add-price" type="number" step="0.0001" min="0" value="${ADD_STOCK_STATE.price}" oninput="ADD_STOCK_STATE.price=this.value;updateAddStockStep2PriceField()"></div>
+      <div class="field"><label>Price per share</label><input id="add-price" type="number" step="0.0001" min="0" placeholder="Enter price" value="${ADD_STOCK_STATE.price}" oninput="ADD_STOCK_STATE.price=this.value;updateAddStockStep2PriceField()"><div class="quote-pending" id="add-price-pending" style="display:${ADD_STOCK_STATE.price ? 'none' : (isQuoteDetailsLoading(ADD_STOCK_STATE.symbol) ? 'block' : 'none')}">Fetching live price…</div></div>
       <div class="summary-card"><div class="summary-line"><span>Total Cost</span><strong id="add-total-value">${fmt(total || 0)}</strong></div><div class="summary-line"><span>Date</span><strong>${ADD_STOCK_STATE.date}</strong></div></div>
       <div class="field"><label>Date</label><input id="add-date" type="date" value="${ADD_STOCK_STATE.date}" oninput="ADD_STOCK_STATE.date=this.value" onchange="ADD_STOCK_STATE.date=this.value" onclick="this.showPicker && this.showPicker()"></div>
       <div class="field"><label>Note</label><input id="add-note" maxlength="80" placeholder="Optional note" value="${ADD_STOCK_STATE.note}" oninput="ADD_STOCK_STATE.note=this.value"></div>
@@ -1110,7 +1149,7 @@ async function selectLookupResult(idx){
   autofillAddStockStep1Fields();
   preloadQuoteDetails(r.symbol);
 }
-async function proceedAddStockStep1(){
+function proceedAddStockStep1(){
   ADD_STOCK_STATE.symbol=(ADD_STOCK_STATE.symbol || '').trim().toUpperCase();
   ADD_STOCK_STATE.name=(ADD_STOCK_STATE.name || '').trim();
   if(!ADD_STOCK_STATE.symbol || !ADD_STOCK_STATE.name){ alert('Enter a symbol and name.'); return; }
@@ -1118,15 +1157,6 @@ async function proceedAddStockStep1(){
     ADD_STOCK_STATE.color=HOLDING_META[ADD_STOCK_STATE.symbol].color;
     ADD_STOCK_STATE.exchange=HOLDING_META[ADD_STOCK_STATE.symbol].exchange;
     ADD_STOCK_STATE.type=HOLDING_META[ADD_STOCK_STATE.symbol].type;
-  }
-  if(!ADD_STOCK_STATE.price){
-    const details=await preloadQuoteDetails(ADD_STOCK_STATE.symbol);
-    if(details){
-      if(details.price) ADD_STOCK_STATE.price=details.price;
-      ADD_STOCK_STATE.name=ADD_STOCK_STATE.name || details.name;
-      ADD_STOCK_STATE.exchange=ADD_STOCK_STATE.exchange || details.exchange;
-      ADD_STOCK_STATE.type=ADD_STOCK_STATE.type || details.type;
-    }
   }
   ADD_STOCK_STATE.step=2;
   renderAddStockModal();
