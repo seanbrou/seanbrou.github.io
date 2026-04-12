@@ -23,8 +23,9 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .tab-content.active{display:flex;flex-direction:column}
 .page-header{padding:18px 20px 10px}
 .page-label{color:var(--text2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
-.total-value{color:var(--white);font-size:34px;font-weight:700;margin-top:4px}
+.total-value{color:var(--white);font-size:34px;font-weight:700;margin-top:4px;cursor:pointer}
 .return-row{display:flex;align-items:center;gap:6px;margin-top:4px}
+.privacy-mode .money-sensitive{filter:blur(8px);transition:filter .15s ease;user-select:none}
 .return-text{font-size:14px;font-weight:600}
 .return-label{color:#666;font-size:12px}
 .period-bar{display:flex;gap:8px;padding:10px 20px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-shrink:0;align-items:center}
@@ -178,7 +179,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
   <div class="tab-content active" id="tab-dashboard">
     <div class="page-header">
       <div class="page-label">Total Portfolio Value</div>
-      <div class="total-value" id="total-value">--</div>
+      <div class="total-value" id="total-value" onclick="togglePrivacyMode()">--</div>
       <div class="return-row">
         <span class="return-text" id="total-return">--</span>
         <span class="return-label">All time</span>
@@ -387,6 +388,9 @@ let CURRENT_LOOKUP_LOADING=false;
 let LOOKUP_REQUEST_ID=0;
 let CHART_INTERACTION_META={};
 let CHART_SCRUB_STATE={};
+let DONUT_INTERACTION_META={};
+let DONUT_SELECTION={};
+let PRIVACY_MODE=false;
 let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:'#00D4AA',shares:'',price:'',date:formatDayKey(new Date()),note:''};
 let PRICE_REFRESH_TIMER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
@@ -908,19 +912,83 @@ function drawArea(id,data,color,height=180){
   }
 }
 
-function drawDonut(id,data){
+function syncMoneySensitive(){
+  document.querySelectorAll('.money-sensitive').forEach(el=>el.classList.remove('money-sensitive'));
+  document.querySelectorAll('body *').forEach(el=>{
+    if(el.closest('script,style')) return;
+    if(el.children.length) return;
+    if((el.textContent||'').includes('$')) el.classList.add('money-sensitive');
+  });
+  document.body.classList.toggle('privacy-mode', PRIVACY_MODE);
+}
+function togglePrivacyMode(){
+  PRIVACY_MODE=!PRIVACY_MODE;
+  document.body.classList.toggle('privacy-mode', PRIVACY_MODE);
+  syncMoneySensitive();
+}
+function updateDonutCenter(id, totalValue){
+  const selected=DONUT_SELECTION[id];
+  const totalEl=document.getElementById(id==='donut-chart' ? 'donut-total' : 'holdings-donut-total');
+  const labelEl=totalEl?.nextElementSibling;
+  if(!totalEl || !labelEl) return;
+  if(selected){
+    totalEl.textContent=`${selected.label} · ${fmt0(selected.v)}`;
+    labelEl.textContent=`${totalValue ? Math.round(selected.v/totalValue*100) : 0}% of portfolio`;
+  } else {
+    totalEl.textContent=fmt0(totalValue);
+    labelEl.textContent='Total Value';
+  }
+  syncMoneySensitive();
+}
+function attachDonutInteractions(id){
+  const cv=document.getElementById(id); if(!cv || cv.dataset.donutBound==='1') return;
+  cv.dataset.donutBound='1';
+  const selectAt=(clientX, clientY)=>{
+    const meta=DONUT_INTERACTION_META[id];
+    if(!meta) return;
+    const rect=cv.getBoundingClientRect();
+    const x=clientX-rect.left-meta.cx;
+    const y=clientY-rect.top-meta.cy;
+    const r=Math.sqrt(x*x+y*y);
+    if(r<meta.iR || r>meta.oR){ delete DONUT_SELECTION[id]; drawDonut(id, meta.data, meta.totalValue); return; }
+    let ang=Math.atan2(y,x);
+    if(ang<-Math.PI/2) ang+=Math.PI*2;
+    const normalized=ang< -Math.PI/2 ? ang + Math.PI*2 : ang;
+    const found=meta.segments.find(seg=>normalized>=seg.start && normalized<=seg.end);
+    if(!found){ delete DONUT_SELECTION[id]; drawDonut(id, meta.data, meta.totalValue); return; }
+    if(DONUT_SELECTION[id]?.label===found.data.label){ delete DONUT_SELECTION[id]; }
+    else { DONUT_SELECTION[id]=found.data; if(navigator.vibrate) navigator.vibrate(10); }
+    drawDonut(id, meta.data, meta.totalValue);
+  };
+  cv.addEventListener('pointerdown',(evt)=>{ evt.preventDefault(); selectAt(evt.clientX, evt.clientY); }, {passive:false});
+}
+function drawDonut(id,data,totalValueOverride){
   const cv=document.getElementById(id); if(!cv) return;
-  const dpr=window.devicePixelRatio||1, sz=172; cv.width=sz*dpr; cv.height=sz*dpr; const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
-  const cx=sz/2, cy=sz/2, oR=75, iR=55, total=data.reduce((s,d)=>s+d.v,0); let ang=-Math.PI/2;
+  const dpr=window.devicePixelRatio||1, sz=172; cv.width=sz*dpr; cv.height=sz*dpr; const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,sz,sz);
+  const cx=sz/2, cy=sz/2, oR=75, iR=55, total=(totalValueOverride ?? data.reduce((s,d)=>s+d.v,0)); let ang=-Math.PI/2;
+  const segments=[];
   data.forEach(d=>{
-    const sw=(d.v/total)*Math.PI*2;
+    const sw=total ? (d.v/total)*Math.PI*2 : 0;
+    const selected=DONUT_SELECTION[id]?.label===d.label;
+    const mid=ang + sw/2;
+    const dx=selected ? Math.cos(mid)*4 : 0;
+    const dy=selected ? Math.sin(mid)*4 : 0;
+    ctx.save();
+    ctx.translate(dx,dy);
     ctx.beginPath(); ctx.arc(cx,cy,oR,ang,ang+sw); ctx.arc(cx,cy,iR,ang+sw,ang,true); ctx.closePath(); ctx.fillStyle=d.color; ctx.fill();
+    if(selected){ ctx.lineWidth=2; ctx.strokeStyle='rgba(255,255,255,.75)'; ctx.stroke(); }
     ctx.beginPath(); ctx.arc(cx,cy,oR,ang-.01,ang+.01); ctx.arc(cx,cy,iR,ang+.01,ang-.01,true); ctx.closePath(); ctx.fillStyle='#0A0A0A'; ctx.fill();
+    ctx.restore();
+    segments.push({start:ang,end:ang+sw,data:d});
     ang += sw;
   });
+  DONUT_INTERACTION_META[id]={data,totalValue:total,cx,cy,oR,iR,segments};
+  attachDonutInteractions(id);
+  updateDonutCenter(id,total);
 }
 
 function renderTransactions(filter){
+  if(DONUT_SELECTION['donut-chart']){ delete DONUT_SELECTION['donut-chart']; if(DONUT_INTERACTION_META['donut-chart']) drawDonut('donut-chart', DONUT_INTERACTION_META['donut-chart'].data, DONUT_INTERACTION_META['donut-chart'].totalValue); }
   const txs=(filter==='ALL'?TRANSACTIONS:TRANSACTIONS.filter(t=>(filter==='CANCELED'?t.status==='CANCELED':t.w===filter))).slice().sort((a,b)=>new Date(b.d)-new Date(a.d));
   document.getElementById('tx-summary-left').textContent=`${txs.length} transactions`;
   document.getElementById('tx-summary-right').textContent=`Net external cash flow: ${fmt(CURRENT_STATE.netCashFlow)}`;
@@ -952,9 +1020,9 @@ function renderDashboardHoldings(state){
 }
 function renderHoldings(state){
   const donut = state.holdings.map(h=>({label:h.symbol, v:h.value, color:h.color}));
-  drawDonut('holdings-donut', donut);
-  document.getElementById('holdings-donut-total').textContent = fmt0(state.totalValue);
+  drawDonut('holdings-donut', donut, state.totalValue);
   document.getElementById('holdings-list').innerHTML = state.holdings.map(h=>`<div class="card">${holdingRowMarkup(h)}</div>`).join('');
+  syncMoneySensitive();
 }
 
 function renderDashboard(state){
@@ -973,13 +1041,13 @@ function renderDashboard(state){
   drawArea('main-chart', hist, histChange.amount>=0 ? '#00D4AA' : '#FF4D4F', 180);
 
   const donut = state.holdings.map(h=>({label:h.symbol, v:h.value, color:h.color}));
-  drawDonut('donut-chart', donut);
-  document.getElementById('donut-total').textContent = fmt0(state.totalValue);
+  drawDonut('donut-chart', donut, state.totalValue);
   document.getElementById('legend').innerHTML = donut.map(d=>`<div class="legend-item"><div class="legend-dot" style="background:${d.color}"></div><span class="legend-text">${d.label} ${state.totalValue ? Math.round(d.v/state.totalValue*100) : 0}%</span></div>`).join('');
   document.getElementById('cash-balance').textContent = fmt(state.netCashFlow);
   renderDashboardHoldings(state);
   renderHoldings(state);
   document.getElementById('last-updated').textContent = `Updated ${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
+  syncMoneySensitive();
 }
 
 function renderAnalytics(state){
@@ -1018,6 +1086,7 @@ function renderAnalytics(state){
     const gain = h.value-h.costBasis; const gp = h.costBasis ? gain/h.costBasis*100 : 0;
     return `<div class="small-row"><div class="small-left"><div class="small-title">${h.symbol} · ${h.name}</div><div class="small-sub">Cost ${fmt(h.costBasis)} · Avg ${fmt(h.avgCost)} · Live ${fmt(h.price)}</div></div><div class="small-right"><div>${fmt(h.value)}</div><div class="small-sub" style="text-align:right;color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${fmt(gain)} (${gp.toFixed(2)}%)</div></div></div>`;
   }).join('');
+  syncMoneySensitive();
 }
 
 function openStock(symbol){
@@ -1074,6 +1143,7 @@ function openStock(symbol){
   }).join('') : `<div class="detail-activity-empty">No recent activity for this holding yet.</div>`;
   drawArea('detail-chart', filterHistoryByPeriod(fullHistory, CURRENT_PERIOD), h.color, 180);
   switchTab('stock-detail');
+  syncMoneySensitive();
 }
 
 function setTxFilter(f){ CURRENT_FILTER=f; renderTransactions(f); }
@@ -1174,6 +1244,7 @@ function renderAddStockModal(){
       <div class="field"><label>Color</label><div class="color-grid">${COLOR_POOL.map(color=>`<button type="button" class="color-chip ${ADD_STOCK_STATE.color===color?'active':''}" style="background:${color}" onclick="ADD_STOCK_STATE.color='${color}';renderAddStockModal()"></button>`).join('')}</div></div>
       <button class="cta-btn" type="button" onclick="proceedAddStockStep1()">Next</button>`;
     renderLookupResults();
+    syncMoneySensitive();
     return;
   }
   if(ADD_STOCK_STATE.step===2){
@@ -1189,6 +1260,7 @@ function renderAddStockModal(){
       <div class="field"><label>Date</label><input id="add-date" type="date" value="${ADD_STOCK_STATE.date}" oninput="ADD_STOCK_STATE.date=this.value" onchange="ADD_STOCK_STATE.date=this.value" onclick="this.showPicker && this.showPicker()"></div>
       <div class="field"><label>Note</label><input id="add-note" maxlength="80" placeholder="Optional note" value="${ADD_STOCK_STATE.note}" oninput="ADD_STOCK_STATE.note=this.value"></div>
       <button class="cta-btn" type="button" onclick="submitAddStock()">Add Position</button>`;
+    syncMoneySensitive();
     return;
   }
   title.textContent='Position Added';
@@ -1196,6 +1268,7 @@ function renderAddStockModal(){
   back.onclick=closeAddStockModal;
   const total=safeNum(ADD_STOCK_STATE.shares) * safeNum(ADD_STOCK_STATE.price);
   body.innerHTML=`<div class="success-card"><div class="success-check">✓</div><div class="add-title" style="font-size:24px">Position Added</div><div class="add-subtitle">${formatShares(ADD_STOCK_STATE.shares)} shares of ${ADD_STOCK_STATE.symbol} @ ${fmt(ADD_STOCK_STATE.price)}</div><div class="summary-card"><div class="summary-line"><span>Total</span><strong>${fmt(total)}</strong></div><div class="summary-line"><span>Date</span><strong>${ADD_STOCK_STATE.date}</strong></div></div><button class="ghost-btn" type="button" onclick="closeAddStockModal();switchTab('holdings')">View in Holdings</button><div style="height:10px"></div><button class="cta-btn" type="button" onclick="openAddStockModal()">Add Another</button></div>`;
+  syncMoneySensitive();
 }
 let LOOKUP_TIMER=null;
 function handleLookupInput(value){
