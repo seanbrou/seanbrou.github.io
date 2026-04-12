@@ -67,6 +67,8 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .cash-card{display:flex;justify-content:space-between;align-items:center;padding:16px}
 .cash-label{color:var(--text2);font-size:13px}
 .cash-value{color:var(--white);font-size:14px;font-weight:600}
+.cash-toggle-wrap{display:flex;justify-content:flex-end;padding:10px 20px 0}
+.cash-toggle-pill{font-size:12px;min-height:30px;padding:6px 12px}
 .tab-bar{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;align-items:flex-end;background:#000;border-top:1px solid rgba(255,255,255,.18);z-index:50;padding:0}
 .tab-item{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:1px;cursor:pointer;flex:1;max-width:25%;min-height:44px;background:none;border:none;color:#666;padding:8px 4px 0;transition:color .15s}
 .tab-item::before{display:none}
@@ -202,6 +204,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
     </div>
 
     <div class="chart-container"><canvas id="main-chart"></canvas></div>
+    <div class="cash-toggle-wrap"><button class="pill cash-toggle-pill" id="cash-totals-toggle" type="button" onclick="toggleCashInTotals()">Cash in totals: On</button></div>
 
     <div class="section">
       <div class="section-header">
@@ -390,10 +393,12 @@ let CHART_SCRUB_STATE={};
 let DONUT_INTERACTION_META={};
 let DONUT_SELECTION={};
 let PRIVACY_MODE=false;
+let INCLUDE_CASH_IN_TOTALS=(()=>{ try{ return localStorage.getItem('portfolio_includeCashTotals_v1')!=='false'; }catch(e){ return true; } })();
 let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:'#00D4AA',shares:'',price:'',date:formatDayKey(new Date()),note:''};
 let PRICE_REFRESH_TIMER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
 const HISTORY_CACHE_KEY='portfolio_history_cache_v1';
+const CASH_TOTALS_PREF_KEY='portfolio_includeCashTotals_v1';
 const COLOR_POOL=['#00D4AA','#007AFF','#FF9F0A','#BF5AF2','#FF375F','#30D158','#FFD60A','#64D2FF','#AC8E68','#FF6B6B'];
 const TAB_ICONS={
   home:'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M12 3 4 10v11h5v-6h6v6h5V10z"/></svg>',
@@ -483,6 +488,14 @@ function historyChange(hist){
   const amount = last - first;
   return {amount, pct:first ? amount / first * 100 : 0};
 }
+function getCashDeltaForTransaction(t){
+  if(!t || t.status==='CANCELED') return 0;
+  if(t.w==='DEPOSIT') return safeNum(t.c);
+  if(t.w==='WITHDRAW') return t.sync ? 0 : -safeNum(t.c);
+  if(t.w==='BUY') return -safeNum(t.c);
+  if(t.w==='SELL') return safeNum(t.c);
+  return 0;
+}
 function buildPortfolioHistory(prices){
   const txs = [...TRANSACTIONS].sort((a,b)=>new Date(a.d)-new Date(b.d));
   if(!txs.length) return [];
@@ -493,25 +506,28 @@ function buildPortfolioHistory(prices){
   const shares = Object.fromEntries(Object.keys(HOLDING_META).map(sym=>[sym,0]));
   const startTs = startOfUTCDay(new Date(txs[0].d)).getTime();
   const endTs = startOfUTCDay(new Date()).getTime();
-  const out=[];
-  let txIndex=0;
+  const raw=[];
+  let txIndex=0, cash=0, minCash=0;
   for(let ts=startTs; ts<=endTs; ts+=DAY_MS){
     const dayEnd = ts + DAY_MS - 1;
     while(txIndex < txs.length && new Date(txs[txIndex].d).getTime() <= dayEnd){
       const tx = txs[txIndex++];
       if(tx.status==='CANCELED') continue;
+      cash += getCashDeltaForTransaction(tx);
+      minCash = Math.min(minCash, cash);
       if(tx.w==='BUY') shares[tx.s] = safeNum(shares[tx.s]) + safeNum(tx.sh);
       if(tx.w==='SELL') shares[tx.s] = Math.max(0, safeNum(shares[tx.s]) - safeNum(tx.sh));
       if(tx.w==='SPLIT') shares[tx.s] = safeNum(shares[tx.s]) * Math.max(1, safeNum(tx.rt) || 1);
     }
-    let total = 0;
+    let holdingsTotal = 0;
     Object.keys(HOLDING_META).forEach(sym=>{
       if(!shares[sym]) return;
-      total += shares[sym] * interpolateSeriesValue(symbolSeries[sym], ts);
+      holdingsTotal += shares[sym] * interpolateSeriesValue(symbolSeries[sym], ts);
     });
-    if(total > 0) out.push({d:formatDayKey(new Date(ts)), v:Number(total.toFixed(2))});
+    raw.push({d:formatDayKey(new Date(ts)), holdingsTotal, cash});
   }
-  return out;
+  const openingCash=Math.max(0,-minCash);
+  return raw.map(pt=>({d:pt.d, v:Number((pt.holdingsTotal + (INCLUDE_CASH_IN_TOTALS ? pt.cash + openingCash : 0)).toFixed(2))})).filter(pt=>pt.v > 0);
 }
 function deepClone(v){ return JSON.parse(JSON.stringify(v)); }
 function loadUserData(){
@@ -529,6 +545,22 @@ function loadHistoryCache(){
   catch(e){ return {}; }
 }
 function saveHistoryCache(cache){ localStorage.setItem(HISTORY_CACHE_KEY, JSON.stringify(cache)); }
+function syncCashTotalsToggle(){
+  const btn=document.getElementById('cash-totals-toggle');
+  if(!btn) return;
+  btn.textContent = `Cash in totals: ${INCLUDE_CASH_IN_TOTALS ? 'On' : 'Off'}`;
+  btn.classList.toggle('active', INCLUDE_CASH_IN_TOTALS);
+}
+function toggleCashInTotals(){
+  INCLUDE_CASH_IN_TOTALS=!INCLUDE_CASH_IN_TOTALS;
+  try{ localStorage.setItem(CASH_TOTALS_PREF_KEY, String(INCLUDE_CASH_IN_TOTALS)); }catch(e){}
+  if(CURRENT_PRICES){
+    CURRENT_STATE = buildPortfolioState(CURRENT_PRICES);
+    applyStateToUI();
+  }else{
+    syncCashTotalsToggle();
+  }
+}
 function normalizeTransaction(tx){
   return {
     d: tx.d || new Date().toISOString(),
@@ -751,9 +783,11 @@ function startBackgroundPriceRefresh(){
 
 function buildPortfolioState(prices){
   const holdings={};
-  let deposits=0, withdrawals=0, realized=0, closedCostBasis=0;
+  let deposits=0, withdrawals=0, realized=0, closedCostBasis=0, cashBalanceRaw=0, minCashRaw=0;
   for(const t of TRANSACTIONS){
     if(t.status==='CANCELED') continue;
+    cashBalanceRaw += getCashDeltaForTransaction(t);
+    minCashRaw = Math.min(minCashRaw, cashBalanceRaw);
     if(t.w==='DEPOSIT'){ deposits += t.c; continue; }
     if(t.w==='WITHDRAW'){ if(!t.sync) withdrawals += t.c; continue; }
     if(!HOLDING_META[t.s]) continue;
@@ -790,8 +824,11 @@ function buildPortfolioState(prices){
   const unrealized = positions.reduce((s,h)=>s+(h.value-h.costBasis),0);
   const totalReturn = unrealized + realized;
   const totalReturnPct = (invested + closedCostBasis) ? (totalReturn / (invested + closedCostBasis)) * 100 : 0;
+  const openingCash = Math.max(0, -minCashRaw);
+  const cashBalance = cashBalanceRaw + openingCash;
+  const totalValue = holdingsValue + (INCLUDE_CASH_IN_TOTALS ? cashBalance : 0);
   const dailyChange = positions.reduce((s,h)=>s+(h.change * h.shares),0);
-  const dailyChangePct = holdingsValue ? (dailyChange / holdingsValue * 100) : 0;
+  const dailyChangePct = totalValue ? (dailyChange / totalValue * 100) : 0;
   return {
     holdings: positions,
     netCashFlow: deposits - withdrawals,
@@ -801,8 +838,11 @@ function buildPortfolioState(prices){
     invested,
     unrealized,
     closedCostBasis,
-    totalValue: holdingsValue,
+    totalValue,
     holdingsValue,
+    cashBalance,
+    openingCash,
+    includeCashInTotals: INCLUDE_CASH_IN_TOTALS,
     totalReturn,
     totalReturnPct,
     dailyChange,
@@ -1031,7 +1071,7 @@ function renderDashboardHoldings(state){
   document.getElementById('dash-holdings').innerHTML = top.length ? top.map((h,i)=>`${i?'<div style="height:1px;background:var(--border);margin:0 16px"></div>':''}${holdingRowMarkup(h)}`).join('') : `<div class="holding-empty"><div>No holdings yet</div><button class="pill active" onclick="openAddStockModal()">Add Stock</button></div>`;
 }
 function renderHoldings(state){
-  const donut = state.holdings.map(h=>({label:h.symbol, v:h.value, color:h.color}));
+  const donut = [...state.holdings.map(h=>({label:h.symbol, v:h.value, color:h.color})), ...(state.includeCashInTotals && state.cashBalance>0 ? [{label:'CASH', v:state.cashBalance, color:'#8E8E93'}] : [])];
   drawDonut('holdings-donut', donut, state.totalValue);
   document.getElementById('holdings-list').innerHTML = state.holdings.map(h=>`<div class="card">${holdingRowMarkup(h)}</div>`).join('');
   syncMoneySensitive();
@@ -1039,6 +1079,7 @@ function renderHoldings(state){
 
 function renderDashboard(state){
   delete CHART_SCRUB_STATE['main-chart'];
+  syncCashTotalsToggle();
   document.getElementById('total-value').textContent = fmt(state.totalValue);
   document.getElementById('total-return').textContent = `${state.totalReturn>=0?'+':''}${fmt(state.totalReturn)} (${state.totalReturn>=0?'+':''}${state.totalReturnPct.toFixed(2)}%)`;
   document.getElementById('total-return').style.color = state.totalReturn>=0 ? 'var(--green)' : 'var(--red)';
@@ -1052,7 +1093,7 @@ function renderDashboard(state){
   chartChange.style.color = histChange.amount>=0 ? 'var(--green)' : 'var(--red)';
   drawArea('main-chart', hist, histChange.amount>=0 ? '#00D4AA' : '#FF4D4F', 180);
 
-  const donut = state.holdings.map(h=>({label:h.symbol, v:h.value, color:h.color}));
+  const donut = [...state.holdings.map(h=>({label:h.symbol, v:h.value, color:h.color})), ...(state.includeCashInTotals && state.cashBalance>0 ? [{label:'CASH', v:state.cashBalance, color:'#8E8E93'}] : [])];
   drawDonut('donut-chart', donut, state.totalValue);
   document.getElementById('legend').innerHTML = donut.map(d=>`<div class="legend-item"><div class="legend-dot" style="background:${d.color}"></div><span class="legend-text">${d.label} ${state.totalValue ? Math.round(d.v/state.totalValue*100) : 0}%</span></div>`).join('');
   document.getElementById('cash-balance').textContent = fmt(state.netCashFlow);
@@ -1071,7 +1112,7 @@ function renderAnalytics(state){
   const hhi = weights.reduce((s,w)=>s+w*w,0) * 10000;
   const diversification = hhi < 2500 ? 'Well diversified' : hhi < 5000 ? 'Moderately concentrated' : 'Highly concentrated';
   const metrics=[
-    {k:'Current Holdings', v:fmt0(state.totalValue), s:'Live market value of open positions', p:100},
+    {k:state.includeCashInTotals ? 'Portfolio Balance' : 'Current Holdings', v:fmt0(state.totalValue), s:state.includeCashInTotals ? 'Holdings plus inferred cash balance' : 'Live market value of open positions', p:100},
     {k:'Cost Basis', v:fmt0(state.invested), s:'Book cost of current holdings', p:Math.min(100,Math.round(state.invested/Math.max(1,state.totalValue)*100))},
     {k:'Unrealized P/L', v:`${state.unrealized>=0?'+':''}${fmt(state.unrealized)}`, s:`${state.invested ? ((state.unrealized / state.invested) * 100).toFixed(2) : '0.00'}% on open positions`, p:Math.min(100,Math.round(Math.abs(state.unrealized)/Math.max(1,state.invested)*100))},
     {k:'Lifetime P/L', v:`${state.totalReturn>=0?'+':''}${fmt(state.totalReturn)}`, s:`Includes ${fmt(state.realized)} realized and ${fmt(state.unrealized)} unrealized`, p:Math.min(100,Math.round(Math.abs(state.totalReturn)/Math.max(1,state.invested + state.closedCostBasis)*100))},
