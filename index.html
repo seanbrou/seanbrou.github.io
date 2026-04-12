@@ -19,8 +19,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .85s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--text2);font-size:13px;margin-top:16px}
-.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:54px}
-.tab-content.no-bar{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:84px}
 .tab-content.active{display:flex;flex-direction:column}
 .page-header{padding:18px 20px 10px}
 .page-label{color:var(--text2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
@@ -88,6 +87,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .tx-amount{font-size:14px;font-weight:600;text-align:right;white-space:nowrap}
 .detail-header{padding:16px 20px 8px}
 .detail-header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.detail-header-left{display:flex;align-items:flex-start;gap:8px;min-width:0}
 .detail-symbol{color:var(--white);font-size:30px;font-weight:800;line-height:1}
 .detail-name{color:var(--text2);font-size:15px;margin-top:3px;font-weight:500}
 .exchange-badge{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;color:var(--text2);background:var(--card);white-space:nowrap}
@@ -121,29 +121,35 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .last-updated{text-align:center;padding:10px 8px 0;color:var(--text3);font-size:11px}
 .holding-empty{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;color:var(--text2);font-size:13px}
 .fab-add{position:fixed;right:20px;bottom:68px;width:56px;height:56px;border-radius:28px;border:none;background:var(--green);color:#001410;font-size:32px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,212,170,.35);z-index:55;font-weight:500}
-.add-modal{position:absolute;inset:0;background:rgba(0,0,0,.72);z-index:120;display:none;align-items:flex-end}
+.add-modal{position:absolute;left:0;right:0;top:0;bottom:54px;background:rgba(0,0,0,.72);z-index:120;display:none;align-items:flex-end}
 .add-modal.open{display:flex}
-.add-sheet{background:var(--bg);width:100%;height:100%;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .28s ease}
+.add-sheet{background:var(--bg);width:100%;height:100%;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .22s ease-out;will-change:transform}
 .add-modal.open .add-sheet{transform:translateY(0)}
 .add-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border)}
 .add-title{font-size:16px;font-weight:700}.add-subtitle{font-size:12px;color:var(--text2);margin-top:2px}
 .add-body{padding:16px 20px 24px;overflow:auto;display:flex;flex-direction:column;gap:14px}
-.icon-btn{background:none;border:none;color:var(--white);font-size:16px;font-weight:600}
+.icon-btn{background:none;border:none;color:var(--white);font-size:16px;font-weight:600}.back-btn{font-size:24px;font-weight:300;line-height:1;padding:4px 8px}
 .field{display:flex;flex-direction:column;gap:8px}.field label{font-size:12px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
 .field input,.field select{width:100%;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--white);padding:14px 14px;font-size:15px;outline:none}
+.field input:focus,.field select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,212,170,.12)}
 .field input::placeholder{color:var(--text3)}
 .field input.error,.field select.error{border-color:var(--red)}
 .helper{font-size:12px;color:var(--text2)}
 .helper.error{color:var(--red)}
-.lookup-results{display:flex;flex-direction:column;gap:8px}
-.lookup-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid rgba(255,255,255,.03)}
-.lookup-symbol{font-size:15px;font-weight:700}.lookup-name{font-size:12px;color:var(--text2);margin-top:2px}
+.lookup-wrap{position:relative}
+.lookup-results{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:130;display:flex;flex-direction:column;gap:8px;padding:8px;border-radius:16px;background:var(--bg);border:1px solid rgba(255,255,255,.06);box-shadow:0 8px 32px rgba(0,0,0,.55);max-height:280px;overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .12s ease,transform .12s ease}
+.lookup-results.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.lookup-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid rgba(255,255,255,.05);transition:background .1s ease, transform .12s ease;animation:fadeSlideIn .15s ease forwards}
+.lookup-row:hover,.lookup-row.active{background:rgba(0,212,170,.08)}
+.lookup-row:active{background:rgba(255,255,255,.06);transform:scale(.99)}
+.lookup-symbol{font-size:16px;font-weight:700}.lookup-name{font-size:12px;color:var(--text2);margin-top:2px}
 .exchange-pill{padding:5px 8px;border-radius:999px;background:#1C1C1E;color:var(--text2);font-size:11px;font-weight:700}
 .color-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.color-chip{width:100%;aspect-ratio:1;border-radius:50%;border:2px solid transparent}.color-chip.active{border-color:#fff}
 .cta-btn{width:100%;min-height:50px;border:none;border-radius:14px;background:var(--green);color:#04100E;font-size:16px;font-weight:800}.cta-btn:disabled{opacity:.4}
 .ghost-btn{width:100%;min-height:46px;border-radius:14px;border:1px solid rgba(0,212,170,.3);background:transparent;color:var(--green);font-size:15px;font-weight:700}
 .success-card{margin:auto 0;padding:24px 20px;text-align:center}.success-check{width:72px;height:72px;border-radius:36px;background:rgba(0,212,170,.12);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;margin:0 auto 16px}
 .summary-card{background:var(--card);border-radius:18px;padding:16px;text-align:left;margin-top:18px}.summary-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;color:var(--text2);font-size:13px}.summary-line strong{color:var(--white)}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 
 @media(min-width:500px){body{display:flex;align-items:center;justify-content:center;background:#111}#app{max-width:393px;border-radius:40px;border:2px solid #333;margin:20px 0;box-shadow:0 20px 60px rgba(0,0,0,.5)}#app .tab-bar{position:absolute}.loading-overlay{border-radius:40px}}
 </style>
@@ -256,10 +262,10 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
     </div>
   </div>
 
-  <div class="tab-content" id="tab-stock-detail" style="z-index:40">
+  <div class="tab-content" id="tab-stock-detail" style="z-index:60">
     <div class="detail-header">
       <div class="detail-header-top">
-        <div><div class="detail-symbol" id="detail-symbol">--</div><div class="detail-name" id="detail-name">--</div></div>
+        <div class="detail-header-left"><button class="icon-btn back-btn" type="button" aria-label="Back" onclick="switchTab('dashboard')">‹</button><div><div class="detail-symbol" id="detail-symbol">--</div><div class="detail-name" id="detail-name">--</div></div></div>
         <div class="exchange-badge" id="detail-exchange">--</div>
       </div>
     </div>
@@ -280,9 +286,9 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
   <div class="add-modal" id="add-stock-modal" aria-hidden="true">
     <div class="add-sheet">
       <div class="add-header">
-        <button class="icon-btn" type="button" onclick="closeAddStockModal()">Close</button>
+        <button class="icon-btn back-btn" id="add-stock-back" type="button" aria-label="Back" onclick="handleAddStockBack()">‹</button>
         <div style="text-align:center"><div class="add-title" id="add-stock-title">Add a Stock</div><div class="add-subtitle" id="add-stock-subtitle">Step 1 of 3</div></div>
-        <button class="icon-btn" type="button" onclick="closeAddStockModal()">✕</button>
+        <button class="icon-btn" id="add-stock-close" type="button" aria-label="Close" onclick="closeAddStockModal()">✕</button>
       </div>
       <div class="add-body" id="add-stock-body"></div>
     </div>
@@ -350,7 +356,9 @@ let CURRENT_PERIOD='1Y';
 let CURRENT_DETAIL='TSLA';
 let CURRENT_PRICES=FALLBACK;
 let CURRENT_LOOKUP_RESULTS=[];
+let CURRENT_LOOKUP_LOADING=false;
 let ADD_STOCK_STATE={step:1,symbol:'',name:'',exchange:'Nasdaq',type:'STOCK',color:'#00D4AA',shares:'',price:'',date:formatDayKey(new Date()),note:''};
+let PRICE_REFRESH_TIMER=null;
 const USER_DATA_KEY='portfolio_userData_v1';
 const HISTORY_CACHE_KEY='portfolio_history_cache_v1';
 const COLOR_POOL=['#00D4AA','#007AFF','#FF9F0A','#BF5AF2','#FF375F','#30D158','#FFD60A','#64D2FF','#AC8E68','#FF6B6B'];
@@ -516,8 +524,25 @@ function ensureFallbackQuote(sym){
 refreshDataModel();
 
 async function fetchLivePrices(){
+  const symbols=Object.keys(HOLDING_META);
   const out={};
-  await Promise.all(Object.keys(HOLDING_META).map(async sym=>{
+  const quoteBase=`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols.join(',')}`;
+  const quoteUrls=[quoteBase, `https://api.allorigins.win/raw?url=${encodeURIComponent(quoteBase)}`, `https://corsproxy.io/?${encodeURIComponent(quoteBase)}`];
+  for(const url of quoteUrls){
+    try{
+      const resp=await fetch(url,{signal:AbortSignal.timeout(5000)});
+      if(!resp.ok) continue;
+      const data=await resp.json();
+      const results=data?.quoteResponse?.result || [];
+      results.forEach(row=>{
+        const p=safeNum(row.regularMarketPrice || row.postMarketPrice || row.preMarketPrice);
+        const pc=safeNum(row.regularMarketPreviousClose || row.postMarketPreviousClose || row.preMarketPreviousClose);
+        if(row.symbol) out[row.symbol]={p,chg:p-pc,cpct:pc?((p-pc)/pc*100):0,pc};
+      });
+      if(Object.keys(out).length === symbols.length) return out;
+    }catch(e){}
+  }
+  await Promise.all(symbols.map(async sym=>{
     const urls=[
       `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`,
       `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`)}`,
@@ -525,7 +550,7 @@ async function fetchLivePrices(){
     ];
     for(const url of urls){
       try{
-        const resp=await fetch(url,{signal:AbortSignal.timeout(8000)});
+        const resp=await fetch(url,{signal:AbortSignal.timeout(6000)});
         if(!resp.ok) continue;
         const data=await resp.json();
         const meta=data?.chart?.result?.[0]?.meta;
@@ -591,10 +616,35 @@ async function fetchSymbolSearch(query){
   return [];
 }
 async function fetchQuoteDetails(sym){
-  const prices=await fetchLivePrices();
-  const price=prices[sym] || FALLBACK[sym] || {p:0,chg:0,cpct:0,pc:0};
+  const price=CURRENT_PRICES[sym] || (await fetchLivePrices())[sym] || FALLBACK[sym] || {p:0,chg:0,cpct:0,pc:0};
   const found=(await fetchSymbolSearch(sym)).find(x=>x.symbol===sym) || {};
   return {symbol:sym,name:found.name || HOLDING_META[sym]?.name || sym,exchange:found.exchange || HOLDING_META[sym]?.exchange || 'Nasdaq',type:found.type || HOLDING_META[sym]?.type || 'STOCK',price:price.p};
+}
+function applyStateToUI(){
+  if(!CURRENT_STATE) return;
+  renderDashboard(CURRENT_STATE);
+  renderTransactions(CURRENT_FILTER);
+  renderAnalytics(CURRENT_STATE);
+  if(CURRENT_DETAIL){
+    const exists=CURRENT_STATE.holdings.find(x=>x.symbol===CURRENT_DETAIL);
+    if(exists && document.getElementById('tab-stock-detail').classList.contains('active')) openStock(CURRENT_DETAIL);
+  }
+}
+async function refreshLivePricesInBackground(includeHistory=false){
+  try{
+    const latest=await fetchLivePrices();
+    CURRENT_PRICES={...CURRENT_PRICES,...latest};
+    if(includeHistory) await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
+    CURRENT_STATE=buildPortfolioState(CURRENT_PRICES);
+    applyStateToUI();
+  }catch(e){}
+}
+function startBackgroundPriceRefresh(){
+  if(PRICE_REFRESH_TIMER) clearInterval(PRICE_REFRESH_TIMER);
+  PRICE_REFRESH_TIMER=setInterval(()=>{
+    if(document.hidden) return;
+    refreshLivePricesInBackground(false);
+  }, 15000);
 }
 
 function buildPortfolioState(prices){
@@ -853,41 +903,64 @@ function closeAddStockModal(){
   document.getElementById('add-stock-modal').classList.remove('open');
   document.getElementById('add-stock-modal').setAttribute('aria-hidden','true');
 }
+function handleAddStockBack(){
+  if(ADD_STOCK_STATE.step===2){ ADD_STOCK_STATE.step=1; renderAddStockModal(); return; }
+  closeAddStockModal();
+}
+function renderLookupResults(){
+  const box=document.getElementById('lookup-results-list');
+  if(!box) return;
+  if(CURRENT_LOOKUP_LOADING){
+    box.className='lookup-results visible';
+    box.innerHTML='<div class="lookup-row active"><div style="text-align:left"><div class="lookup-symbol">Searching…</div><div class="lookup-name">Looking up symbols</div></div><span class="exchange-pill">…</span></div>';
+    return;
+  }
+  if(!CURRENT_LOOKUP_RESULTS.length){
+    box.className='lookup-results';
+    box.innerHTML='';
+    return;
+  }
+  box.className='lookup-results visible';
+  box.innerHTML=CURRENT_LOOKUP_RESULTS.map((r,i)=>`<button type="button" class="lookup-row ${i===0?'active':''}" style="animation-delay:${i*30}ms" onclick="selectLookupResult(${i})"><div style="text-align:left"><div class="lookup-symbol">${r.symbol}</div><div class="lookup-name">${r.name}</div></div><span class="exchange-pill">${r.exchange || r.type}</span></button>`).join('');
+}
 function renderAddStockModal(){
   const title=document.getElementById('add-stock-title');
   const sub=document.getElementById('add-stock-subtitle');
   const body=document.getElementById('add-stock-body');
+  const back=document.getElementById('add-stock-back');
   if(ADD_STOCK_STATE.step===1){
     title.textContent='Add a Stock';
     sub.textContent='Step 1 of 3 · Symbol';
+    back.onclick=closeAddStockModal;
     body.innerHTML=`
-      <div class="field"><label>Search</label><input id="lookup-query" placeholder="Search symbol or company" value="${ADD_STOCK_STATE.symbol || ''}" oninput="handleLookupInput(this.value)"></div>
-      <div class="lookup-results">${CURRENT_LOOKUP_RESULTS.map((r,i)=>`<button type="button" class="lookup-row" onclick="selectLookupResult(${i})"><div style="text-align:left"><div class="lookup-symbol">${r.symbol}</div><div class="lookup-name">${r.name}</div></div><span class="exchange-pill">${r.exchange || r.type}</span></button>`).join('')}</div>
+      <div class="lookup-wrap"><div class="field"><label>Search</label><input id="lookup-query" placeholder="Search symbol or company" value="${ADD_STOCK_STATE.symbol || ''}" oninput="handleLookupInput(this.value)"></div><div id="lookup-results-list" class="lookup-results"></div></div>
       <div class="field"><label>Symbol</label><input id="add-symbol" maxlength="6" value="${ADD_STOCK_STATE.symbol}" oninput="ADD_STOCK_STATE.symbol=this.value.toUpperCase();this.value=ADD_STOCK_STATE.symbol"></div>
       <div class="field"><label>Name</label><input id="add-name" maxlength="60" value="${ADD_STOCK_STATE.name}" oninput="ADD_STOCK_STATE.name=this.value"></div>
       <div class="field"><label>Exchange</label><input id="add-exchange" maxlength="20" value="${ADD_STOCK_STATE.exchange}" oninput="ADD_STOCK_STATE.exchange=this.value"></div>
       <div class="field"><label>Type</label><select id="add-type" onchange="ADD_STOCK_STATE.type=this.value"><option value="STOCK" ${ADD_STOCK_STATE.type==='STOCK'?'selected':''}>Stock</option><option value="FUND" ${ADD_STOCK_STATE.type==='FUND'?'selected':''}>Fund / ETF</option></select></div>
       <div class="field"><label>Color</label><div class="color-grid">${COLOR_POOL.map(color=>`<button type="button" class="color-chip ${ADD_STOCK_STATE.color===color?'active':''}" style="background:${color}" onclick="ADD_STOCK_STATE.color='${color}';renderAddStockModal()"></button>`).join('')}</div></div>
       <button class="cta-btn" type="button" onclick="proceedAddStockStep1()">Next</button>`;
+    renderLookupResults();
     return;
   }
   if(ADD_STOCK_STATE.step===2){
     title.textContent=`${ADD_STOCK_STATE.symbol || 'New'} Position`;
     sub.textContent='Step 2 of 3 · Transaction';
+    back.onclick=()=>{ ADD_STOCK_STATE.step=1; renderAddStockModal(); };
     const total=safeNum(ADD_STOCK_STATE.shares) * safeNum(ADD_STOCK_STATE.price);
     body.innerHTML=`
       <div><div class="add-title" style="font-size:24px">${ADD_STOCK_STATE.symbol}</div><div class="add-subtitle">${ADD_STOCK_STATE.name}</div></div>
-      <div class="field"><label>Shares</label><input id="add-shares" type="number" step="0.00001" min="0" value="${ADD_STOCK_STATE.shares}" oninput="ADD_STOCK_STATE.shares=this.value;renderAddStockModal()"></div>
-      <div class="field"><label>Price per share</label><input id="add-price" type="number" step="0.0001" min="0" value="${ADD_STOCK_STATE.price}" oninput="ADD_STOCK_STATE.price=this.value;renderAddStockModal()"></div>
+      <div class="field"><label>Shares</label><input id="add-shares" type="number" step="0.00001" min="0" value="${ADD_STOCK_STATE.shares}" oninput="ADD_STOCK_STATE.shares=this.value"></div>
+      <div class="field"><label>Price per share</label><input id="add-price" type="number" step="0.0001" min="0" value="${ADD_STOCK_STATE.price}" oninput="ADD_STOCK_STATE.price=this.value"></div>
       <div class="summary-card"><div class="summary-line"><span>Total Cost</span><strong>${fmt(total || 0)}</strong></div><div class="summary-line"><span>Date</span><strong>${ADD_STOCK_STATE.date}</strong></div></div>
       <div class="field"><label>Date</label><input id="add-date" type="date" value="${ADD_STOCK_STATE.date}" oninput="ADD_STOCK_STATE.date=this.value"></div>
       <div class="field"><label>Note</label><input id="add-note" maxlength="80" placeholder="Optional note" value="${ADD_STOCK_STATE.note}" oninput="ADD_STOCK_STATE.note=this.value"></div>
-      <button class="ghost-btn" type="button" onclick="ADD_STOCK_STATE.step=1;renderAddStockModal()">Back</button>
       <button class="cta-btn" type="button" onclick="submitAddStock()">Add Position</button>`;
     return;
   }
   title.textContent='Position Added';
   sub.textContent='Step 3 of 3 · Done';
+  back.onclick=closeAddStockModal;
   const total=safeNum(ADD_STOCK_STATE.shares) * safeNum(ADD_STOCK_STATE.price);
   body.innerHTML=`<div class="success-card"><div class="success-check">✓</div><div class="add-title" style="font-size:24px">Position Added</div><div class="add-subtitle">${formatShares(ADD_STOCK_STATE.shares)} shares of ${ADD_STOCK_STATE.symbol} @ ${fmt(ADD_STOCK_STATE.price)}</div><div class="summary-card"><div class="summary-line"><span>Total</span><strong>${fmt(total)}</strong></div><div class="summary-line"><span>Date</span><strong>${ADD_STOCK_STATE.date}</strong></div></div><button class="ghost-btn" type="button" onclick="closeAddStockModal();switchTab('holdings')">View in Holdings</button><div style="height:10px"></div><button class="cta-btn" type="button" onclick="openAddStockModal()">Add Another</button></div>`;
 }
@@ -895,13 +968,18 @@ let LOOKUP_TIMER=null;
 function handleLookupInput(value){
   ADD_STOCK_STATE.symbol=value.toUpperCase();
   clearTimeout(LOOKUP_TIMER);
+  CURRENT_LOOKUP_LOADING=!!value.trim();
+  renderLookupResults();
   LOOKUP_TIMER=setTimeout(async()=>{
     CURRENT_LOOKUP_RESULTS=await fetchSymbolSearch(value);
-    renderAddStockModal();
-  }, 250);
+    CURRENT_LOOKUP_LOADING=false;
+    renderLookupResults();
+  }, 180);
 }
 async function selectLookupResult(idx){
   const r=CURRENT_LOOKUP_RESULTS[idx]; if(!r) return;
+  CURRENT_LOOKUP_RESULTS=[];
+  CURRENT_LOOKUP_LOADING=false;
   ADD_STOCK_STATE={...ADD_STOCK_STATE,symbol:r.symbol,name:r.name,exchange:r.exchange || 'Nasdaq',type:r.type || 'STOCK',color:HOLDING_META[r.symbol]?.color || nextHoldingColor()};
   const details=await fetchQuoteDetails(r.symbol);
   if(details.price) ADD_STOCK_STATE.price=details.price;
@@ -940,9 +1018,7 @@ async function submitAddStock(){
   await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
   if(!STOCK_HISTORY[symbol]?.length) STOCK_HISTORY[symbol]=[{d:ADD_STOCK_STATE.date,v:price}];
   CURRENT_STATE=buildPortfolioState(CURRENT_PRICES);
-  renderDashboard(CURRENT_STATE);
-  renderTransactions(CURRENT_FILTER);
-  renderAnalytics(CURRENT_STATE);
+  applyStateToUI();
   ADD_STOCK_STATE.step=3;
   renderAddStockModal();
 }
@@ -955,11 +1031,8 @@ function renderTabIcons(){
 function switchTab(name){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   const el=document.getElementById('tab-'+name); if(el) el.classList.add('active');
-  const tabs=['dashboard','holdings','transactions','analytics'];
-  const hasTabBar = tabs.includes(name);
-  document.getElementById('tab-bar').style.display = hasTabBar ? 'flex' : 'none';
-  document.getElementById('add-stock-fab').style.display = hasTabBar ? 'flex' : 'none';
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.toggle('no-bar', !hasTabBar && t.classList.contains('active')));
+  document.getElementById('tab-bar').style.display = 'flex';
+  document.getElementById('add-stock-fab').style.display = (name==='dashboard' || name==='holdings') ? 'flex' : 'none';
   document.querySelectorAll('.tab-label').forEach(l=>l.classList.remove('active'));
   document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
   const active=document.querySelector(`.tab-label[data-name="${name}"]`);
@@ -975,30 +1048,19 @@ async function init(){
   refreshDataModel();
   try{
     CURRENT_PRICES = await fetchLivePrices();
-    await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
     CURRENT_STATE = buildPortfolioState(CURRENT_PRICES);
   }catch(e){
     CURRENT_PRICES = FALLBACK;
     CURRENT_STATE = buildPortfolioState(FALLBACK);
   }
-  renderDashboard(CURRENT_STATE);
-  renderTransactions('ALL');
-  renderAnalytics(CURRENT_STATE);
+  applyStateToUI();
   document.getElementById('loader').style.display='none';
+  refreshLivePricesInBackground(true);
+  startBackgroundPriceRefresh();
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) refreshLivePricesInBackground(false); }, {passive:true});
 }
 
 init();
-setInterval(async()=>{
-  try{
-    refreshDataModel();
-    CURRENT_PRICES = await fetchLivePrices();
-    await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
-    CURRENT_STATE = buildPortfolioState(CURRENT_PRICES);
-    renderDashboard(CURRENT_STATE);
-    renderTransactions(CURRENT_FILTER);
-    renderAnalytics(CURRENT_STATE);
-  }catch(e){}
-}, 60000);
 </script>
 </body>
 </html>
