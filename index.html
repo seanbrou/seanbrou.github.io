@@ -19,7 +19,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .85s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--text2);font-size:13px;margin-top:16px}
-.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:calc(44px + max(0px, calc(env(safe-area-inset-bottom) - 18px)))}
+.tab-content{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-top:max(6px, env(safe-area-inset-top));padding-bottom:54px}
 .tab-content.no-bar{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 .tab-content.active{display:flex;flex-direction:column}
 .page-header{padding:18px 20px 10px}
@@ -66,7 +66,7 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 .cash-card{display:flex;justify-content:space-between;align-items:center;padding:16px}
 .cash-label{color:var(--text2);font-size:13px}
 .cash-value{color:var(--white);font-size:14px;font-weight:600}
-.tab-bar{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;align-items:flex-end;background:#000;border-top:1px solid rgba(255,255,255,.18);z-index:50;padding:0 0 max(10px, calc(env(safe-area-inset-bottom) - 8px))}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;align-items:flex-end;background:#000;border-top:1px solid rgba(255,255,255,.18);z-index:50;padding:0 0 10px}
 .tab-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;flex:1;max-width:25%;min-height:44px;background:none;border:none;color:#666;padding:2px 4px 0;transition:color .15s}
 .tab-item::before{display:none}
 .tab-item.active{color:var(--white)}
