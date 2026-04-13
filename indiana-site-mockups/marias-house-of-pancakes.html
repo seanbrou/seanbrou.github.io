@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maria's House of Pancakes — North Webster, IN</title>
+<meta name="description" content="Warm, made-from-scratch pancakes, hearty breakfast classics, and fresh-brewed coffee in the heart of North Webster. Open daily for breakfast and lunch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#E8A838;
+  --gold-light:#F5C76A;
+  --cream:#FFF9EE;
+  --cream-dark:#F5EBDA;
+  --brown:#3E2118;
+  --brown-light:#5C3A28;
+  --brown-mid:#7A5240;
+  --warm-white:#FFFCF5;
+  --green:#5A8E4A;
+  --green-dark:#3E6B32;
+  --shadow-sm:0 2px 8px rgba(62,33,24,0.08);
+  --shadow-md:0 4px 20px rgba(62,33,24,0.12);
+  --shadow-lg:0 8px 40px rgba(62,33,24,0.18);
+  --radius:12px;
+  --radius-lg:20px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--brown);background:var(--warm-white);line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif;line-height:1.15}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all .4s ease;padding:0}
+.nav.scrolled{background:rgba(255,252,245,0.97);backdrop-filter:blur(12px);box-shadow:0 2px 24px rgba(62,33,24,0.1)}
+.nav-inner{max-width:1240px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:var(--brown);transition:color .3s}
+.nav-logo.not-scrolled{color:#fff}
+.nav-logo-icon{width:36px;height:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-size:14px;font-weight:500;letter-spacing:.3px;position:relative;padding:4px 0;transition:color .3s}
+.nav-links.not-scrolled a{color:rgba(255,255,255,.9)}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .3s}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--gold);color:var(--brown)!important;font-weight:600;padding:10px 22px;border-radius:999px;font-size:14px;transition:background .3s,transform .2s;box-shadow:var(--shadow-sm)}
+.nav-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+.nav-cta::after{display:none!important}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer}
+.hamburger span{width:24px;height:2.5px;background:var(--brown);border-radius:2px;transition:all .3s}
+.hamburger.not-scrolled span{background:#fff}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:#3a2518 url('https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;z-index:0}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(62,33,24,0.7) 0%,rgba(62,33,24,0.35) 50%,rgba(232,168,56,0.2) 100%)}
+.hero-content{position:relative;z-index:1;max-width:1240px;margin:auto;padding:0 24px;width:100%}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);padding:8px 18px;border-radius:999px;color:#fff;font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px}
+.hero-tag span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{color:#fff;font-size:clamp(42px,7.5vw,84px);font-weight:800;max-width:700px;margin-bottom:20px;letter-spacing:-1px}
+.hero h1 em{font-style:normal;color:var(--gold-light);position:relative}
+.hero-sub{color:rgba(255,255,255,0.88);font-size:clamp(16px,2vw,20px);max-width:520px;line-height:1.7;font-weight:300;margin-bottom:36px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-hero{display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border-radius:999px;font-weight:600;font-size:15px;letter-spacing:.3px;transition:all .3s}
+.btn-hero-primary{background:var(--gold);color:var(--brown);box-shadow:0 8px 32px rgba(232,168,56,0.35)}
+.btn-hero-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(232,168,56,0.45)}
+.btn-hero-secondary{background:rgba(255,255,255,0.12);color:#fff;border:1.5px solid rgba(255,255,255,0.3);backdrop-filter:blur(4px)}
+.btn-hero-secondary:hover{background:rgba(255,255,255,0.22);transform:translateY(-1px)}
+.hero-badges{display:flex;align-items:center;gap:24px;margin-top:40px;flex-wrap:wrap}
+.hero-badge{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.85);font-size:14px;font-weight:400}
+.hero-badge svg{width:18px;height:18px;fill:var(--gold-light)}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:1;color:#fff;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.7;font-size:12px;letter-spacing:1px;text-transform:uppercase;animation:bounce 2.5s infinite;cursor:pointer}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* SECTION GENERAL */
+.section{padding:80px 24px}
+.section-wide{max-width:1240px;margin:auto}
+.section-narrow{max-width:960px;margin:auto}
+.section-header{text-align:center;margin-bottom:56px}
+.section-header .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.section-header .tag::before,.section-header .tag::after{content:'';width:28px;height:1.5px;background:var(--gold);border-radius:1px}
+.section-header h2{font-size:clamp(32px,4.5vw,52px);font-weight:700;color:var(--brown);margin-bottom:14px;letter-spacing:-.5px}
+.section-header p{font-size:17px;color:var(--brown-mid);max-width:560px;margin:auto;line-height:1.7}
+
+/* MENU HIGHLIGHTS */
+.menu-section{background:var(--cream)}
+.menu-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:40px;flex-wrap:wrap}
+.menu-tab{padding:10px 24px;border-radius:999px;font-size:14px;font-weight:500;color:var(--brown-mid);background:transparent;border:1.5px solid transparent;transition:all .3s;cursor:pointer}
+.menu-tab:hover{background:rgba(232,168,56,0.1);border-color:rgba(232,168,56,0.2)}
+.menu-tab.active{background:var(--gold);color:var(--brown);border-color:var(--gold);font-weight:600}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.menu-card{background:#fff;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:all .35s ease;position:relative}
+.menu-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.menu-card-img{height:200px;overflow:hidden;position:relative}
+.menu-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.menu-card:hover .menu-card-img img{transform:scale(1.06)}
+.menu-card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--brown);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+.menu-card-body{padding:22px}
+.menu-card-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:6px;color:var(--brown)}
+.menu-card-desc{font-size:14px;color:var(--brown-mid);line-height:1.6;margin-bottom:14px}
+.menu-card-footer{display:flex;justify-content:space-between;align-items:center}
+.menu-card-price{font-size:20px;font-weight:700;color:var(--gold)}
+.menu-card-tag{font-size:12px;color:var(--brown-mid);padding:4px 10px;border-radius:999px;background:var(--cream)}
+
+/* SPECIALS */
+.specials-section{background:var(--brown);position:relative;overflow:hidden}
+.specials-section::before{content:'';position:absolute;top:-50%;right:-20%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(232,168,56,0.12),transparent 70%);pointer-events:none}
+.specials-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.specials-text .tag{color:var(--gold-light)}
+.specials-text h2{color:#fff;font-size:clamp(32px,4.5vw,52px);margin-bottom:16px}
+.specials-text p{color:rgba(255,255,255,.78);font-size:17px;line-height:1.7;margin-bottom:28px}
+.specials-list{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.specials-list li{display:flex;align-items:flex-start;gap:12px;color:rgba(255,255,255,.9);font-size:15px;line-height:1.5}
+.specials-list li svg{width:22px;height:22px;fill:var(--gold-light);flex-shrink:0;margin-top:2px}
+.specials-img{border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.35)}
+.specials-img img{width:100%;height:420px;object-fit:cover}
+
+/* STORY */
+.story-section{background:var(--warm-white)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.story-img{position:relative}
+.story-img-main{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg)}
+.story-img-main img{width:100%;height:480px;object-fit:cover}
+.story-img-accent{position:absolute;bottom:-30px;right:-30px;width:200px;height:200px;border-radius:var(--radius);overflow:hidden;border:6px solid var(--warm-white);box-shadow:var(--shadow-md)}
+.story-img-accent img{width:100%;height:100%;object-fit:cover}
+.story-text .tag{color:var(--gold)}
+.story-text h2{margin-bottom:18px}
+.story-text p{color:var(--brown-mid);margin-bottom:18px;line-height:1.7;font-size:16px}
+.story-signature{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);margin-top:20px}
+
+/* GALLERY */
+.gallery-section{background:var(--cream)}
+.gallery-masonry{columns:3;column-gap:16px}
+.gallery-item{break-inside:avoid;margin-bottom:16px;border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;transition:transform .3s}
+.gallery-item:hover{transform:scale(1.02)}
+.gallery-item img{width:100%;display:block;transition:transform .5s}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-item-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(62,33,24,0.5),transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:20px}
+.gallery-item:hover .gallery-item-overlay{opacity:1}
+.gallery-item-overlay span{color:#fff;font-weight:600;font-size:14px}
+
+/* HOURS & CONTACT */
+.contact-section{background:var(--brown);color:#fff}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px}
+.contact-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-lg);padding:36px;text-align:center;transition:all .3s}
+.contact-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);transform:translateY(-3px)}
+.contact-icon{width:56px;height:56px;margin:0 auto 18px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.contact-icon svg{width:24px;height:24px;fill:var(--brown)}
+.contact-card h3{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:12px;color:#fff}
+.contact-card p{color:rgba(255,255,255,.75);font-size:15px;line-height:1.7}
+.contact-card a{color:var(--gold-light);font-weight:500;transition:color .2s}
+.contact-card a:hover{color:var(--gold)}
+
+/* HOURS TABLE */
+.hours-table{margin-top:16px;width:100%;border-collapse:collapse}
+.hours-table td{padding:6px 0;font-size:15px;color:rgba(255,255,255,.8)}
+.hours-table td:last-child{text-align:right;color:#fff;font-weight:500}
+
+/* CTA BANNER */
+.cta-banner{background:linear-gradient(135deg,var(--gold),var(--gold-light));padding:72px 24px;text-align:center;position:relative;overflow:hidden}
+.cta-banner::before{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.15);pointer-events:none}
+.cta-banner::after{content:'';position:absolute;bottom:-80px;left:-80px;width:250px;height:250px;border-radius:50%;background:rgba(255,255,255,0.1);pointer-events:none}
+.cta-banner h2{font-size:clamp(30px,5vw,48px);color:var(--brown);margin-bottom:14px;position:relative}
+.cta-banner p{font-size:18px;color:var(--brown-light);max-width:480px;margin:0 auto 28px;position:relative}
+.btn-dark{display:inline-flex;align-items:center;gap:8px;background:var(--brown);color:#fff!important;padding:16px 36px;border-radius:999px;font-weight:600;font-size:15px;transition:all .3s;box-shadow:0 8px 32px rgba(62,33,24,0.3)}
+.btn-dark:hover{background:var(--brown-light);transform:translateY(-2px)}
+
+/* FOOTER */
+.footer{background:var(--brown);border-top:1px solid rgba(255,255,255,0.08);padding:48px 24px 32px;color:rgba(255,255,255,.7)}
+.footer-inner{max-width:1240px;margin:auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.footer-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff}
+.footer-brand span{color:var(--gold-light)}
+.footer-links{display:flex;gap:24px;font-size:14px;flex-wrap:wrap}
+.footer-links a{transition:color .2s}
+.footer-links a:hover{color:var(--gold-light)}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;transition:all .3s}
+.footer-social a:hover{background:var(--gold);border-color:var(--gold)}
+.footer-social a:hover svg{fill:var(--brown)}
+.footer-social svg{width:18px;height:18px;fill:rgba(255,255,255,0.7)}
+.footer-bottom{text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08);font-size:13px;color:rgba(255,255,255,.45);max-width:1240px;margin-left:auto;margin-right:auto}
+
+/* MOBILE NAV */
+.mobile-menu{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(62,33,24,0.97);backdrop-filter:blur(12px);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;opacity:0;pointer-events:none;transition:opacity .3s}
+.mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-menu a{color:#fff;font-size:24px;font-family:'Playfair Display',serif;font-weight:600}
+.mobile-menu .btn-hero{font-size:18px;font-family:'Inter',sans-serif}
+.mobile-close{position:absolute;top:20px;right:24px;color:#fff;font-size:32px;cursor:pointer}
+
+/* ANIMATIONS */
+.fade-up{opacity:1;transition:opacity .7s ease}
+.fade-up.visible{opacity:1}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .specials-grid,.story-grid{grid-template-columns:1fr}
+  .specials-img{order:-1}
+  .story-img-accent{display:none}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero h1{font-size:clamp(36px,9vw,52px)}
+  .hero-badges{display:none}
+  .hero-scroll{display:none}
+  .section{padding:56px 20px}
+  .menu-grid{grid-template-columns:1fr}
+  .gallery-masonry{columns:2}
+  .footer-inner{flex-direction:column;text-align:center}
+  .specials-img img{height:280px}
+  .story-img-main img{height:340px}
+}
+@media(max-width:480px){
+  .gallery-masonry{columns:1}
+  .contact-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:360px){
+  .hero h1{font-size:clamp(28px,8vw,42px)}
+  .hero-sub{font-size:14px}
+  .btn-hero{padding:14px 24px;font-size:14px}
+  .nav-inner{padding:12px 16px}
+  .section{padding:40px 16px}
+  .contact-card{padding:24px}
+  .footer-bottom{font-size:12px}
+}
+</style>
+<style>
+.hero-bg, .menu-card-img, .specials-img, .story-img, .story-img-main, .story-img-accent, .gallery-item::after{content:'🥞';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:1}[data-img-fallback]::after{opacity:.25}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo not-scrolled" id="navLogo">
+      <div class="nav-logo-icon">🥞</div>
+      Maria's House of Pancakes
+    </a>
+    <ul class="nav-links not-scrolled" id="navLinks">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#specials">Specials</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta">Visit Us</a></li>
+    </ul>
+    <div class="hamburger not-scrolled" id="hamburger" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-close" onclick="toggleMobile()">&times;</div>
+  <a href="#menu" onclick="toggleMobile()">Menu</a>
+  <a href="#specials" onclick="toggleMobile()">Specials</a>
+  <a href="#story" onclick="toggleMobile()">Our Story</a>
+  <a href="#gallery" onclick="toggleMobile()">Gallery</a>
+  <a href="#contact" onclick="toggleMobile()">Contact</a>
+  <a href="#contact" class="btn-hero btn-hero-primary" onclick="toggleMobile()">Visit Us</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><span></span> Open Daily — Serving Breakfast & Lunch</div>
+    <h1>Stacks of <em>Happiness</em>, Made with Love</h1>
+    <p class="hero-sub">Fluffy pancakes, golden waffles, sizzling skillets, and fresh-brewed coffee — the way breakfast should be. Pull up a chair and make yourself at home.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn-hero btn-hero-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        View Our Menu
+      </a>
+      <a href="#contact" class="btn-hero btn-hero-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Get Directions
+      </a>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+        Family Favorite in North Webster
+      </div>
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
+        Fresh Ingredients Daily
+      </div>
+    </div>
+  </div>
+  <a href="#menu" class="hero-scroll">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5"/><path d="M7 6l5 5 5-5"/></svg>
+    Scroll
+  </a>
+</section>
+
+<!-- MENU HIGHLIGHTS -->
+<section class="section menu-section" id="menu">
+  <div class="section-wide">
+    <div class="section-header fade-up">
+      <div class="tag">🍽 Our Menu</div>
+      <h2>Breakfast Favorites</h2>
+      <p>From towering stacks of pancakes to hearty skillets — every plate is made fresh and served with a smile.</p>
+    </div>
+    <div class="menu-tabs fade-up">
+      <button class="menu-tab active" onclick="filterMenu('all')">All</button>
+      <button class="menu-tab" onclick="filterMenu('pancakes')">Pancakes</button>
+      <button class="menu-tab" onclick="filterMenu('classics')">Classics</button>
+      <button class="menu-tab" onclick="filterMenu('lunch')">Lunch</button>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+
+      <div class="menu-card fade-up" data-cat="pancakes">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80" alt="Buttermilk Pancakes" loading="lazy">
+          <div class="menu-card-badge">★ Most Popular</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Buttermilk Pancake Stack</div>
+          <div class="menu-card-desc">Fluffy, golden, made-from-scratch buttermilk pancakes. Served with whipped butter and warm maple syrup.</div>
+          <div class="menu-card-footer">
+            <span class="menu-card-price">$8.99</span>
+            <span class="menu-card-tag">Pancakes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up" data-cat="pancakes">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80" alt="Blueberry Pancakes" loading="lazy">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Blueberry Pancakes</div>
+          <div class="menu-card-desc">Plump wild blueberries folded into our signature batter, topped with fresh blueberry compote and powdered sugar.</div>
+          <div class="menu-card-footer">
+            <span class="menu-card-price">$10.49</span>
+            <span class="menu-card-tag">Pancakes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up" data-cat="classics">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" alt="Classic Eggs Benedict" loading="lazy">
+          <div class="menu-card-badge">Chef's Pick</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Eggs Benedict</div>
+          <div class="menu-card-desc">Poached eggs on toasted English muffins with Canadian bacon, draped in creamy hollandaise. Served with home fries.</div>
+          <div class="menu-card-footer">
+            <span class="menu-card-price">$12.99</span>
+            <span class="menu-card-tag">Classics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up" data-cat="classics">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80" alt="Country Skillet" loading="lazy">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Country Skillet</div>
+          <div class="menu-card-desc">Crispy home fries layered with sausage, peppers, onions, and cheddar — topped with two eggs any style.</div>
+          <div class="menu-card-footer">
+            <span class="menu-card-price">$11.49</span>
+            <span class="menu-card-tag">Classics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up" data-cat="pancakes">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Chocolate Chip Pancakes" loading="lazy">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Chocolate Chip Pancakes</div>
+          <div class="menu-card-desc">A kid's dream come true — rich chocolate chips melted into every fluffy bite. Drizzled with chocolate syrup.</div>
+          <div class="menu-card-footer">
+            <span class="menu-card-price">$9.99</span>
+            <span class="menu-card-tag">Pancakes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up" data-cat="lunch">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=1920&q=80" alt="BLT Sandwich" loading="lazy">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Classic BLT</div>
+          <div class="menu-card-desc">Thick-cut hickory bacon, vine-ripened tomatoes, and crisp lettuce on toasted sourdough with herb mayo.</div>
+          <div class="menu-card-footer">
+            <span class="menu-card-price">$9.49</span>
+            <span class="menu-card-tag">Lunch</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<section class="section specials-section" id="specials">
+  <div class="section-wide">
+    <div class="specials-grid">
+      <div class="specials-text fade-up">
+        <div class="tag">🌟 Weekly Specials</div>
+        <h2>Something Special Every Day</h2>
+        <p>We believe weekends should start early and end full. Check out what's cooking this week at Maria's.</p>
+        <ul class="specials-list">
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <strong>Saturday &amp; Sunday</strong> — All-You-Can-Eat Pancakes for $9.99
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <strong>Wednesday</strong> — Senior Special: 10% off your entire order
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <strong>Kids Eat Free</strong> — Every Tuesday after 4 PM with adult entrée purchase
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <strong>Coffee Club</strong> — Refills just $1.50 all day, every day
+          </li>
+        </ul>
+        <a href="#contact" class="btn-hero btn-hero-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Call to Reserve
+        </a>
+      </div>
+      <div class="specials-img fade-up">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Pancake breakfast spread" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section story-section" id="story">
+  <div class="section-wide">
+    <div class="story-grid">
+      <div class="story-img fade-up">
+        <div class="story-img-main">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80" alt="Inside Maria's House of Pancakes" loading="lazy">
+        </div>
+        <div class="story-img-accent">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=600&q=80" alt="Fresh coffee" loading="lazy">
+        </div>
+      </div>
+      <div class="story-text fade-up">
+        <div class="tag">💛 Our Story</div>
+        <h2>A Home at the Table</h2>
+        <p>Maria's House of Pancakes has been serving the North Webster community for years, welcoming locals and lake visitors alike with the kind of breakfast that makes you want to linger a little longer over your coffee.</p>
+        <p>Every pancake is flipped by hand, every egg cracked fresh, and every cup of coffee poured with care. We're not just a restaurant — we're the place where families celebrate birthdays,.friends catch up on weekends, and everybody knows your name.</p>
+        <p>Our kitchen uses real butter, real maple syrup, and recipes that have been passed down through generations. When you walk through our doors, you're family.</p>
+        <div class="story-signature">— Maria &amp; The Family</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section gallery-section" id="gallery">
+  <div class="section-wide">
+    <div class="section-header fade-up">
+      <div class="tag">📷 The Vibe</div>
+      <h2>See What's Cooking</h2>
+      <p>Warm plates, cozy booths, and that golden pancake glow — this is what breakfast dreams are made of.</p>
+    </div>
+    <div class="gallery-masonry fade-up">
+      <div class="gallery-item">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80" alt="Fluffy pancakes" loading="lazy">
+        <div class="gallery-item-overlay"><span>Pancake Stacks</span></div>
+      </div>
+      <div class="gallery-item">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=600&q=80" alt="Fresh coffee" loading="lazy">
+        <div class="gallery-item-overlay"><span>Fresh Coffee</span></div>
+      </div>
+      <div class="gallery-item">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80" alt="Hearty breakfast" loading="lazy">
+        <div class="gallery-item-overlay"><span>Hearty Plates</span></div>
+      </div>
+      <div class="gallery-item">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" alt="Eggs benedict" loading="lazy">
+        <div class="gallery-item-overlay"><span>Eggs Benedict</span></div>
+      </div>
+      <div class="gallery-item">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" alt="Breakfast spread" loading="lazy">
+        <div class="gallery-item-overlay"><span>The Full Spread</span></div>
+      </div>
+      <div class="gallery-item">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80" alt="Cozy dining" loading="lazy">
+        <div class="gallery-item-overlay"><span>Cozy Dining</span></div>
+

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fry's A&W | Greensburg, IN — Root Beer, Burgers & Family Fun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@400;700&family=Patua+One&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#D4612A;
+  --gold:#F5A623;
+  --white:#FFFFFF;
+  --dark:#2C2C2C;
+  --navy:#1B3E6B;
+  --cream:#FFF8EE;
+  --warm-bg:#FDF6EC;
+  --shadow-soft:0 4px 20px rgba(44,44,44,.12);
+  --shadow-card:0 8px 30px rgba(44,44,44,.10);
+  --radius:12px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Lato',sans-serif;color:var(--dark);background:var(--cream);overflow-x:hidden;line-height:1.6}
+
+/* ========== NEON NAV ========== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .3s,box-shadow .3s}
+.nav--top{background:transparent}
+.nav--scrolled{background:rgba(27,62,107,.97);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.nav__inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
+.nav__logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav__logo-icon{width:44px;height:44px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Patua One',serif;color:#fff;font-size:18px;font-weight:700;box-shadow:0 0 12px rgba(212,97,42,.5)}
+.nav__logo-text{font-family:'Playfair Display',serif;color:#fff;font-size:22px;font-weight:900;letter-spacing:.5px;text-shadow:0 0 20px rgba(245,166,35,.6),0 0 40px rgba(245,166,35,.3)}
+.nav__links{display:flex;gap:28px;list-style:none}
+.nav__links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;transition:color .2s,text-shadow .2s;position:relative}
+.nav__links a:hover,.nav__links a:focus{color:var(--gold);text-shadow:0 0 10px rgba(245,166,35,.5)}
+.nav__links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s;box-shadow:0 0 6px var(--gold)}
+.nav__links a:hover::after{width:100%}
+.nav__cta{background:var(--orange);color:#fff;padding:10px 22px;border-radius:30px;text-decoration:none;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:1px;transition:transform .2s,box-shadow .2s;box-shadow:0 0 15px rgba(212,97,42,.4)}
+.nav__cta:hover{transform:scale(1.05);box-shadow:0 0 25px rgba(212,97,42,.6)}
+.nav__mobile-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.nav__mobile-btn span{display:block;width:26px;height:3px;background:#fff;margin:5px 0;border-radius:2px;transition:transform .3s,opacity .3s}
+
+/* ========== HERO ========== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(165deg,#1B3E6B 0%,#0F2440 40%,#1a1a2e 100%)}
+.hero__overlay{position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");z-index:1}
+.hero__glow{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(120px);opacity:.25;z-index:0}
+.hero__glow--orange{background:var(--orange);top:-100px;left:-150px}
+.hero__glow--gold{background:var(--gold);bottom:-200px;right:-100px}
+.hero__content{position:relative;z-index:2;text-align:center;padding:120px 24px 80px;max-width:800px}
+.hero__badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.4);border-radius:30px;padding:8px 20px;margin-bottom:28px;backdrop-filter:blur(6px)}
+.hero__badge-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+.hero__badge span{color:var(--gold);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px}
+.hero__title{font-family:'Playfair Display',serif;font-size:clamp(42px,7vw,78px);font-weight:900;color:#fff;line-height:1.05;margin-bottom:20px}
+.hero__title em{font-style:normal;color:var(--gold);text-shadow:0 0 40px rgba(245,166,35,.4)}
+.hero__subtitle{font-size:clamp(16px,2.2vw,20px);color:rgba(255,255,255,.8);max-width:560px;margin:0 auto 40px;line-height:1.7}
+.hero__actions{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:1px;transition:transform .25s,box-shadow .25s}
+.btn--primary{background:var(--orange);color:#fff;box-shadow:0 4px 20px rgba(212,97,42,.35)}
+.btn--primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,97,42,.5)}
+.btn--outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.35)}
+.btn--outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.hero__scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,.5);font-size:12px;text-transform:uppercase;letter-spacing:2px;display:flex;flex-direction:column;align-items:center;gap:6px;animation:bob 2.5s infinite}
+.hero__scroll-hint svg{width:20px;height:20px;stroke:rgba(255,255,255,.5);stroke-width:2;fill:none}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* ========== SECTION SHARED ========== */
+.section{padding:90px 24px}
+.section__header{text-align:center;margin-bottom:56px}
+.section__tag{display:inline-block;color:var(--orange);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:10px}
+.section__title{font-family:'Playfair Display',serif;font-size:clamp(30px,4.5vw,48px);font-weight:900;line-height:1.15;color:var(--dark)}
+.section__title--light{color:#fff}
+.section__desc{color:#666;font-size:17px;max-width:560px;margin:14px auto 0;line-height:1.7}
+
+/* ========== MENU HIGHLIGHTS ========== */
+.menu{background:var(--warm-bg)}
+.menu__grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px}
+.menu__card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-card);transition:transform .3s,box-shadow .3s;position:relative}
+.menu__card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(44,44,44,.15)}
+.menu__card-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden}
+.menu__card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.04))}
+.menu__card-badge{position:absolute;top:14px;right:14px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;border-radius:20px;box-shadow:0 2px 8px rgba(212,97,42,.3)}
+.menu__card-body{padding:22px 24px 28px}
+.menu__card-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:6px}
+.menu__card-desc{color:#777;font-size:14px;line-height:1.6;margin-bottom:14px}
+.menu__card-footer{display:flex;justify-content:space-between;align-items:center}
+.menu__card-price{font-family:'Patua One',serif;font-size:22px;color:var(--orange)}
+.menu__card-combo{font-size:12px;color:var(--navy);font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:rgba(27,62,107,.08);padding:4px 10px;border-radius:12px}
+
+/* ========== COMBOS ========== */
+.combos{background:linear-gradient(135deg,#1B3E6B 0%,#0F2440 100%);color:#fff;position:relative;overflow:hidden}
+.combos::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M20 0L40 20 20 40 0 20z'/%3E%3C/g%3E%3C/svg%3E");z-index:0}
+.combos__inner{position:relative;z-index:1;max-width:1100px;margin:0 auto}
+.combos__list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
+.combos__item{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:36px 32px;backdrop-filter:blur(8px);transition:transform .3s,border-color .3s}
+.combos__item:hover{transform:translateY(-4px);border-color:var(--gold)}
+.combos__item-num{font-family:'Patua One',serif;font-size:56px;color:rgba(245,166,35,.15);line-height:1;position:absolute;top:18px;right:24px}
+.combos__item-icon{font-size:40px;margin-bottom:14px}
+.combos__item-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:6px;color:#fff}
+.combos__item-includes{color:rgba(255,255,255,.7);font-size:14px;margin-bottom:16px;line-height:1.6}
+.combos__item-price{font-family:'Patua One',serif;font-size:26px;color:var(--gold)}
+.combos__item-price span{font-size:14px;font-family:'Lato',sans-serif;color:rgba(255,255,255,.5);font-weight:400;text-decoration:line-through;margin-left:8px}
+
+/* ========== HISTORY / NOSTALGIA ========== */
+.history{background:#fff;overflow:hidden}
+.history__inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.history__visual{position:relative}
+.history__visual-frame{background:linear-gradient(145deg,var(--orange),var(--gold));border-radius:var(--radius);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:120px;position:relative;overflow:hidden;box-shadow:var(--shadow-card)}
+.history__visual-frame::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='40' cy='40' r='5'/%3E%3C/g%3E%3C/svg%3E")}
+.history__visual-accent{position:absolute;width:120px;height:120px;border-radius:50%;border:4px solid var(--gold);opacity:.3;top:-30px;right:-30px}
+.history__text .section__tag{text-align:left}
+.history__text .section__title{text-align:left}
+.history__text p{color:#555;font-size:16px;line-height:1.8;margin-bottom:20px}
+.history__stats{display:flex;gap:36px;margin-top:30px}
+.history__stat{text-align:left}
+.history__stat-num{font-family:'Patua One',serif;font-size:36px;color:var(--orange);line-height:1}
+.history__stat-label{font-size:13px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* ========== FAMILY NIGHT PROMO ========== */
+.promo{background:linear-gradient(135deg,var(--orange) 0%,#B84E1F 100%);color:#fff;position:relative;overflow:hidden}
+.promo::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:rgba(245,166,35,.2);top:-200px;right:-150px}
+.promo::after{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-100px;left:-100px}
+.promo__inner{position:relative;z-index:1;max-width:1000px;margin:0 auto;text-align:center}
+.promo__eyebrow{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:6px 18px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px}
+.promo__title{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.1;margin-bottom:16px}
+.promo__desc{font-size:18px;max-width:600px;margin:0 auto 36px;opacity:.9;line-height:1.7}
+.promo__features{display:flex;flex-wrap:wrap;justify-content:center;gap:24px;margin-bottom:40px}
+.promo__feature{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:24px 28px;text-align:center;min-width:180px;backdrop-filter:blur(4px)}
+.promo__feature-icon{font-size:32px;margin-bottom:8px}
+.promo__feature-text{font-weight:700;font-size:15px}
+
+/* ========== CONTACT / MAP ========== */
+.contact{background:var(--warm-bg)}
+.contact__inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.contact__map{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-card);aspect-ratio:4/3;background:var(--navy);display:flex;align-items:center;justify-content:center;position:relative}
+.contact__map iframe{width:100%;height:100%;border:0;filter:grayscale(30%)}
+.contact__map-overlay{position:absolute;inset:0;background:rgba(27,62,107,.03);pointer-events:none}
+.contact__info{}
+.contact__info-group{margin-bottom:32px}
+.contact__info-group h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:14px;color:var(--dark)}
+.contact__info-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.contact__info-icon{width:40px;height:40px;border-radius:10px;background:rgba(212,97,42,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.contact__info-label{font-size:13px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.contact__info-value{font-size:16px;font-weight:700;color:var(--dark)}
+.contact__info-value a{color:var(--orange);text-decoration:none}
+.contact__hours-table{width:100%;border-collapse:collapse}
+.contact__hours-table td{padding:8px 0;font-size:15px;border-bottom:1px solid rgba(0,0,0,.06)}
+.contact__hours-table td:last-child{text-align:right;font-weight:700;color:var(--dark)}
+.contact__social{display:flex;gap:14px;margin-top:24px}
+.contact__social a{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:var(--navy);color:#fff;text-decoration:none;font-size:20px;transition:background .2s,transform .2s}
+.contact__social a:hover{background:var(--orange);transform:scale(1.1)}
+
+/* ========== FOOTER ========== */
+.footer{background:var(--dark);color:rgba(255,255,255,.7);padding:48px 24px 28px}
+.footer__inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px}
+.footer__logo{display:flex;align-items:center;gap:10px}
+.footer__logo-icon{width:36px;height:36px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Patua One',serif;color:#fff;font-size:15px;font-weight:700}
+.footer__logo-text{font-family:'Playfair Display',serif;color:#fff;font-size:18px;font-weight:900}
+.footer__copy{font-size:13px}
+.footer__links{display:flex;gap:20px}
+.footer__links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:13px;transition:color .2s}
+.footer__links a:hover{color:var(--gold)}
+
+/* ========== MOBILE NAV ========== */
+.mobile-menu{position:fixed;inset:0;z-index:999;background:rgba(15,36,64,.98);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transform:translateX(100%);transition:transform .35s ease}
+.mobile-menu.active{transform:translateX(0)}
+.mobile-menu a{color:#fff;font-size:20px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:2px}
+.mobile-menu__close{position:absolute;top:20px;right:24px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer}
+
+/* ========== ANIMATIONS ========== */
+html.no-js .reveal{opacity:1;transform:none;transition:none}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:900px){
+  .history__inner,.contact__inner{grid-template-columns:1fr;gap:40px}
+  .history__visual{order:-1}
+  .nav__links,.nav__cta{display:none}
+  .nav__mobile-btn{display:block}
+  .hero__glow{width:300px;height:300px}
+  .nav__inner{padding-left:16px;padding-right:16px}
+}
+@media(max-width:600px){
+  .hero__title{font-size:36px}
+  .section{padding:60px 20px}
+  .menu__grid{grid-template-columns:1fr}
+  .combos__list{grid-template-columns:1fr}
+  .promo__features{flex-direction:column;align-items:center}
+  .history__stats{flex-direction:column;gap:20px}
+  .footer__inner{flex-direction:column;text-align:center}
+  .btn{padding:14px 28px;font-size:14px}
+  .hero__glow{width:200px;height:200px}
+  .promo__feature{min-width:auto}
+  .contact__info-row{gap:10px}
+}
+
+/* ========== Gold divider ========== */
+.divider{height:4px;background:linear-gradient(90deg,var(--orange),var(--gold),var(--orange));border:none;margin:0;opacity:.4}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav nav--top" id="nav">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo">
+      <div class="nav__logo-icon">A&W</div>
+      <div class="nav__logo-text">Fry's A&W</div>
+    </a>
+    <ul class="nav__links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#combos">Combos</a></li>
+      <li><a href="#history">Our Story</a></li>
+      <li><a href="#promos">Family Night</a></li>
+      <li><a href="#contact">Find Us</a></li>
+    </ul>
+    <a href="#menu" class="nav__cta">View Menu</a>
+    <button class="nav__mobile-btn" id="mobileBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu__close" id="mobileClose">&times;</button>
+  <a href="#menu">Menu</a>
+  <a href="#combos">Combos</a>
+  <a href="#history">Our Story</a>
+  <a href="#promos">Family Night</a>
+  <a href="#contact">Find Us</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero__overlay"></div>
+  <div class="hero__glow hero__glow--orange"></div>
+  <div class="hero__glow hero__glow--gold"></div>
+  <div class="hero__content">
+    <div class="hero__badge"><div class="hero__badge-dot"></div><span>Greensburg's Favorite Since Day One</span></div>
+    <h1 class="hero__title">Pull Up, Dig In,<br>Make <em>Memories</em></h1>
+    <p class="hero__subtitle">Frosty mugs of root beer, Golden Arrow burgers, fresh cheese curds, and the kind of family fun only a true drive-in can serve.</p>
+    <div class="hero__actions">
+      <a href="#menu" class="btn btn--primary">&#127828; Explore the Menu</a>
+      <a href="#promos" class="btn btn--outline">&#128276; Family Night Deals</a>
+    </div>
+  </div>
+  <div class="hero__scroll-hint">
+    Scroll
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MENU HIGHLIGHTS -->
+<section class="section menu" id="menu">
+  <div class="section__header reveal">
+    <div class="section__tag">&#127828; What We're Serving</div>
+    <h2 class="section__title">Menu Highlights</h2>
+    <p class="section__desc">From our famous frosty mugs of root beer to hand-battered tenderloins — every bite is made to order, just the way you remember.</p>
+  </div>
+  <div class="menu__grid">
+    <div class="menu__card reveal">
+      <div class="menu__card-img" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
+        <span>&#127828;</span>
+      </div>
+      <div class="menu__card-body">
+        <h3 class="menu__card-name">Golden Arrow Burger</h3>
+        <p class="menu__card-desc">Our signature quarter-pound burger with melted cheese, lettuce, tomato, and Fry's special sauce on a toasted bun.</p>
+        <div class="menu__card-footer">
+          <span class="menu__card-price">$5.99</span>
+          <span class="menu__card-combo">Combo +$3.50</span>
+        </div>
+      </div>
+    </div>
+    <div class="menu__card reveal">
+      <div class="menu__card-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">
+        <span class="menu__card-badge">Favorite</span>
+        &#127862;
+      </div>
+      <div class="menu__card-body">
+        <h3 class="menu__card-name">Frosty Mug Root Beer</h3>
+        <p class="menu__card-desc">The classic A&W root beer served ice-cold in a genuine frosted mug — the way it's been done since 1919.</p>
+        <div class="menu__card-footer">
+          <span class="menu__card-price">$2.49</span>
+          <span class="menu__card-combo">Free w/ Combo</span>
+        </div>
+      </div>
+    </div>
+    <div class="menu__card reveal">
+      <div class="menu__card-img" style="background:linear-gradient(135deg,#FFFDE7,#FFF9C4)">
+        &#129472;
+      </div>
+      <div class="menu__card-body">
+        <h3 class="menu__card-name">Hand-Battered Tenderloin</h3>
+        <p class="menu__card-desc">Indiana's breaded pork tenderloin, pounded thin, hand-battered, and fried golden. Served with pickles and onion.</p>
+        <div class="menu__card-footer">
+          <span class="menu__card-price">$6.49</span>
+          <span class="menu__card-combo">Combo +$3.50</span>
+        </div>
+      </div>
+    </div>
+    <div class="menu__card reveal">
+      <div class="menu__card-img" style="background:linear-gradient(135deg,#FFF8E1,#FFECB3)">
+        &#129472;
+      </div>
+      <div class="menu__card-body">
+        <h3 class="menu__card-name">Fresh Cheese Curds</h3>
+        <p class="menu__card-desc">Squeaky-fresh Wisconsin-style cheese curds, lightly battered and fried until golden perfection.</p>
+        <div class="menu__card-footer">
+          <span class="menu__card-price">$4.99</span>
+          <span class="menu__card-combo">Add to Combo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- COMBOS -->
+<section class="section combos" id="combos">
+  <div class="combos__inner">
+    <div class="section__header reveal">
+      <div class="section__tag" style="color:var(--gold)">&#127878; Best Value</div>
+      <h2 class="section__title section__title--light">Combo Meals</h2>
+      <p class="section__desc" style="color:rgba(255,255,255,.65)">The best way to do Fry's A&W — pick a combo and save. Every combo includes a frosty mug of root beer.</p>
+    </div>
+    <div class="combos__list">
+      <div class="combos__item reveal" style="position:relative">
+        <div class="combos__item-num">1</div>
+        <div class="combos__item-icon">&#127828;</div>
+        <h3 class="combos__item-name">Arrow Combo</h3>
+        <p class="combos__item-includes">Golden Arrow Burger &bull; Crinkle-Cut Fries &bull; Frosty Mug Root Beer</p>
+        <div class="combos__item-price">$9.49 <span>$11.98</span></div>
+      </div>
+      <div class="combos__item reveal" style="position:relative">
+        <div class="combos__item-num">2</div>
+        <div class="combos__item-icon">&#129472;</div>
+        <h3 class="combos__item-name">Tenderloin Combo</h3>
+        <p class="combos__item-includes">Hand-Battered Tenderloin &bull; Crinkle-Cut Fries &bull; Frosty Mug Root Beer</p>
+        <div class="combos__item-price">$9.99 <span>$12.48</span></div>
+      </div>
+      <div class="combos__item reveal" style="position:relative">
+        <div class="combos__item-num">3</div>
+        <div class="combos__item-icon">&#127844;</div>
+        <h3 class="combos__item-name">Curds &amp; Burger</h3>
+        <p class="combos__item-includes">Golden Arrow Burger &bull; Fresh Cheese Curds &bull; Frosty Mug Root Beer</p>
+        <div class="combos__item-price">$10.49 <span>$13.47</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY / NOSTALGIA -->
+<section class="section history" id="history">
+  <div class="history__inner">
+    <div class="history__visual reveal">
+      <div class="history__visual-frame">&#127862;
+        <div class="history__visual-accent"></div>
+      </div>
+    </div>
+    <div class="history__text reveal">
+      <div class="section__tag">&#9733; Root Beer Heritage</div>
+      <h2 class="section__title">A Greensburg Tradition<br>Worth Pulling Over For</h2>
+      <p>Since the day the Fry family fired up the grill and poured the first frosty mug, this little drive-in on North Lincoln Street has been more than a restaurant — it's been a gathering place. A first-date spot. A summer night ritual. The place where kids who once sat in the backseat now bring kids of their own.</p>
+      <p>That unmistakable A&W root beer flavor hasn't changed, and neither has the feeling: roll down the window, place your order, and watch the world slow down for a minute.</p>
+      <div class="history__stats">
+        <div class="history__stat">
+          <div class="history__stat-num">100+</div>
+          <div class="history__stat-label">Years of A&W Heritage</div>
+        </div>
+        <div class="history__stat">
+          <div class="history__stat-num">&#8734;</div>
+          <div class="history__stat-label">Frosty Mugs Served</div>
+        </div>
+        <div class="history__stat">
+          <div class="history__stat-num">1</div>
+          <div class="history__stat-label">Greensburg, Indiana</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FAMILY NIGHT PROMO -->
+<section class="section promo" id="promos">
+  <div class="promo__inner">
+    <div class="promo__eyebrow reveal">&#127881; Weekly Special</div>
+    <h2 class="promo__title reveal">Family Fun Night</h2>
+    <p class="promo__desc reveal">Every Thursday evening, bring the whole crew! Kids eat special pricing, games on the patio, and memories that last longer than the drive home.</p>
+    <div class="promo__features reveal">
+      <div class="promo__feature">
+        <div class="promo__feature-icon">&#128075;</div>
+        <div class="promo__feature-text">Kids' Meals $3.99</div>
+      </div>
+      <div class="promo__feature">
+        <div class="promo__feature-icon">&#127928;</div>
+        <div class="promo__feature-text">Live Music on the Patio</div>
+      </div>
+      <div class="promo__feature">
+        <div class="promo__feature-icon">&#127873;</div>
+        <div class="promo__feature-text">Prize Drawings at 7 PM</div>
+      </div>
+      <div class="promo__feature">
+        <div class="promo__feature-icon">&#127862;</div>
+        <div class="promo__feature-text">Free Root Beer Refills</div>
+      </div>
+    </div>
+    <a href="#contact" class="btn btn--primary reveal" style="background:#fff;color:var(--orange);box-shadow:0 4px 20px rgba(255,255,255,.3)">Join Us Thursday Nights</a>
+  </div>
+</section>
+
+<!-- CONTACT / MAP -->
+<section class="section contact" id="contact">
+  <div class="section__header reveal">
+    <div class="section__tag">&#128205; Come On Over</div>
+    <h2 class="section__title">Find Us in Greensburg</h2>
+  </div>
+  <div class="contact__inner">
+    <div class="contact__map reveal">
+      <div style="background:#1a1a1a;border-radius:var(--radius);padding:32px 24px;color:#fff;text-align:left;min-height:280px;display:flex;flex-direction:column;justify-content:center;gap:14px;width:100%">
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#e8a838;font-weight:600">&#128205; Come On Over</div>
+        <div style="font-size:22px;font-weight:700">Find Us in Greensburg</div>
+        <div style="font-size:15px;line-height:1.6">1501 N. Lincoln St<br>Greensburg, IN 47240</div>
+        <div style="font-size:15px"><a href="tel:+18126632772" style="color:#e8a838;text-decoration:none">(812) 663-2772</a></div>
+        <a href="https://maps.google.com/maps?q=1501+N+Lincoln+St+Greensburg+IN+47240" target="_blank" rel="noopener" style="display:inline-block;background:#e8a838;color:#1a1a1a;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;box-shadow:0 4px 14px rgba(232,168,56,.3)">Open in Google Maps &rarr;</a>
+      </div>
+    </div>
+    <div class="contact__info reveal">
+      <div class="contact__info-group">
+        <h3>Stop By Anytime</h3>
+        <div class="contact__info-row">
+          <div class="contact__info-icon">&#128205;</div>
+          <div>
+            <div class="contact__info-label">Address</div>
+            <div class="contact__info-value">1501 N. Lincoln St.<br>Greensburg, IN 47240</div>
+          </div>
+        </div>
+        <div class="contact__info-row">
+          <div class="contact__info-icon">&#128222;</div>
+          <div>
+            <div class="contact__info-label">Phone</div>
+            <div class="contact__info-value"><a href="tel:+18126632772">(812) 663-2772</a></div>
+          </div>
+        </div>
+        <div class="contact__info-row">
+          <div class="contact__info-icon">&#9993;</div>
+          <div>
+            <div class="contact__info-label">Email</div>
+            <div class="contact__info-value"><a href="mailto:awgreensburg@gmail.com">awgreensburg@gmail.com</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact__info-group">
+        <h3>Hours</h3>
+        <table class="contact__hours-table">
+          <tr><td>Monday &ndash; Thursday</td><td>10:30 AM &ndash; 9:00 PM</td></tr>
+          <tr><td>Friday &ndash; Saturday</td><td>10:30 AM &ndash; 10:00 PM</td></tr>
+          <tr><td>Sunday</td><td>11:00 AM &ndash; 9:00 PM</td></tr>
+        </table>
+      </div>
+      <div class="contact__info-group">
+        <h3>Follow Us</h3>
+        <div class="contact__social">
+          <a href="https://www.facebook.com/p/Frys-AW-Greensburg-100063519071950/" target="_blank" rel="noopener" aria-label="Facebook" style="font-size:14px;font-weight:700">f</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__logo">
+      <div class="footer__logo-icon">A&W</div>
+      <div class="footer__logo-text">Fry's A&W</div>
+    </div>
+    <div class="footer__copy">&copy; 2026 Fry's A&W, Greensburg, IN. All rights reserved.</div>
+    <div class="footer__links">
+      <a href="#menu">Menu</a>
+      <a href="#history">Our Story</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// --- Navbar scroll effect ---
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('nav--scrolled', window.scrollY > 60);
+  nav.classList.toggle('nav--top', window.scrollY <= 60);
+});
+
+// --- Mobile menu ---
+const mobileBtn = document.getElementById('mobileBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+mobileBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+mobileClose.addEventListener('click', () => mobileMenu.classList.remove('active'));
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => mobileMenu.classList.remove('active'));
+});
+
+// --- Scroll reveal ---
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+reveals.forEach(el => revealObserver.observe(el));
+
+// Failsafe: reveal all after 3 seconds
+setTimeout(function(){ document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){ el.classList.add('visible'); }); }, 3000);
+
+// --- Smooth scroll for anchor links ---
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      const offsetTop = target.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important;transition:none!important}</style></noscript>
+</body>
+</html>

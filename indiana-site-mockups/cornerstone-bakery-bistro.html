@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cornerstone Bakery Bistro Coffee — Greensburg, IN</title>
+<meta name="description" content="Fresh-baked pastries, craft coffee, and bistro lunches in downtown Greensburg, Indiana. Visit us at 1202 North Lincoln Street.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --espresso:#2A1F14;
+  --gold:#C9944A;
+  --cream:#EDE2D0;
+  --sage:#6B7F5B;
+  --walnut:#8B6F47;
+  --warm:#F7F0E6;
+  --dark:#1A1410;
+  --text:#3D3024;
+  --text-light:#7A6E60;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Lato',sans-serif;background:var(--warm);color:var(--text);line-height:1.7;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif;line-height:1.15}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* ─── NAV ─── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s,box-shadow .4s}
+.nav.scrolled{background:rgba(42,31,20,.96);box-shadow:0 2px 24px rgba(0,0,0,.18)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:18px 32px}
+.nav-brand{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:.3px}
+.nav-brand span{color:var(--gold)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.85);font-size:13px;text-transform:uppercase;letter-spacing:1.6px;font-weight:700;transition:color .25s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+.nav-cta{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;background:var(--gold);color:var(--espresso);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;border-radius:999px;transition:background .25s,transform .2s}
+.nav-cta:hover{background:#d9a55a;transform:translateY(-1px)}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.burger span{width:24px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(42,31,20,.98);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:#fff;font-family:'Playfair Display',serif;font-size:26px}
+.mobile-close{position:absolute;top:24px;right:24px;color:#fff;font-size:32px;cursor:pointer;background:none;border:none;font-family:sans-serif}
+
+/* ─── HERO ─── */
+.hero{position:relative;min-height:100vh;background:var(--espresso);display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:#2c1810 url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,20,16,.82) 0%,rgba(42,31,20,.65) 50%,rgba(42,31,20,.45) 100%)}
+.hero-content{position:relative;z-index:2;max-width:680px;padding:140px 40px 100px 8vw}
+.hero-eyebrow{display:inline-block;padding:8px 20px;border:1px solid rgba(201,148,74,.5);border-radius:999px;color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:24px}
+.hero h1{font-size:clamp(42px,6.5vw,80px);color:#fff;font-weight:700;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:rgba(255,255,255,.8);max-width:520px;margin-bottom:36px;font-weight:300;line-height:1.7}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:16px 34px;background:var(--gold);color:var(--espresso);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;border-radius:999px;transition:all .3s;border:none;cursor:pointer}
+.btn-gold:hover{background:#d9a55a;transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,148,74,.35)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:16px 34px;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;border-radius:999px;transition:all .3s;cursor:pointer}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:12px;text-transform:uppercase;letter-spacing:2px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero-scroll .arrow{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:scrollPulse 2s infinite}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ─── SECTION COMMON ─── */
+.section{padding:100px 32px}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-label{font-size:11px;text-transform:uppercase;letter-spacing:3px;font-weight:700;color:var(--gold);margin-bottom:12px}
+.section-title{font-size:clamp(30px,4vw,48px);color:var(--espresso);margin-bottom:20px}
+.section-title em{font-style:italic;color:var(--walnut)}
+.section-desc{font-size:17px;color:var(--text-light);max-width:600px;line-height:1.75;margin-bottom:48px}
+
+/* ─── PASTRY ─── */
+.pastry{background:var(--warm)}
+.pastry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.pastry-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(42,31,20,.06);transition:transform .35s,box-shadow .35s}
+.pastry-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(42,31,20,.12)}
+.pastry-card img{height:220px;width:100%;object-fit:cover}
+.pastry-card-body{padding:24px}
+.pastry-card h3{font-size:22px;margin-bottom:8px;color:var(--espresso)}
+.pastry-card p{font-size:15px;color:var(--text-light);line-height:1.65;margin-bottom:16px}
+.pastry-tag{display:inline-block;padding:4px 12px;background:var(--cream);border-radius:999px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--walnut);font-weight:700}
+
+/* ─── COFFEE ─── */
+.coffee{background:var(--espresso);color:#fff}
+.coffee .section-label{color:var(--gold)}
+.coffee .section-title{color:#fff}
+.coffee .section-desc{color:rgba(255,255,255,.7)}
+.coffee-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.coffee-visual{position:relative}
+.coffee-visual img{width:100%;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.coffee-badge{position:absolute;bottom:-16px;right:-16px;width:120px;height:120px;background:var(--gold);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--espresso);font-family:'Playfair Display',serif;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.coffee-badge strong{font-size:28px;line-height:1}
+.coffee-badge span{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;font-family:'Lato',sans-serif;font-weight:700}
+.coffee-details{display:flex;flex-direction:column;gap:28px}
+.coffee-item{display:flex;gap:18px;align-items:flex-start}
+.coffee-icon{flex-shrink:0;width:48px;height:48px;background:rgba(201,148,74,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.coffee-item h4{font-size:19px;margin-bottom:4px;color:#fff}
+.coffee-item p{font-size:15px;color:rgba(255,255,255,.65);line-height:1.65}
+
+/* ─── BISTRO ─── */
+.bistro{background:#fff}
+.bistro-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.bistro-menu{display:flex;flex-direction:column;gap:20px}
+.bistro-cat{margin-bottom:8px}
+.bistro-cat-label{font-size:12px;text-transform:uppercase;letter-spacing:2.5px;color:var(--gold);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.bistro-cat-label::after{content:'';flex:1;height:1px;background:var(--cream)}
+.bistro-item{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px dashed rgba(0,0,0,.08)}
+.bistro-item-name{font-family:'Playfair Display',serif;font-size:17px}
+.bistro-item-price{font-weight:700;color:var(--gold);font-size:15px}
+.bistro-image{position:relative}
+.bistro-image img{width:100%;border-radius:20px;box-shadow:0 16px 48px rgba(42,31,20,.1)}
+.bistro-image-accent{position:absolute;top:-20px;left:-20px;width:100px;height:100px;border:3px solid var(--gold);border-radius:50%;opacity:.25}
+
+/* ─── STORY ─── */
+.story{background:var(--cream)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.story-image{position:relative}
+.story-image img{width:100%;border-radius:20px;box-shadow:0 16px 48px rgba(42,31,20,.12)}
+.story-text{max-width:520px}
+.story-text .section-title{color:var(--espresso)}
+.story-text p{font-size:16px;color:var(--text-light);line-height:1.8;margin-bottom:20px}
+.story-quote{border-left:3px solid var(--gold);padding:20px 28px;margin:32px 0;font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:var(--espresso);line-height:1.5}
+
+/* ─── GALLERY ─── */
+.gallery{background:var(--warm)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gallery-item{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:1;cursor:pointer}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.gallery-item:hover img{transform:scale(1.08)}
+.gallery-item::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(42,31,20,.4),transparent);opacity:0;transition:opacity .3s}
+.gallery-item:hover::after{opacity:1}
+
+/* ─── CONTACT ─── */
+.contact{background:var(--espresso);color:#fff}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.contact-map{border-radius:20px;overflow:hidden;height:100%;min-height:360px;background:var(--dark)}
+.contact-map iframe{width:100%;height:100%;border:0;min-height:360px}
+.contact-info{display:flex;flex-direction:column;justify-content:center;gap:32px}
+.contact-block h4{font-family:'Playfair Display',serif;font-size:16px;margin-bottom:6px;color:var(--gold)}
+.contact-block p,.contact-block a{font-size:16px;color:rgba(255,255,255,.8);line-height:1.7}
+.contact-block a:hover{color:var(--gold)}
+.contact-socials{display:flex;gap:16px;margin-top:8px}
+.contact-social{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;transition:all .3s;color:rgba(255,255,255,.7);font-size:18px}
+.contact-social:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,148,74,.1)}
+.contact-cta{display:inline-flex;align-items:center;gap:8px;padding:16px 34px;background:var(--gold);color:var(--espresso);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;border-radius:999px;transition:all .3s;border:none;cursor:pointer;margin-top:8px}
+.contact-cta:hover{background:#d9a55a;transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,148,74,.35)}
+
+/* ─── FOOTER ─── */
+.footer{background:var(--dark);color:rgba(255,255,255,.5);padding:40px 32px;text-align:center;font-size:14px}
+.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:16px;flex-wrap:wrap;font-size:13px}
+.footer-links a{color:rgba(255,255,255,.6);transition:color .25s}
+.footer-links a:hover{color:var(--gold)}
+
+/* ─── LIGHTBOX ─── */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:300;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:85vh;border-radius:8px;object-fit:contain}
+.lightbox-close{position:absolute;top:24px;right:32px;color:#fff;font-size:36px;cursor:pointer;background:none;border:none;opacity:.7;transition:opacity .2s}
+.lightbox-close:hover{opacity:1}
+
+/* ─── ANIMATIONS ─── */
+html.no-js .fade-up{opacity:1;transform:none;transition:none}
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .pastry-grid{grid-template-columns:repeat(2,1fr)}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:flex}
+  .hero h1{font-size:clamp(34px,8vw,54px)}
+  .hero-content{padding:120px 24px 80px 24px}
+  .pastry-grid{grid-template-columns:1fr}
+  .coffee-grid,.bistro-grid,.story-grid,.contact-grid{grid-template-columns:1fr;gap:40px}
+  .section{padding:72px 24px}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+  .coffee-visual{order:-1}
+  .bistro-image{order:-1}
+  .story-image{order:-1}
+  .contact-map{min-height:280px}
+}
+</style>
+<style>
+.hero-bg, .bistro-image, .bistro-image-accent, .story-image, .gallery-item::after{content:'🥐';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:1}[data-img-fallback]::after{opacity:.25}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">Cornerstone <span>Bakery</span></a>
+    <ul class="nav-links">
+      <li><a href="#pastries">Pastries</a></li>
+      <li><a href="#coffee">Coffee</a></li>
+      <li><a href="#bistro">Bistro</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#contact">Visit Us</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Order Now</a>
+    <div class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">&times;</button>
+  <a href="#pastries" class="mobile-link">Pastries</a>
+  <a href="#coffee" class="mobile-link">Coffee</a>
+  <a href="#bistro" class="mobile-link">Bistro</a>
+  <a href="#story" class="mobile-link">Our Story</a>
+  <a href="#contact" class="mobile-link">Visit Us</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Greensburg's Beloved Bakery</div>
+    <h1>Where Every Corner Feels <em>Like Home</em></h1>
+    <p class="hero-sub">Fresh-baked pastries, intentional coffee, and bistro lunches — crafted with care in the heart of Greensburg, Indiana.</p>
+    <div class="hero-btns">
+      <a href="#bistro" class="btn-gold">View Menu</a>
+      <a href="#contact" class="btn-outline">Find Us</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    Scroll
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- PASTRIES -->
+<section class="section pastry" id="pastries">
+  <div class="section-inner">
+    <div class="section-label fade-up">Fresh from the Oven</div>
+    <h2 class="section-title fade-up">Artisan Breads &amp; Pastries</h2>
+    <p class="section-desc fade-up">Every morning before the sun rises over Greensburg, our bakers are already at work — shaping, proofing, and baking the handcrafted pastries and breads you love.</p>
+    <div class="pastry-grid">
+      <div class="pastry-card fade-up">
+        img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80" alt="Artisan bread loaves">
+        <div class="pastry-card-body">
+          <h3>Artisan Breads</h3>
+          <p>Sourdough, French baguettes, whole wheat, and seasonal specialty loaves — baked fresh every morning with locally milled flour.</p>
+          <span class="pastry-tag">Baked Daily</span>
+        </div>
+      </div>
+      <div class="pastry-card fade-up">
+        img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="Assorted pastries">
+        <div class="pastry-card-body">
+          <h3>Danish &amp; Sweet Pastries</h3>
+          <p>Flaky Danish, fruit turnovers, cinnamon rolls, and buttery croissants — the kind that make the whole bakery smell like heaven.</p>
+          <span class="pastry-tag">Bistro Favourite</span>
+        </div>
+      </div>
+      <div class="pastry-card fade-up">
+        img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80" alt="Decorated cakes and cupcakes">
+        <div class="pastry-card-body">
+          <h3>Cakes &amp; Celebration</h3>
+          <p>Custom cakes for every occasion — birthdays, weddings, and everything in between. Made from scratch with real butter and love.</p>
+          <span class="pastry-tag">Custom Orders</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COFFEE -->
+<section class="section coffee" id="coffee">
+  <div class="section-inner">
+    <div class="coffee-grid">
+      <div class="coffee-visual fade-up">
+        img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80" alt="Craft coffee being poured">
+        <div class="coffee-badge">
+          <strong>12+</strong>
+          <span>Roasts</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label fade-up">The Coffee Program</div>
+        <h2 class="section-title fade-up" style="color:#fff">Craft Coffee, <em>Brewed Intentionally</em></h2>
+        <p class="section-desc fade-up">We believe great coffee starts with great beans — ethically sourced, small-batch roasted, and brewed with precision. Every cup is a conversation.</p>
+        <div class="coffee-details">
+          <div class="coffee-item fade-up">
+            <div class="coffee-icon">&#9749;</div>
+            <div>
+              <h4>House Espresso</h4>
+              <p>A smooth, balanced espresso blend roasted exclusively for Cornerstone. The foundation of every latte, cappuccino, and Americano we serve.</p>
+            </div>
+          </div>
+          <div class="coffee-item fade-up">
+            <div class="coffee-icon">&#127775;</div>
+            <div>
+              <h4>Single Origin Rotations</h4>
+              <p>Our rotating single-origin menu features beans from the world's finest growing regions — ask your barista what's on pour-over today.</p>
+            </div>
+          </div>
+          <div class="coffee-item fade-up">
+            <div class="coffee-icon">&#127863;</div>
+            <div>
+              <h4>Specialty Lattes</h4>
+              <p>From classic vanilla to seasonal flavors like maple pecan and lavender honey — handcrafted with real ingredients, never syrups from a bottle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BISTRO -->
+<section class="section bistro" id="bistro">
+  <div class="section-inner">
+    <div class="bistro-grid">
+      <div>
+        <div class="section-label fade-up">Lunch at Cornerstone</div>
+        <h2 class="section-title fade-up">Bistro <em>Lunch Menu</em></h2>
+        <p class="section-desc fade-up">Fresh salads, hearty sandwiches, and warm soups — made with the same care and quality ingredients you'll find in our bakery.</p>
+        <div class="bistro-menu fade-up">
+          <div class="bistro-cat">
+            <div class="bistro-cat-label">Sandwiches</div>
+            <div class="bistro-item"><span class="bistro-item-name">Cornerstone Club</span><span class="bistro-item-price">$9.50</span></div>
+            <div class="bistro-item"><span class="bistro-item-name">Turkey &amp; Brie Panini</span><span class="bistro-item-price">$10.25</span></div>
+            <div class="bistro-item"><span class="bistro-item-name">Roasted Veggie Wrap</span><span class="bistro-item-price">$8.75</span></div>
+          </div>
+          <div class="bistro-cat">
+            <div class="bistro-cat-label">Salads &amp; Soups</div>
+            <div class="bistro-item"><span class="bistro-item-name">Harvest Kale Salad</span><span class="bistro-item-price">$8.50</span></div>
+            <div class="bistro-item"><span class="bistro-item-name">Soup of the Day</span><span class="bistro-item-price">$6.50</span></div>
+            <div class="bistro-item"><span class="bistro-item-name">Half Sandwich + Soup</span><span class="bistro-item-price">$10.00</span></div>
+          </div>
+          <div class="bistro-cat">
+            <div class="bistro-cat-label">Kids Menu</div>
+            <div class="bistro-item"><span class="bistro-item-name">Grilled Cheese</span><span class="bistro-item-price">$5.50</span></div>
+            <div class="bistro-item"><span class="bistro-item-name">Peanut Butter &amp; Jelly</span><span class="bistro-item-price">$4.50</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="bistro-image fade-up">
+        img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80" alt="Bistro lunch plate">
+        <div class="bistro-image-accent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section story" id="story">
+  <div class="section-inner">
+    <div class="story-grid">
+      <div class="story-image fade-up">
+        img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80" alt="Bakery interior">
+      </div>
+      <div class="story-text fade-up">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">Baked with <em>Purpose</em></h2>
+        <p>Cornerstone Bakery Bistro Coffee was born from a simple belief: that a neighborhood deserves a place where every detail — from the flour we choose to the way we pour your coffee — is handled with intention and heart.</p>
+        <p>For years, we've been Greensburg's morning ritual and midday retreat. Our bakers arrive before dawn so the aroma of fresh bread greets you when you walk through the door. Our baristas know your name, your order, and how your day's been.</p>
+        <div class="story-quote">"We're not just a bakery. We're the corner of Greensburg where community rises — one loaf, one cup, one conversation at a time."</div>
+        <a href="#contact" class="btn-gold" style="display:inline-flex">Come Visit Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section gallery" id="gallery">
+  <div class="section-inner">
+    <div class="section-label fade-up" style="text-align:center">The Atmosphere</div>
+    <h2 class="section-title fade-up" style="text-align:center">Step Inside <em>Cornerstone</em></h2>
+    <p class="section-desc fade-up" style="text-align:center;margin-left:auto;margin-right:auto">Warm wood, brass fixtures, and the scent of fresh bread — this is what home feels like.</p>
+    <div class="gallery-grid fade-up">
+      <div class="gallery-item">img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80" alt="Bakery counter"></div>
+      <div class="gallery-item">img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80" alt="Coffee shop interior"></div>
+      <div class="gallery-item">img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Restaurant interior"></div>
+      <div class="gallery-item">img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80" alt="Fresh pastries display"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-map fade-up">
+        <div style="background:#2c1810;border-radius:20px;padding:32px 24px;color:#fff;text-align:left;min-height:360px;display:flex;flex-direction:column;justify-content:center;gap:14px">
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#c8a97e;font-weight:600">&#128205; Get Directions</div>
+          <div style="font-size:22px;font-weight:700">Cornerstone Bakery & Bistro</div>
+          <div style="font-size:15px;line-height:1.6">1202 North Lincoln Street<br>Greensburg, IN 47240</div>
+          <div style="font-size:15px"><a href="tel:+18126637766" style="color:#c8a97e;text-decoration:none">(812) 663-7766</a></div>
+          <a href="https://maps.google.com/maps?q=1202+N+Lincoln+St+Greensburg+IN+47240" target="_blank" rel="noopener" style="display:inline-block;background:#c8a97e;color:#2c1810;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;box-shadow:0 4px 14px rgba(200,169,126,.3)">Open in Google Maps &rarr;</a>
+        </div>
+      </div>
+      <div class="contact-info fade-up">
+        <div class="section-label">Visit Cornerstone</div>
+        <h2 class="section-title" style="color:#fff">We'd Love to <em>See You</em></h2>
+        <div class="contact-block">
+          <h4>Address</h4>
+          <p>1202 North Lincoln Street<br>Greensburg, IN 47240</p>
+        </div>
+        <div class="contact-block">
+          <h4>Hours</h4>
+          <p>Monday – Friday: 6:00 AM – 5:00 PM<br>Saturday: 7:00 AM – 3:00 PM<br>Sunday: 8:00 AM – 1:00 PM</p>
+        </div>
+        <div class="contact-block">
+          <h4>Contact</h4>
+          <p><a href="tel:+18126637766">(812) 663-7766</a><br><a href="mailto:cornerstone_bakery@yahoo.com">cornerstone_bakery@yahoo.com</a></p>
+        </div>
+        <div class="contact-block">
+          <h4>Follow Us</h4>
+          <div class="contact-socials">
+            <a href="https://www.facebook.com/cornerstonebakerygreensburg" target="_blank" rel="noopener" class="contact-social" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.705V9.415c0-3.658 2.178-5.678 5.506-5.678 1.596 0 3.266.285 3.266.285v3.592h-1.84c-1.813 0-2.378 1.126-2.378 2.284v2.74h4.05l-.648 3.47h-3.4v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          </div>
+        </div>
+        <a href="tel:+18126637766" class="contact-cta">Call to Order</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-links">
+    <a href="#pastries">Pastries</a>
+    <a href="#coffee">Coffee</a>
+    <a href="#bistro">Menu</a>
+    <a href="#story">Our Story</a>
+    <a href="#contact">Visit</a>
+  </div>
+  <p>&copy; 2026 Cornerstone Bakery Bistro Coffee. All rights reserved.</p>
+  <p style="margin-top:4px;font-size:12px;">1202 North Lincoln Street, Greensburg, IN 47240 &middot; (812) 663-7766</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">&times;</button>
+  <img id="lightboxImg" src="" alt="Gallery image" style="display:none">
+</div>
+
+<script>
+// ─── NAV SCROLL ───
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ─── MOBILE MENU ───
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+
+burger.addEventListener('click', () => mobileMenu.classList.add('open'));
+mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+mobileLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+// ─── FADE UP ON SCROLL ───
+const fadeEls = document.querySelectorAll('.fade-up');
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+fadeEls.forEach(el => fadeObserver.observe(el));
+
+// Failsafe: reveal all after 3 seconds
+setTimeout(function(){ document.querySelectorAll('.fade-up:not(.visible)').forEach(function(el){ el.classList.add('visible'); }); }, 3000);
+
+// ─── GALLERY LIGHTBOX ───
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+const galleryItems = document.querySelectorAll('.gallery-item');
+
+galleryItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const img = item.querySelector('img');
+    lightboxImg.src = img.src;lightboxImg.style.display='block';
+    lightboxImg.alt = img.alt;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+lightbox.addEventListener('click', () => {
+  lightbox.classList.remove('open');
+  lightboxImg.style.display='none';
+  document.body.style.overflow = '';
+});
+lightboxClose.addEventListener('click', (e) => {
+  e.stopPropagation();
+  lightbox.classList.remove('open');
+  lightboxImg.style.display='none';
+  document.body.style.overflow = '';
+});
+
+// ─── SMOOTH SCROLL ───
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+<script>
+(function(){
+function hasBg(el){var s=getComputedStyle(el);return s.backgroundImage&&s.backgroundImage!=='none'&&s.backgroundImage.indexOf('url')>-1}
+function getBg(el){var s=getComputedStyle(el);var u=s.backgroundImage.slice(4,-1).replace(/["']/g,'');return u}
+function check(el){if(!hasBg(el))return;var u=getBg(el);if(!u)return;var im=new Image();im.onerror=function(){el.style.backgroundImage='linear-gradient(135deg, #2A1F14 0%, #1a1510 100%)';el.setAttribute('data-img-fallback','1')};im.src=u}
+document.querySelectorAll('[style*="background-image"],[style*="background:"]').forEach(check);
+['hero-bg', 'bistro-image', 'bistro-image-accent', 'story-image', 'gallery-item'].forEach(function(c){document.querySelectorAll('.'+c).forEach(check)});
+})();
+</script>
+<noscript><style>.fade-up{opacity:1!important;transform:none!important;transition:none!important}</style></noscript>
+</body>
+</html>

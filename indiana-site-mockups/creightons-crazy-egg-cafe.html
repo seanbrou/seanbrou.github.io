@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creighton's Crazy Egg Cafe & Coffee Bar | Warsaw IN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#E8A838;
+  --gold-light:#F5D580;
+  --cream:#FDF8EF;
+  --cream-dark:#F5ECD5;
+  --brown:#3A2E1F;
+  --brown-light:#6B5744;
+  --orange:#D4632B;
+  --orange-light:#F28A56;
+  --green:#5B8C5A;
+  --green-light:#7DB87C;
+  --white:#FFFFFF;
+  --text:#2C2417;
+  --text-light:#7A6E5D;
+  --shadow-sm:0 2px 8px rgba(58,46,31,0.08);
+  --shadow-md:0 8px 30px rgba(58,46,31,0.12);
+  --shadow-lg:0 20px 60px rgba(58,46,31,0.16);
+  --radius:16px;
+  --radius-sm:10px;
+  --transition:0.3s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth;font-size:16px;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--cream);line-height:1.7;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif;line-height:1.15}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 24px;transition:background var(--transition),box-shadow var(--transition)}
+.nav.scrolled{background:rgba(253,248,239,0.97);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(58,46,31,0.1)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.nav-brand{display:flex;align-items:center;gap:12px;font-family:'Playfair Display',serif;font-weight:700;font-size:1.25rem;color:var(--white);transition:color var(--transition)}
+.nav.scrolled .nav-brand{color:var(--brown)}
+.nav-brand .egg-icon{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px;transform:rotate(-10deg);box-shadow:0 3px 10px rgba(232,168,56,0.4)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:0.88rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.9);transition:color var(--transition);position:relative}
+.nav.scrolled .nav-links a{color:var(--brown-light)}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:width var(--transition)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--gold);color:var(--brown)!important;padding:10px 24px;border-radius:999px;font-weight:700!important;letter-spacing:1px!important}
+.nav-cta:hover{background:var(--gold-light)!important}
+.nav-cta::after{display:none!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{display:block;width:26px;height:2.5px;background:var(--white);border-radius:2px;transition:var(--transition)}
+.nav.scrolled .hamburger span{background:var(--brown)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:#3a2e1f linear-gradient(160deg,rgba(42,30,15,0.65),rgba(58,46,31,0.5)),url('https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;z-index:0}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,var(--cream) 100%);z-index:1}
+.hero-content{position:relative;z-index:2;padding:140px 24px 80px;max-width:1200px;margin:0 auto;width:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(232,168,56,0.2);border:1px solid rgba(232,168,56,0.4);color:var(--gold-light);padding:8px 20px;border-radius:999px;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:24px}
+.hero h1{font-size:clamp(2.8rem,7vw,5.5rem);color:var(--white);font-weight:800;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--gold);font-weight:600}
+.hero-sub{font-size:clamp(1.05rem,2vw,1.3rem);color:rgba(255,255,255,0.88);max-width:560px;margin-bottom:36px;line-height:1.7}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;border-radius:999px;font-weight:700;font-size:0.95rem;letter-spacing:0.5px;border:none;cursor:pointer;transition:var(--transition)}
+.btn-gold{background:var(--gold);color:var(--brown);box-shadow:0 8px 30px rgba(232,168,56,0.35)}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(232,168,56,0.45)}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.4);color:var(--white)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;color:var(--white);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;opacity:0.7;animation:float 2.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+.hero-scroll svg{width:20px;height:20px}
+
+/* ── ANNOUNCEMENT BAR ── */
+.announce{background:var(--brown);color:var(--gold-light);text-align:center;padding:14px 24px;font-size:0.88rem;font-weight:500;letter-spacing:0.3px}
+.announce strong{color:var(--gold)}
+
+/* ── SECTION SHARED ── */
+.section{padding:100px 0}
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--orange);margin-bottom:16px}
+.section-label svg{width:16px;height:16px}
+.section-title{font-size:clamp(2rem,4vw,3.2rem);color:var(--brown);margin-bottom:16px;font-weight:700}
+.section-title em{font-style:italic;color:var(--orange)}
+.section-subtitle{font-size:1.1rem;color:var(--text-light);max-width:560px;line-height:1.7}
+
+/* ── MENU HIGHLIGHTS ── */
+.menu-section{background:var(--cream)}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px}
+.menu-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);transition:var(--transition);position:relative}
+.menu-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.menu-card-img{height:220px;overflow:hidden;position:relative}
+.menu-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease}
+.menu-card:hover .menu-card-img img{transform:scale(1.08)}
+.menu-card-tag{position:absolute;top:14px;left:14px;background:var(--orange);color:var(--white);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:5px 14px;border-radius:999px}
+.menu-card-body{padding:24px}
+.menu-card-body h3{font-size:1.35rem;margin-bottom:8px;color:var(--brown)}
+.menu-card-body p{font-size:0.92rem;color:var(--text-light);line-height:1.6;margin-bottom:14px}
+.menu-card-price{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--orange)}
+.menu-card-divider{width:40px;height:3px;background:var(--gold);border-radius:2px;margin:14px 0}
+
+/* ── SPECIALS ── */
+.specials-section{background:var(--brown);color:var(--white);position:relative;overflow:hidden}
+.specials-section::before{content:'';position:absolute;top:-50%;right:-20%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(232,168,56,0.08),transparent 70%);pointer-events:none}
+.specials-section .section-label{color:var(--gold-light)}
+.specials-section .section-title{color:var(--white)}
+.specials-section .section-subtitle{color:rgba(255,255,255,0.7)}
+.specials-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;align-items:center}
+.specials-image{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);position:relative}
+.specials-image img{width:100%;height:400px;object-fit:cover}
+.specials-image-badge{position:absolute;bottom:20px;left:20px;background:var(--gold);color:var(--brown);font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;padding:10px 22px;border-radius:999px}
+.specials-items{display:flex;flex-direction:column;gap:24px}
+.special-item{display:flex;gap:18px;align-items:flex-start;padding:20px;background:rgba(255,255,255,0.06);border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,0.08);transition:var(--transition)}
+.special-item:hover{background:rgba(255,255,255,0.1);border-color:rgba(232,168,56,0.3)}
+.special-item-icon{width:48px;height:48px;border-radius:12px;background:rgba(232,168,56,0.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.special-item h4{font-size:1.1rem;margin-bottom:4px;color:var(--white)}
+.special-item p{font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.5}
+
+/* ── COFFEE BAR ── */
+.coffee-section{background:var(--cream-dark)}
+.coffee-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:center;margin-top:48px}
+.coffee-visual{position:relative}
+.coffee-visual img{border-radius:var(--radius);width:100%;height:480px;object-fit:cover;box-shadow:var(--shadow-md)}
+.coffee-visual-accent{position:absolute;bottom:-20px;right:-20px;background:var(--gold);color:var(--brown);padding:16px 28px;border-radius:var(--radius-sm);font-family:'Playfair Display',serif;font-weight:700;font-size:1.4rem;box-shadow:var(--shadow-md)}
+.coffee-content{padding-left:20px}
+.coffee-content .section-title{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+.coffee-feature-list{display:flex;flex-direction:column;gap:18px;margin:32px 0}
+.coffee-feature{display:flex;gap:14px;align-items:flex-start}
+.coffee-feature-icon{width:40px;height:40px;border-radius:10px;background:rgba(232,168,56,0.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;color:var(--orange)}
+.coffee-feature h4{font-size:1rem;font-weight:600;color:var(--brown);margin-bottom:2px}
+.coffee-feature p{font-size:0.88rem;color:var(--text-light)}
+
+/* ── STORY ── */
+.story-section{background:var(--white)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:48px}
+.story-images{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.story-images img{border-radius:var(--radius-sm);width:100%;height:200px;object-fit:cover;box-shadow:var(--shadow-sm)}
+.story-images img:first-child{grid-row:span 2;height:100%}
+.story-content .section-title{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+.story-content p{color:var(--text-light);margin-bottom:16px;line-height:1.8}
+.story-content p strong{color:var(--brown)}
+.story-signature{margin-top:28px;display:flex;align-items:center;gap:16px}
+.story-signature-line{width:50px;height:2px;background:var(--gold)}
+.story-signature-text{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:var(--brown)}
+
+/* ── TESTIMONIALS ── */
+.testimonials-section{background:var(--cream)}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px}
+.test-card{background:var(--white);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow-sm);position:relative}
+.test-card::before{content:'\201C';font-family:'Playfair Display',serif;font-size:4rem;color:var(--gold);position:absolute;top:10px;left:24px;line-height:1;opacity:0.4}
+.test-card p{font-size:0.95rem;color:var(--text-light);line-height:1.7;margin-bottom:20px;position:relative;z-index:1}
+.test-card-author{display:flex;align-items:center;gap:12px}
+.test-card-avatar{width:42px;height:42px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--brown);font-size:0.9rem}
+.test-card-info h4{font-size:0.92rem;font-weight:600;color:var(--brown)}
+.test-card-info span{font-size:0.78rem;color:var(--text-light)}
+.test-stars{color:var(--gold);font-size:0.9rem;margin-bottom:14px;letter-spacing:2px}
+
+/* ── HOURS & CONTACT ── */
+.contact-section{background:var(--brown);color:var(--white);position:relative;overflow:hidden}
+.contact-section::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 C35 15, 50 20, 30 30 C10 40, 25 50, 30 55' stroke='%23ffffff' stroke-width='0.3' fill='none' opacity='0.04'/%3E%3C/svg%3E") repeat;pointer-events:none}
+.contact-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:60px;position:relative;z-index:1}
+.contact-info .section-label{color:var(--gold-light)}
+.contact-info .section-title{color:var(--white)}
+.contact-info .section-subtitle{color:rgba(255,255,255,0.7)}
+.contact-details{display:flex;flex-direction:column;gap:24px;margin-top:32px}
+.contact-item{display:flex;gap:16px;align-items:flex-start}
+.contact-item-icon{width:48px;height:48px;border-radius:12px;background:rgba(232,168,56,0.15);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;color:var(--gold)}
+.contact-item h4{font-size:0.95rem;font-weight:600;margin-bottom:2px;color:var(--white)}
+.contact-item p{font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.5}
+.contact-item a{color:var(--gold-light);border-bottom:1px solid rgba(232,168,56,0.4)}
+.contact-item a:hover{color:var(--gold)}
+.hours-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);padding:36px;backdrop-filter:blur(8px)}
+.hours-card h3{font-size:1.5rem;margin-bottom:24px;color:var(--white)}
+.hours-list{display:flex;flex-direction:column;gap:14px}
+.hours-row{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.hours-row:last-child{border-bottom:none;padding-bottom:0}
+.hours-day{font-weight:600;color:rgba(255,255,255,0.9)}
+.hours-time{color:var(--gold-light);font-weight:500}
+.hours-closed{color:rgba(255,255,255,0.4);font-style:italic}
+.social-links{display:flex;gap:12px;margin-top:28px}
+.social-link{width:48px;height:48px;border-radius:12px;background:rgba(232,168,56,0.15);display:flex;align-items:center;justify-content:center;color:var(--gold-light);transition:var(--transition);font-size:0.85rem;font-weight:700}
+.social-link:hover{background:var(--gold);color:var(--brown)}
+
+/* ── CTA BANNER ── */
+.cta-banner{background:linear-gradient(135deg,var(--gold),var(--orange));padding:60px 24px;text-align:center;position:relative;overflow:hidden}
+.cta-banner::before{content:'';position:absolute;top:-50%;left:-20%;width:500px;height:500px;border-radius:50%;background:rgba(255,255,255,0.08);pointer-events:none}
+.cta-banner h2{font-size:clamp(1.8rem,4vw,2.8rem);color:var(--brown);margin-bottom:12px}
+.cta-banner p{color:rgba(58,46,31,0.7);font-size:1.1rem;margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-banner .btn{background:var(--brown);color:var(--white);box-shadow:0 8px 30px rgba(58,46,31,0.3)}
+.cta-banner .btn:hover{background:var(--brown-light);transform:translateY(-2px)}
+
+/* ── FOOTER ── */
+.footer{background:#1a1410;color:rgba(255,255,255,0.6);padding:40px 24px;text-align:center;font-size:0.85rem}
+.footer-brand{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold);font-weight:700;margin-bottom:8px}
+.footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,0.5);font-size:0.82rem;transition:color var(--transition)}
+.footer-links a:hover{color:var(--gold)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .menu-grid{grid-template-columns:repeat(2,1fr)}
+  .test-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--brown);flex-direction:column;align-items:center;justify-content:center;gap:28px;z-index:999}
+  .nav-links.open{display:flex}
+  .nav-links a{color:var(--white)!important;font-size:1.1rem}
+  .hamburger{display:flex;z-index:1001}
+  .hero h1{font-size:2.4rem}
+  .hero-sub{font-size:1rem}
+  .menu-grid,.test-grid{grid-template-columns:1fr}
+  .specials-grid,.coffee-grid,.story-grid,.contact-grid{grid-template-columns:1fr}
+  .coffee-visual-accent{position:relative;bottom:auto;right:auto;margin-top:16px;display:inline-block}
+  .story-images{grid-template-columns:1fr 1fr}
+  .story-images img:first-child{grid-row:span 1;height:200px}
+  .section{padding:60px 0}
+  .coffee-content{padding-left:0}
+  .contact-grid{gap:40px}
+}
+@media(max-width:480px){
+  .hero-actions{flex-direction:column;align-items:flex-start}
+  .btn{width:100%;justify-content:center}
+  .story-images{grid-template-columns:1fr}
+  .hero h1{font-size:2rem}
+  .hero-sub{font-size:0.95rem}
+  .specials-image img{height:260px}
+  .coffee-visual img{height:280px}
+  .hours-card{padding:24px}
+  .nav-brand{font-size:1rem}
+}
+
+/* ── ANIMATIONS ── */
+html.no-js .fade-up{opacity:1;transform:none}
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+</style>
+<style>
+.hero-bg, .menu-card-img, .specials-image, .story-images::after{content:'🍳';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:1}[data-img-fallback]::after{opacity:.25}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <span class="egg-icon">🥚</span>
+      Creighton's Crazy Egg
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#menu">Menu</a>
+      <a href="#specials">Specials</a>
+      <a href="#coffee">Coffee Bar</a>
+      <a href="#story">Our Story</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="nav-cta">Visit Us</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content container">
+    <div class="hero-badge">☕ Warsaw's Favorite Brunch Spot</div>
+    <h1>Start Your Day<br>with <em>Crazy</em> Eggs</h1>
+    <p class="hero-sub">Farm-fresh breakfast, handcrafted coffee, and a warm place to gather. Creighton's Crazy Egg Cafe & Coffee Bar — where mornings are worth waking up for.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn btn-gold">See Our Menu</a>
+      <a href="#contact" class="btn btn-outline">Find Us in Warsaw →</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENT -->
+<div class="announce">
+  🍳 <strong>Weekend Brunch Specials</strong> — Saturdays & Sundays 8am–2pm &nbsp;|&nbsp; Fresh local ingredients, made with love
+</div>
+
+<!-- MENU HIGHLIGHTS -->
+<section class="section menu-section" id="menu">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 8H9L12 2Z"/><circle cx="12" cy="14" r="6"/></svg>
+        Our Menu
+      </div>
+      <h2 class="section-title">Brunch Favorites <em>& Egg Classics</em></h2>
+      <p class="section-subtitle">From fluffy omelets to stacked benedicts — every dish is made to order with locally sourced ingredients.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card fade-up">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80" alt="Crazy Eggs Benedict" loading="lazy">
+          <span class="menu-card-tag">★ Signature</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Crazy Eggs Benedict</h3>
+          <div class="menu-card-divider"></div>
+          <p>Poached eggs on house-baked muffins with our secret hollandaise, choice of ham, bacon, or avocado. The dish that started it all.</p>
+          <span class="menu-card-price">$13.99</span>
+        </div>
+      </div>
+      <div class="menu-card fade-up">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?auto=format&fit=crop&w=800&q=80" alt="Fluffy Buttermilk Pancakes" loading="lazy">
+          <span class="menu-card-tag">Popular</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Fluffy Buttermilk Pancakes</h3>
+          <div class="menu-card-divider"></div>
+          <p>Tall, golden, and perfectly stacked. Served with real maple syrup, whipped butter, and seasonal berry compote.</p>
+          <span class="menu-card-price">$10.99</span>
+        </div>
+      </div>
+      <div class="menu-card fade-up">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=800&q=80" alt="Farmhouse Omelet" loading="lazy">
+          <span class="menu-card-tag">Farm Fresh</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Farmhouse Omelet</h3>
+          <div class="menu-card-divider"></div>
+          <p>Three eggs loaded with local veggies, aged cheddar, and herbs. Served with crispy hash browns and toast.</p>
+          <span class="menu-card-price">$11.99</span>
+        </div>
+      </div>
+      <div class="menu-card fade-up">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=800&q=80" alt="Avocado Toast" loading="lazy">
+          <span class="menu-card-tag">Healthy</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Smashed Avocado Toast</h3>
+          <div class="menu-card-divider"></div>
+          <p>Fire-roasted avocado on artisan sourdough with poached egg, everything seasoning, and microgreens.</p>
+          <span class="menu-card-price">$11.49</span>
+        </div>
+      </div>
+      <div class="menu-card fade-up">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=800&q=80" alt="Biscuits and Gravy" loading="lazy">
+          <span class="menu-card-tag">Comfort</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Biscuits & Sausage Gravy</h3>
+          <div class="menu-card-divider"></div>
+          <p>Handmade buttermilk biscuits smothered in creamy pepper sausage gravy. A Hoosier classic done right.</p>
+          <span class="menu-card-price">$9.99</span>
+        </div>
+      </div>
+      <div class="menu-card fade-up">
+        <div class="menu-card-img">
+          <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Brunch Platter" loading="lazy">
+          <span class="menu-card-tag">New</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>The Crazy Egg Platter</h3>
+          <div class="menu-card-divider"></div>
+          <p>Our feast for two: eggs any style, thick bacon, sausage links, pancakes, hash browns, and fresh fruit.</p>
+          <span class="menu-card-price">$24.99</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRUNCH SPECIALS -->
+<section class="section specials-section" id="specials">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Weekend Brunch</div>
+      <h2 class="section-title">This Weekend's Specials</h2>
+      <p class="section-subtitle">Every Saturday and Sunday we feature rotating brunch creations you won't find on the regular menu.</p>
+    </div>
+    <div class="specials-grid">
+      <div class="specials-image fade-up">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=600&q=80" alt="Weekend Brunch" loading="lazy">
+        <span class="specials-image-badge">Sat & Sun 8am–2pm</span>
+      </div>
+      <div class="specials-items fade-up">
+        <div class="special-item">
+          <div class="special-item-icon">🧇</div>
+          <div>
+            <h4>Lemon Ricotta Waffles</h4>
+            <p>Light, crispy waffles with lemon zest, creamy ricotta, and warm blueberry compote.</p>
+          </div>
+        </div>
+        <div class="special-item">
+          <div class="special-item-icon">🥑</div>
+          <div>
+            <h4>Southwest Egg Skillet</h4>
+            <p>Farm eggs over chorizo, peppers, onions, and pepper jack — served sizzling in a cast-iron skillet.</p>
+          </div>
+        </div>
+        <div class="special-item">
+          <div class="special-item-icon">🥂</div>
+          <div>
+            <h4>Mimosa Flight</h4>
+            <p>Four seasonal mimosas paired with a mini pastry board. The perfect weekend splurge.</p>
+          </div>
+        </div>
+        <div class="special-item">
+          <div class="special-item-icon">🍓</div>
+          <div>
+            <h4>Stuffed French Toast</h4>
+            <p>Brioche stuffed with mascarpone and strawberries, dusted with cinnamon sugar and powdered sugar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COFFEE BAR -->
+<section class="section coffee-section" id="coffee">
+  <div class="container">
+    <div class="coffee-grid">
+      <div class="coffee-visual fade-up">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" alt="Coffee Bar" loading="lazy">
+        <div class="coffee-visual-accent">☕ Craft Coffee</div>
+      </div>
+      <div class="coffee-content fade-up">
+        <div class="section-label">Our Coffee Bar</div>
+        <h2 class="section-title">Handcrafted Coffee, <em>Brewed with Care</em></h2>
+        <p class="section-subtitle">From expertly pulled espresso to smooth pour-overs, our coffee program is as serious as our breakfast.</p>
+        <div class="coffee-feature-list">
+          <div class="coffee-feature">
+            <div class="coffee-feature-icon">☕</div>
+            <div>
+              <h4>Specialty Espresso Drinks</h4>
+              <p>Lattes, cappuccinos, and seasonal specials — made with locally roasted beans.</p>
+            </div>
+          </div>
+          <div class="coffee-feature">
+            <div class="coffee-feature-icon">🫖</div>
+            <div>
+              <h4>Pour-Over & Cold Brew</h4>
+              <p>Single-origin beans roasted fresh weekly. Ask about today's featured roaster.</p>
+            </div>
+          </div>
+          <div class="coffee-feature">
+            <div class="coffee-feature-icon">🧁</div>
+            <div>
+              <h4>Housemade Syrups & Pastries</h4>
+              <p>Vanilla, hazelnut, caramel — all made in-house. Paired with fresh baked scones and muffins.</p>
+            </div>
+          </div>
+          <div class="coffee-feature">
+            <div class="coffee-feature-icon">🌿</div>
+            <div>
+              <h4>Alternative Milks</h4>
+              <p>Oat, almond, coconut, and soy available for every drink. No compromises on flavor.</p>
+            </div>
+          </div>
+        </div>
+        <a href="#contact" class="btn btn-gold" style="margin-top:12px;">Visit the Coffee Bar →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR STORY -->
+<section class="section story-section" id="story">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-images fade-up">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1606923829579-0cb981a83e2e?auto=format&fit=crop&w=600&q=80" alt="Our Kitchen" loading="lazy">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=600&q=80" alt="Brunch Spread" loading="lazy">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80" alt="Coffee Art" loading="lazy">
+      </div>
+      <div class="story-content fade-up">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">A Family Tradition <em>of Crazy Good Food</em></h2>
+        <p>Creighton's Crazy Egg Cafe & Coffee Bar was born from a simple idea: <strong>breakfast should be the best meal of the day</strong>, not just the first one. What started as a dream in the Creighton family kitchen has grown into one of Warsaw's most loved gathering spots.</p>
+        <p>We believe in the power of a perfectly scrambled egg, a well-pulled espresso, and a place where everybody knows your name — or at least your usual order. <strong>Every dish is made from scratch</strong>, using ingredients from local Indiana farms and purveyors we trust.</p>
+        <p>Whether you're a regular or it's your first time through the door, we treat every morning like a reason to celebrate. Pull up a chair, stay a while, and see why they call us crazy — crazy about breakfast, that is.</p>
+        <div class="story-signature">
+          <div class="story-signature-line"></div>
+          <div class="story-signature-text">The Creighton Family</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-section" id="reviews">
+  <div class="container">
+    <div class="fade-up" style="text-align:center">
+      <div class="section-label" style="justify-content:center">What People Say</div>
+<h2 class="section-title">Loved by <em>Warsaw</em></h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p>"The Crazy Eggs Benedict is the best breakfast in town. My family comes every Saturday — it's our tradition now!"</p>
+        <div class="test-card-author">
+          <div class="test-card-avatar">MR</div>
+          <div class="test-card-info">
+            <h4>Michelle R.</h4>
+            <span>Warsaw resident</span>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p>"The coffee is outstanding and the staff always remembers your order. Feels like home every time we walk in."</p>
+        <div class="test-card-author">
+          <div class="test-card-avatar">DK</div>
+          <div class="test-card-info">
+            <h4>David K.</h4>
+            <span>Regular since 2019</span>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p>"Brought the whole family for brunch and everyone left happy. The Crazy Egg Platter is an absolute feast!"</p>
+        <div class="test-card-author">
+          <div class="test-card-avatar">SP</div>
+          <div class="test-card-info">
+            <h4>Sarah P.</h4>
+            <span>Lake Wawasee visitor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS & CONTACT -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info fade-up">
+        <div class="section-label">Visit Us</div>
+        <h2 class="section-title">Come for the <em>Eggs</em>,<br>Stay for the Coffee</h2>
+        <p class="section-subtitle">We're right in the heart of Warsaw — easy to find, hard to leave. Pull up a chair and make yourself at home.</p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div>
+              <h4>Find Us</h4>
+              <p>123 E Main St, Warsaw, IN 46580</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div>
+              <h4>Call Ahead</h4>
+              <p><a href="tel:5745551234">(574) 555-1234</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">✉️</div>
+            <div>
+              <h4>Email</h4>
+              <p><a href="mailto:hello@crazyeggcafe.com">hello@crazyeggcafe.com</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="#" class="social-link">FB</a>
+          <a href="#" class="social-link">IG</a>
+          <a href="#" class="social-link">YT</a>
+        </div>
+      </div>
+      <div class="hours-card fade-up">
+        <h3>Hours of Operation</h3>
+        <div class="hours-list">
+          <div class="hours-row">
+            <span class="hours-day">Monday</span>
+            <span class="hours-time">6:00 AM – 2:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Tuesday</span>
+            <span class="hours-time">6:00 AM – 2:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Wednesday</span>
+            <span class="hours-time">6:00 AM – 2:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Thursday</span>
+            <span class="hours-time">6:00 AM – 2:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Friday</span>
+            <span class="hours-time">6:00 AM – 2:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Saturday</span>
+            <span class="hours-time">7:00 AM – 3:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Sunday</span>
+            <span class="hours-time">7:00 AM – 3:00 PM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>Ready for the Best Breakfast in Town?</h2>
+  <p>Stop by for farm-fresh eggs, handcrafted coffee, and a warm welcome. Walk-ins welcome!</p>
+  <a href="#contact" class="btn">Visit Creighton's Today →</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">🥚 Creighton's Crazy Egg Cafe & Coffee Bar</div>
+  <div class="footer-links">
+    <a href="#menu">Menu</a>
+    <a href="#specials">Specials</a>
+    <a href="#coffee">Coffee Bar</a>
+    <a href="#story">Our Story</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p>&copy; 2025 Creighton's Crazy Egg Cafe & Coffee Bar. All rights reserved.</p>
+</footer>
+
+<noscript><style>.fade-up{opacity:1;transform:none}</style></noscript>
+
+<script>
+// Remove no-js class
+document.documentElement.classList.remove('no-js');
+
+// Scroll reveal with IntersectionObserver
+(function(){
+  var els = document.querySelectorAll('.fade-up');
+  if(!els.length) return;
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {rootMargin:'0px 0px -20px 0px', threshold:0.1});
+  els.forEach(function(el){ observer.observe(el); });
+  // 3-second failsafe
+  setTimeout(function(){
+    els.forEach(function(el){
+      if(!el.classList.contains('visible')) el.classList.add('visible');
+    });
+  }, 3000);
+})();
+
+// Navbar scroll effect
+(function(){
+  var nav = document.getElementById('navbar');
+  if(!nav) return;
+  var scrolled = false;
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 60 && !scrolled){
+      nav.classList.add('scrolled');
+      scrolled = true;
+    } else if(window.scrollY <= 60 && scrolled){
+      nav.classList.remove('scrolled');
+      scrolled = false;
+    }
+  });
+})();
+
+// Mobile menu toggle
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// Image fallback
+document.querySelectorAll('[data-img-fallback]').forEach(function(el){
+  var img = el.querySelector('img');
+  if(img){
+    img.addEventListener('error', function(){ el.setAttribute('data-img-fallback','true'); });
+  }
+});
+</script>
+</body>
+</html>
+
