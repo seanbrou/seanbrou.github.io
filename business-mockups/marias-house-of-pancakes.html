@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maria's House of Pancakes | North Webster, IN</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;color:#3B2314;line-height:1.6;background:#FFF8F0}
+a{color:#8B4513;text-decoration:none}
+nav{background:#5C2E0A;display:flex;justify-content:space-between;align-items:center;padding:12px 24px;position:sticky;top:0;z-index:10}
+nav .logo{color:#FFF5E1;font-size:1.3rem;font-weight:bold}
+nav .links a{color:#FFF5E1;margin-left:20px;font-weight:bold;font-size:.95rem}
+nav .links a:hover{color:#FFD699}
+.hero{background:linear-gradient(135deg,#D4880F,#A0522D,#6B3410);padding:80px 24px 60px;text-align:center;min-height:340px;display:flex;flex-direction:column;justify-content:center}
+.hero h1{color:#FFFFFF;font-size:2.8rem;text-shadow:2px 3px 6px rgba(0,0,0,.7)}
+.hero p{color:#FFFFFF;font-size:1.25rem;margin:12px 0 24px;font-weight:bold;text-shadow:1px 2px 4px rgba(0,0,0,.6)}
+.btn{display:inline-block;background:#FFF5E1;color:#5C2E0A;padding:14px 36px;font-size:1.1rem;font-weight:bold;border-radius:30px;border:none;cursor:pointer;text-decoration:none;transition:.2s}
+.btn:hover{background:#FFD699;transform:scale(1.05)}
+section{padding:48px 24px;max-width:960px;margin:0 auto}
+section h2{text-align:center;font-size:1.8rem;color:#5C2E0A;margin-bottom:28px}
+.dishes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;text-align:center}
+.dish{background:#FFF;border-radius:12px;padding:24px 16px;box-shadow:0 2px 10px rgba(139,69,19,.1)}
+.dish .icon{font-size:3rem;margin-bottom:8px}
+.dish h3{color:#8B4513;font-size:1.15rem;margin-bottom:6px}
+.dish p{font-size:.9rem;color:#6B4C3B}
+.specials{background:#5C2E0A;color:#FFF5E1;text-align:center;border-radius:0;padding:48px 24px}
+.specials h2{color:#FFD699}
+.specials p{max-width:600px;margin:0 auto 20px;font-size:1.05rem}
+.specials .highlight{font-size:1.3rem;font-weight:bold;color:#FFD699}
+.story{background:#FFF8F0}
+.story p{max-width:640px;margin:0 auto;font-size:1.05rem;text-align:center}
+.contact{background:#F5E6D0}
+.contact-info{text-align:center;font-size:1rem}
+.contact-info p{margin:6px 0}
+.contact-info strong{color:#5C2E0A}
+.hours{display:grid;grid-template-columns:1fr 1fr;max-width:400px;margin:16px auto 0;gap:4px;font-size:.95rem}
+footer{background:#3B1808;color:#D4A056;text-align:center;padding:20px;font-size:.85rem}
+footer a{color:#FFD699;margin:0 8px}
+@media(max-width:600px){.hero h1{font-size:2rem}.hero p{font-size:1rem}nav .links{display:none}.hours{grid-template-columns:1fr}}
+</style></head><body>
+<nav><span class="logo">🥞 Maria's</span><span class="links"><a href="#dishes">Menu</a><a href="#specials">Specials</a><a href="#story">Our Story</a><a href="#contact">Visit Us</a></span></nav>
+<section class="hero" id="top">
+<h1>Maria's House of Pancakes</h1>
+<p>Where Every Stack Feels Like Home</p>
+<a href="#contact" class="btn">Visit Us Today</a>
+</section>
+<section id="dishes">
+<h2>⭐ Featured Favorites</h2>
+<div class="dishes">
+<div class="dish"><div class="icon">🥞</div><h3>Maria's Buttermilk Stack</h3><p>Fluffy golden pancakes with real butter & warm maple syrup</p></div>
+<div class="dish"><div class="icon">🍳</div><h3>Country Skillet</h3><p>Eggs, sausage, peppers & cheese over crispy hashbrowns</p></div>
+<div class="dish"><div class="icon">🥓</div><h3>The Big Breakfast</h3><p>Pancakes, eggs your way, bacon & toast — a hearty start</p></div>
+<div class="dish"><div class="icon">☕</div><h3>Fresh Brewed Coffee</h3><p>Bottomless cups of hot, fresh coffee with any breakfast</p></div>
+</div>
+</section>
+<section class="specials" id="specials">
+<h2>🔥 Weekly Specials</h2>
+<p>Every Saturday — Kids Eat Free with an adult entrée!</p>
+<p class="highlight">Sunday Brunch Buffet: 8AM–1PM — All You Can Eat for $12.99</p>
+<p>Ask about our seasonal pancakes — blueberry, pumpkin, and apple cinnamon rotate year-round!</p>
+</section>
+<section class="story" id="story">
+<h2>Our Story</h2>
+<p>Maria's House of Pancakes has been serving the North Webster community with love since day one. Born from Maria's passion for bringing families together around the breakfast table, every dish is made from scratch with the finest ingredients. We believe breakfast is more than a meal — it's a warm start to a great day. Come pull up a chair and let us take care of the rest.</p>
+</section>
+<section class="contact" id="contact">
+<h2>📍 Visit Us</h2>
+<div class="contact-info">
+<p><strong>104 Esterbrook ST RD 13, North Webster, IN 46555</strong></p>
+<p>📞 <strong>574-834-4400</strong> &nbsp;|&nbsp; ✉️ <a href="mailto:sanchezn149@gmail.com">sanchezn149@gmail.com</a></p>
+<p><a href="https://www.facebook.com/p/Marias-House-Of-Pancakes-North-Webster-100063805652860/" target="_blank" style="font-weight:bold">Find us on Facebook →</a></p>
+<div class="hours">
+<span><strong>Mon–Fri</strong></span><span>6 AM – 2 PM</span>
+<span><strong>Saturday</strong></span><span>6 AM – 3 PM</span>
+<span><strong>Sunday</strong></span><span>7 AM – 2 PM</span>
+</div>
+</div>
+</section>
+<footer>
+<p>© 2026 Maria's House of Pancakes — All Rights Reserved</p>
+<p><a href="https://www.facebook.com/p/Marias-House-Of-Pancakes-North-Webster-100063805652860/" target="_blank">Facebook</a> | <a href="#top">Back to Top</a></p>
+</footer>
+</body></html>

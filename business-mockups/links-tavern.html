@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Links Tavern — Greensburg, IN</title>
+<meta name="description" content="Links Tavern — Your neighborhood tavern in downtown Greensburg, Indiana. Great food, cold drinks, game-day energy, and good times since day one.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C8982C;
+  --gold-light:#E4B94A;
+  --gold-dim:#9A7320;
+  --crimson:#8C1B1B;
+  --crimson-light:#B02828;
+  --navy:#0E1525;
+  --navy-deep:#080C16;
+  --cream:#FAF5EA;
+  --cream-dark:#EDE5D4;
+  --warm-white:#FEFCF7;
+  --text-dark:#1A1714;
+  --text-mid:#5C5347;
+  --text-light:#8C8275;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);background:var(--warm-white);color:var(--text-dark);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ===== NAV ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s,box-shadow .4s,padding .3s}
+.nav--scrolled{background:rgba(14,21,37,.97);box-shadow:0 2px 24px rgba(0,0,0,.3);padding-top:0;padding-bottom:0}
+.nav__inner{display:flex;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto;padding:20px 32px}
+.nav--scrolled .nav__inner{padding-top:12px;padding-bottom:12px}
+.nav__logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}
+.nav__logo-icon{width:42px;height:42px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--navy);flex-shrink:0}
+.nav__logo-text{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:.5px}
+.nav__logo-sub{font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;opacity:.7;display:block;margin-top:1px}
+.nav__links{display:flex;gap:32px;align-items:center}
+.nav__link{color:rgba(255,255,255,.85);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;transition:color .2s;position:relative}
+.nav__link:hover{color:var(--gold-light)}
+.nav__link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s}
+.nav__link:hover::after{width:100%}
+.nav__cta{background:var(--gold);color:var(--navy)!important;padding:10px 24px;border-radius:999px;font-weight:700;font-size:13px;letter-spacing:.8px;text-transform:uppercase;transition:background .2s,transform .2s}
+.nav__cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+.nav__hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
+.nav__hamburger span{width:24px;height:2px;background:#fff;border-radius:2px;transition:transform .3s,opacity .3s}
+.nav__mobile{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(14,21,37,.98);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.nav__mobile.open{display:flex}
+.nav__mobile a{color:#fff;font-family:var(--font-display);font-size:28px;text-decoration:none;transition:color .2s}
+.nav__mobile a:hover{color:var(--gold-light)}
+.nav__mobile-close{position:absolute;top:24px;right:32px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer}
+
+/* ===== HERO ===== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--navy-deep)}
+.hero__bg{position:absolute;inset:0;z-index:0}
+.hero__bg img{width:100%;height:100%;object-fit:cover;opacity:.55}
+.hero__overlay{position:absolute;inset:0;background:linear-gradient(165deg,rgba(8,12,22,.82) 0%,rgba(14,21,37,.55) 40%,rgba(140,27,27,.18) 100%);z-index:1}
+.hero__grain{position:absolute;inset:0;z-index:2;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.hero__content{position:relative;z-index:3;text-align:center;padding:40px 24px;max-width:900px}
+.hero__badge{display:inline-flex;align-items:center;gap:8px;background:rgba(200,152,44,.15);border:1px solid rgba(200,152,44,.35);border-radius:999px;padding:8px 20px;margin-bottom:32px;font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-light)}
+.hero__badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold-light);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero__title{font-family:var(--font-display);font-size:clamp(52px,8vw,110px);font-weight:800;color:#fff;line-height:.95;margin-bottom:24px;letter-spacing:-1px}
+.hero__title-em{color:var(--gold-light);font-style:italic}
+.hero__sub{font-size:clamp(17px,2vw,21px);color:rgba(255,255,255,.78);max-width:600px;margin:0 auto 40px;font-weight:300;line-height:1.65}
+.hero__actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;border-radius:999px;font-size:15px;font-weight:600;text-decoration:none;transition:all .25s;cursor:pointer;border:none}
+.btn--gold{background:var(--gold);color:var(--navy);box-shadow:0 8px 32px rgba(200,152,44,.35)}
+.btn--gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(200,152,44,.45)}
+.btn--outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35)}
+.btn--outline:hover{border-color:var(--gold-light);color:var(--gold-light)}
+.hero__scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.5);font-size:11px;letter-spacing:2px;text-transform:uppercase;animation:bob 3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+.hero__scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent)}
+
+/* ===== SECTIONS COMMON ===== */
+.section{padding:100px 32px}
+.section__inner{max-width:1200px;margin:0 auto}
+.section__label{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:inline-flex;align-items:center;gap:10px}
+.section__label::before{content:'';width:32px;height:1px;background:var(--gold)}
+.section__title{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:700;line-height:1.05;margin-bottom:20px;letter-spacing:-.5px}
+.section__desc{font-size:17px;color:var(--text-mid);max-width:580px;line-height:1.7}
+
+/* ===== ABOUT STRIP ===== */
+.about-strip{background:var(--cream);padding:80px 32px;border-bottom:1px solid var(--cream-dark)}
+.about-strip__inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;gap:0}
+.about-strip__item{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 32px}
+.about-strip__icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--gold),var(--gold-dim));display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:24px;color:#fff}
+.about-strip__num{font-family:var(--font-display);font-size:42px;font-weight:800;color:var(--navy);line-height:1;margin-bottom:6px}
+.about-strip__text{font-size:14px;color:var(--text-mid);font-weight:500;text-transform:uppercase;letter-spacing:1.5px}
+.about-strip__divider{background:var(--cream-dark);width:1px}
+
+/* ===== MENU ===== */
+.menu{background:var(--warm-white)}
+.menu__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:56px}
+.menu__card{background:#fff;border-radius:20px;overflow:hidden;border:1px solid rgba(0,0,0,.06);transition:transform .35s,box-shadow .35s}
+.menu__card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.1)}
+.menu__card-img{width:100%;height:220px;object-fit:cover}
+.menu__card-body{padding:28px}
+.menu__card-tag{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.menu__card-title{font-family:var(--font-display);font-size:24px;font-weight:700;margin-bottom:8px}
+.menu__card-price{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--crimson);margin-bottom:12px}
+.menu__card-desc{font-size:14px;color:var(--text-mid);line-height:1.6}
+.menu__cta-row{margin-top:48px;text-align:center}
+
+/* ===== SPECIALS ===== */
+.specials{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.specials::before{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,152,44,.08),transparent 70%);pointer-events:none}
+.specials .section__label{color:var(--gold-light)}
+.specials .section__title{color:#fff}
+.specials .section__desc{color:rgba(255,255,255,.65)}
+.specials__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.specials__card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:36px 28px;transition:background .3s,border-color .3s}
+.specials__card:hover{background:rgba(255,255,255,.1);border-color:rgba(200,152,44,.3)}
+.specials__day{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:14px}
+.specials__card-title{font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:12px;color:#fff}
+.specials__card-desc{font-size:14px;color:rgba(255,255,255,.65);line-height:1.6}
+.specials__card-emblem{width:44px;height:44px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px}
+
+/* ===== ATMOSPHERE ===== */
+.atmosphere{background:var(--cream)}
+.atmosphere__grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:56px;border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.1)}
+.atmosphere__gallery{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:4px}
+.atmosphere__gallery img{width:100%;height:100%;object-fit:cover}
+.atmosphere__gallery img:first-child{grid-row:1/3}
+.atmosphere__text{background:var(--navy);color:#fff;padding:56px 48px;display:flex;flex-direction:column;justify-content:center}
+.atmosphere__text h3{font-family:var(--font-display);font-size:clamp(28px,3.5vw,42px);font-weight:700;margin-bottom:16px;line-height:1.1}
+.atmosphere__text p{color:rgba(255,255,255,.72);font-size:15px;line-height:1.75;margin-bottom:20px}
+.atmosphere__features{display:flex;gap:24px;flex-wrap:wrap;margin-top:12px}
+.atmosphere__feat{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:rgba(255,255,255,.85)}
+.atmosphere__feat-icon{width:32px;height:32px;border-radius:8px;background:rgba(200,152,44,.18);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--gold-light)}
+
+/* ===== HOURS & CONTACT ===== */
+.contact{background:var(--warm-white)}
+.contact__grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:56px}
+.contact__info-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:44px;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.contact__info-row{display:flex;align-items:flex-start;gap:16px;padding:18px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.contact__info-row:last-child{border-bottom:none}
+.contact__info-icon{width:44px;height:44px;border-radius:12px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:var(--gold)}
+.contact__info-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:4px}
+.contact__info-value{font-size:15px;font-weight:500;color:var(--text-dark);line-height:1.5}
+.contact__info-value a{color:var(--crimson);text-decoration:none;border-bottom:1px solid rgba(140,27,27,.3)}
+.contact__info-value a:hover{border-color:var(--crimson)}
+.contact__hours-card{background:var(--navy);color:#fff;border-radius:20px;padding:44px;position:relative;overflow:hidden}
+.contact__hours-card::after{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(200,152,44,.12),transparent 70%)}
+.contact__hours-title{font-family:var(--font-display);font-size:28px;font-weight:700;margin-bottom:28px}
+.contact__hours-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.contact__hours-row:last-child{border-bottom:none}
+.contact__hours-day{font-weight:600;font-size:15px}
+.contact__hours-time{font-size:15px;color:rgba(255,255,255,.78)}
+.contact__social-row{display:flex;gap:12px;margin-top:32px}
+.contact__social-link{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:14px;font-weight:700;transition:background .2s}
+.contact__social-link:hover{background:var(--gold);color:var(--navy)}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--navy-deep);color:rgba(255,255,255,.5);padding:48px 32px;border-top:1px solid rgba(255,255,255,.06)}
+.footer__inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.footer__brand{font-family:var(--font-display);font-size:20px;font-weight:700;color:rgba(255,255,255,.8)}
+.footer__links{display:flex;gap:24px;font-size:13px}
+.footer__links a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.footer__links a:hover{color:var(--gold-light)}
+.footer__copy{font-size:13px;width:100%;text-align:center;margin-top:12px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)}
+
+/* ===== SCROLL ANIMATION ===== */
+.reveal{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s ease}
+.reveal--visible{opacity:1;transform:translateY(0)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .menu__grid{grid-template-columns:repeat(2,1fr)}
+  .specials__grid{grid-template-columns:repeat(2,1fr)}
+  .atmosphere__grid{grid-template-columns:1fr}
+  .atmosphere__gallery{grid-template-rows:200px 200px}
+  .atmosphere__gallery img:first-child{grid-row:auto}
+}
+@media(max-width:768px){
+  .nav__links{display:none}
+  .nav__hamburger{display:flex}
+  .hero__title{font-size:clamp(40px,10vw,72px)}
+  .section{padding:72px 20px}
+  .menu__grid{grid-template-columns:1fr}
+  .specials__grid{grid-template-columns:1fr}
+  .contact__grid{grid-template-columns:1fr}
+  .about-strip__inner{grid-template-columns:1fr;gap:24px}
+  .about-strip__divider{display:none}
+  .about-strip__item{padding:16px 0}
+  .atmosphere__text{padding:40px 28px}
+  .hero__actions{flex-direction:column;align-items:center}
+  .nav__inner{padding-left:16px;padding-right:16px}
+  .about-strip__num{font-size:32px}
+  .menu__card-img{height:180px}
+  .contact__info-card{padding:28px 20px}
+  .contact__hours-card{padding:28px 20px}
+  .footer__inner{flex-direction:column;text-align:center}
+}
+</style>
+<style>
+.hero-bg::after{content:'🍺';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:1}[data-img-fallback]::after{opacity:.25}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo">
+      <div class="nav__logo-icon">L</div>
+      <div>
+        <span class="nav__logo-text">Links Tavern</span>
+        <span class="nav__logo-sub">Greensburg, Indiana</span>
+      </div>
+    </a>
+    <div class="nav__links">
+      <a href="#menu" class="nav__link">Menu</a>
+      <a href="#specials" class="nav__link">Specials</a>
+      <a href="#atmosphere" class="nav__link">Atmosphere</a>
+      <a href="#contact" class="nav__link">Find Us</a>
+      <a href="https://www.facebook.com/Links-Tavern-112214588813944/" target="_blank" rel="noopener" class="nav__cta btn">Join Us</a>
+    </div>
+    <button class="nav__hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav__mobile" id="mobileMenu">
+  <button class="nav__mobile-close" id="mobileClose" aria-label="Close menu">&times;</button>
+  <a href="#menu" class="mobile-link">Menu</a>
+  <a href="#specials" class="mobile-link">Specials</a>
+  <a href="#atmosphere" class="mobile-link">Atmosphere</a>
+  <a href="#contact" class="mobile-link">Find Us</a>
+  <a href="https://www.facebook.com/Links-Tavern-112214588813944/" target="_blank" rel="noopener" style="color:var(--gold-light);font-size:20px">Facebook Page</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero__bg">
+    <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=80" alt="Links Tavern bar interior" loading="eager">
+  </div>
+  <div class="hero__overlay"></div>
+  <div class="hero__grain"></div>
+  <div class="hero__content">
+    <div class="hero__badge"><span class="hero__badge-dot"></span> Open Now — 112 N Franklin St</div>
+    <h1 class="hero__title">Where <em class="hero__title-em">Greensburg</em><br>Comes Together</h1>
+    <p class="hero__sub">Great food, cold drinks, game-day energy, and the kind of warmth you only find at a true neighborhood tavern. Pull up a chair.</p>
+    <div class="hero__actions">
+      <a href="#menu" class="btn btn--gold">See the Menu</a>
+      <a href="#contact" class="btn btn--outline">Get Directions</a>
+    </div>
+  </div>
+  <div class="hero__scroll">
+    <span>Scroll</span>
+    <div class="hero__scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<section class="about-strip">
+  <div class="about-strip__inner reveal">
+    <div class="about-strip__item">
+      <div class="about-strip__icon">&#127866;</div>
+      <div class="about-strip__num">15+</div>
+      <div class="about-strip__text">Beers on Tap</div>
+    </div>
+    <div class="about-strip__divider"></div>
+    <div class="about-strip__item">
+      <div class="about-strip__icon">&#127836;</div>
+      <div class="about-strip__num">Homestyle</div>
+      <div class="about-strip__text">Kitchen Favorites</div>
+    </div>
+    <div class="about-strip__divider"></div>
+    <div class="about-strip__item">
+      <div class="about-strip__icon">&#9917;</div>
+      <div class="about-strip__num">Every</div>
+      <div class="about-strip__text">Game Day Watch Party</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="section menu" id="menu">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="section__label">From Our Kitchen</div>
+      <h2 class="section__title">Menu Highlights</h2>
+      <p class="section__desc">Handcrafted comfort food made fresh daily — the kind of fare that keeps regulars coming back and newcomers hooked.</p>
+    </div>
+    <div class="menu__grid">
+      <div class="menu__card reveal">
+        <img onerror="this.style.display='none'" class="menu__card-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Tavern burger">
+        <div class="menu__card-body">
+          <div class="menu__card-tag">House Favorite</div>
+          <div class="menu__card-title">The Links Burger</div>
+          <div class="menu__card-price">$12</div>
+          <div class="menu__card-desc">Half-pound hand-patted burger with melted cheddar, caramelized onions, and our signature tavern sauce on a toasted brioche bun.</div>
+        </div>
+      </div>
+      <div class="menu__card reveal">
+        <img onerror="this.style.display='none'" class="menu__card-img" src="https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=600&q=80" alt="Crispy wings">
+        <div class="menu__card-body">
+          <div class="menu__card-tag">Game Day Essential</div>
+          <div class="menu__card-title">Crispy Wings</div>
+          <div class="menu__card-price">$10 / $16</div>
+          <div class="menu__card-desc">Golden-fried wings tossed in your choice of buffalo, BBQ, garlic parmesan, or our house-made honey hot. Half or full order.</div>
+        </div>
+      </div>
+      <div class="menu__card reveal">
+        <img onerror="this.style.display='none'" class="menu__card-img" src="https://images.unsplash.com/photo-1626200419199-391ae4be7a41?auto=format&fit=crop&w=600&q=80" alt="Fish and chips">
+        <div class="menu__card-body">
+          <div class="menu__card-tag">Classic Tavern Plate</div>
+          <div class="menu__card-title">Fish &amp; Chips</div>
+          <div class="menu__card-price">$14</div>
+          <div class="menu__card-desc">Beer-battered cod fried golden, served with crispy fries, house-made tartar sauce, and a wedge of lemon. Pure comfort.</div>
+        </div>
+      </div>
+    </div>
+    <div class="menu__cta-row reveal">
+      <a href="https://www.facebook.com/Links-Tavern-112214588813944/" target="_blank" rel="noopener" class="btn btn--gold">View Full Menu on Facebook</a>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS / EVENTS -->
+<section class="section specials" id="specials">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="section__label">Weekly Specials</div>
+      <h2 class="section__title">There's Always a Reason</h2>
+      <p class="section__desc">Every night brings something different — from deal nights to watch parties. Here's what's coming up this week.</p>
+    </div>
+    <div class="specials__grid">
+      <div class="specials__card reveal">
+        <div class="specials__card-emblem">&#128176;</div>
+        <div class="specials__day">Monday</div>
+        <div class="specials__card-title">Monday Fun Day</div>
+        <div class="specials__card-desc">Half-price appetizers all night long. Bring the crew and make the start of the week something to look forward to.</div>
+      </div>
+      <div class="specials__card reveal">
+        <div class="specials__card-emblem">&#127906;</div>
+        <div class="specials__day">Wednesday</div>
+        <div class="specials__card-title">Trivia Night</div>
+        <div class="specials__card-desc">Test your smarts with free-to-play bar trivia starting at 7 PM. Prizes, bragging rights, and cold drinks on the line.</div>
+      </div>
+      <div class="specials__card reveal">
+        <div class="specials__card-emblem">&#127942;</div>
+        <div class="specials__day">Friday &amp; Saturday</div>
+        <div class="specials__card-title">Game Day Watch Party</div>
+        <div class="specials__card-desc">Big screens, big plays, and big flavor. Specials on pitchers and wings during every game. Check our Facebook for the schedule.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATMOSPHERE -->
+<section class="section atmosphere" id="atmosphere">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="section__label">The Vibe</div>
+      <h2 class="section__title">More Than Just a Bar</h2>
+      <p class="section__desc">Links Tavern is where neighbors become friends and strangers become regulars. Warm lighting, good conversation, and the kind of place you never want to leave.</p>
+    </div>
+    <div class="atmosphere__grid reveal">
+      <div class="atmosphere__gallery">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=600&q=80" alt="Cozy tavern interior">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80" alt="Craft cocktails">
+        <img onerror="this.style.display='none'" src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=400&q=80" alt="Bar scene">
+      </div>
+      <div class="atmosphere__text">
+        <h3>A Place That Feels<br>Like Home</h3>
+        <p>Whether you're catching the game with friends, sharing a meal with family, or just unwinding after a long day, Links is your spot. No pretense, no pretentiousness — just honest food, cold drinks, and genuine hospitality.</p>
+        <p>We've been proud to call downtown Greensburg home, and we'd love to welcome you to our table. Come as you are.</p>
+        <div class="atmosphere__features">
+          <div class="atmosphere__feat">
+            <div class="atmosphere__feat-icon">&#128250;</div>
+            Big Screen TVs
+          </div>
+          <div class="atmosphere__feat">
+            <div class="atmosphere__feat-icon">&#127911;</div>
+            Jukebox &amp; Music
+          </div>
+          <div class="atmosphere__feat">
+            <div class="atmosphere__feat-icon">&#127922;</div>
+            Pub Games
+          </div>
+          <div class="atmosphere__feat">
+            <div class="atmosphere__feat-icon">&#128161;</div>
+            Covered Patio
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT & HOURS -->
+<section class="section contact" id="contact">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="section__label">Come See Us</div>
+      <h2 class="section__title">Visit Links Tavern</h2>
+      <p class="section__desc">Right in the heart of downtown Greensburg — easy to find and hard to leave.</p>
+    </div>
+    <div class="contact__grid">
+      <div class="contact__info-card reveal">
+        <div class="contact__info-row">
+          <div class="contact__info-icon">&#128205;</div>
+          <div>
+            <div class="contact__info-label">Address</div>
+            <div class="contact__info-value">112 North Franklin Street<br>Greensburg, IN 47240</div>
+          </div>
+        </div>
+        <div class="contact__info-row">
+          <div class="contact__info-icon">&#128222;</div>
+          <div>
+            <div class="contact__info-label">Phone</div>
+            <div class="contact__info-value"><a href="tel:+181****7737">(812) 663-7737</a></div>
+          </div>
+        </div>
+        <div class="contact__info-row">
+          <div class="contact__info-icon">&#9993;</div>
+          <div>
+            <div class="contact__info-label">Email</div>
+            <div class="contact__info-value"><a href="mailto:linkstavern@gmail.com">linkstavern@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact__info-row">
+          <div class="contact__info-icon">&#128279;</div>
+          <div>
+            <div class="contact__info-label">Facebook</div>
+            <div class="contact__info-value"><a href="https://www.facebook.com/Links-Tavern-112214588813944/" target="_blank" rel="noopener">Links Tavern on Facebook</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact__hours-card reveal">
+        <div class="contact__hours-title">Hours of Operation</div>
+        <div class="contact__hours-row">
+          <span class="contact__hours-day">Monday</span>
+          <span class="contact__hours-time">11 AM – 12 AM</span>
+        </div>
+        <div class="contact__hours-row">
+          <span class="contact__hours-day">Tuesday</span>
+          <span class="contact__hours-time">11 AM – 12 AM</span>
+        </div>
+        <div class="contact__hours-row">
+          <span class="contact__hours-day">Wednesday</span>
+          <span class="contact__hours-time">11 AM – 12 AM</span>
+        </div>
+        <div class="contact__hours-row">
+          <span class="contact__hours-day">Thursday</span>
+          <span class="contact__hours-time">11 AM – 12 AM</span>
+        </div>
+        <div class="contact__hours-row">
+          <span class="contact__hours-day">Friday</span>
+          <span class="contact__hours-time">11 AM – 1 AM</span>
+        </div>
+        <div class="contact__hours-row">
+          <span class="contact__hours-day">Saturday</span>
+          <span class="contact__hours-time">11 AM – 1 AM</span>
+        </div>
+        <div class="contact__hours-row">
+          <span class="contact__hours-day">Sunday</span>
+          <span class="contact__hours-time">12 PM – 10 PM</span>
+        </div>
+        <div class="contact__social-row">
+          <a href="https://www.facebook.com/Links-Tavern-112214588813944/" target="_blank" rel="noopener" class="contact__social-link" title="Facebook">f</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<div style="width:100%;overflow:hidden;">
+      <div style="background:#1a1a1a;padding:32px 24px;color:#fff;text-align:left;min-height:300px;display:flex;flex-direction:column;justify-content:center;gap:14px">
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#c8a97e;font-weight:600">&#128205; Get Directions</div>
+        <div style="font-size:22px;font-weight:700">Links Tavern</div>
+        <div style="font-size:15px;line-height:1.6">112 North Franklin Street<br>Greensburg, IN 47240</div>
+        <div style="font-size:15px"><a href="tel:+181****7737" style="color:#c8a97e;text-decoration:none">(812) 663-7737</a></div>
+        <a href="https://maps.google.com/maps?q=112+N+Franklin+St+Greensburg+IN+47240" target="_blank" rel="noopener" style="display:inline-block;background:#c8a97e;color:#1a1a1a;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;box-shadow:0 4px 14px rgba(200,169,126,.3)">Open in Google Maps &rarr;</a>
+      </div>
+    </div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">Links Tavern</div>
+    <div class="footer__links">
+      <a href="#menu">Menu</a>
+      <a href="#specials">Specials</a>
+      <a href="#atmosphere">Atmosphere</a>
+      <a href="#contact">Contact</a>
+      <a href="https://www.facebook.com/Links-Tavern-112214588813944/" target="_blank" rel="noopener">Facebook</a>
+    </div>
+    <div class="footer__copy">&copy; 2026 Links Tavern &mdash; 112 North Franklin Street, Greensburg, IN 47240 &mdash; (812) 663-7737</div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+(function(){

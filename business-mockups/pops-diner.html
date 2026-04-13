@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pop's Diner | Greensburg, IN</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;color:#3b1a0a;background:#fef6e4;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{position:sticky;top:0;z-index:100;background:#8b1a1a;display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+nav .logo{font-size:1.35rem;font-weight:bold;color:#f5c518;text-decoration:none;letter-spacing:.5px}
+nav .logo span{color:#fef6e4}
+nav .nav-links{display:flex;gap:1.5rem}
+nav .nav-links a{color:#fef6e4;text-decoration:none;font-size:.95rem;letter-spacing:.3px;transition:color .2s}
+nav .nav-links a:hover{color:#f5c518}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:#fef6e4;margin:5px 0;border-radius:2px;transition:all .3s}
+
+.hero{background:linear-gradient(135deg,#8b1a1a 0%,#5c0e0e 100%);color:#fef6e4;text-align:center;padding:5rem 1.5rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(245,197,24,.08) 0%,transparent 70%)}
+.hero h1{font-size:clamp(2.2rem,7vw,4rem);color:#f5c518;margin-bottom:.5rem;position:relative;animation:slideIn .8s ease-out both}
+.hero p{font-size:clamp(1rem,2.5vw,1.35rem);color:rgba(254,246,228,.85);margin-bottom:2rem;font-style:italic;position:relative;animation:slideIn .8s ease-out .2s both}
+.hero .cta{display:inline-block;background:#f5c518;color:#5c0e0e;padding:.85rem 2.5rem;border-radius:4px;text-decoration:none;font-weight:bold;font-size:1.1rem;letter-spacing:.5px;transition:transform .2s,box-shadow .2s;position:relative;animation:slideIn .8s ease-out .4s both}
+.hero .cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,197,24,.4)}
+
+@keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+.section-title{text-align:center;font-size:clamp(1.5rem,4vw,2.2rem);color:#8b1a1a;margin-bottom:.4rem;letter-spacing:.3px}
+.section-sub{text-align:center;color:#7a4a32;font-style:italic;margin-bottom:2.5rem;font-size:1.05rem}
+
+.menu-section{padding:4rem 1.25rem;max-width:900px;margin:0 auto}
+.menu-grid{display:grid;grid-template-columns:1fr;gap:1.5rem}
+.card{background:#fff;border-radius:8px;padding:2rem 1.75rem 1.75rem;text-align:center;box-shadow:0 2px 16px rgba(139,26,26,.08);border:1px solid rgba(139,26,26,.07);transition:transform .25s,box-shadow .25s;opacity:0;animation:cardIn .6s ease-out forwards}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(139,26,26,.14)}
+.card .emoji{font-size:2.5rem;margin-bottom:.5rem;display:block}
+.card h3{color:#8b1a1a;font-size:1.2rem;margin-bottom:.35rem}
+.card p{color:#7a4a32;font-size:.95rem;line-height:1.55}
+
+.story-section{background:#8b1a1a;color:#fef6e4;padding:4rem 1.25rem}
+.story-inner{max-width:750px;margin:0 auto}
+.story-inner .section-title{color:#f5c518}
+.story-inner .section-sub{color:rgba(254,246,228,.65)}
+.story-inner p{margin-bottom:1.25rem;font-size:1.05rem;line-height:1.75;color:rgba(254,246,228,.9)}
+
+.contact-section{padding:4rem 1.25rem;max-width:750px;margin:0 auto}
+.contact-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:1.5rem}
+.contact-item{padding:1rem;background:#fff;border-radius:6px;border-left:4px solid #8b1a1a;transition:transform .2s}
+.contact-item:hover{transform:translateX(4px)}
+.contact-item strong{color:#8b1a1a;display:block;margin-bottom:.2rem;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.contact-item a{color:#5c0e0e;text-decoration:none}
+.contact-item a:hover{color:#f5c518}
+.hours-note{text-align:center;font-style:italic;color:#7a4a32;font-size:1.1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px dashed rgba(139,26,26,.2)}
+
+footer{background:#3b1a0a;color:rgba(254,246,228,.6);text-align:center;padding:1.5rem;font-size:.85rem;letter-spacing:.3px}
+footer a{color:#f5c518;text-decoration:none}
+
+@media(min-width:600px){
+.hero{padding:6rem 2rem 5rem}
+.menu-grid{grid-template-columns:1fr 1fr}
+.contact-grid{grid-template-columns:1fr 1fr}
+}
+@media(min-width:900px){
+.menu-grid{grid-template-columns:1fr 1fr 1fr 1fr}
+.contact-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:599px){
+.hamburger{display:block}
+.nav-links-mobile{position:fixed;top:0;right:-100%;width:70%;max-width:280px;height:100vh;background:#8b1a1a;display:flex;flex-direction:column;padding:4.5rem 2rem 2rem;gap:1.25rem;transition:right .3s ease;box-shadow:-4px 0 20px rgba(0,0,0,.3);z-index:200}
+.nav-links-mobile.open{right:0}
+.nav-links-mobile a{color:#fef6e4;text-decoration:none;font-size:1.15rem;padding:.5rem 0;border-bottom:1px solid rgba(254,246,228,.15)}
+.nav-links-mobile a:hover{color:#f5c518}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .3s;z-index:150}
+.overlay.show{opacity:1;pointer-events:auto}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a class="logo" href="#">Pop's <span>Diner</span></a>
+<div class="nav-links" id="navDesktop">
+<a href="#menu">Menu</a>
+<a href="#story">Story</a>
+<a href="#visit">Visit</a>
+</div>
+<button class="hamburger" id="hamburger" aria-label="Open menu">
+<span></span><span></span><span></span>
+</button>
+</nav>
+
+<div class="overlay" id="overlay"></div>
+<div class="nav-links-mobile" id="navMobile">
+<a href="#menu" onclick="closeMenu()">Menu</a>
+<a href="#story" onclick="closeMenu()">Story</a>
+<a href="#visit" onclick="closeMenu()">Visit</a>
+</div>
+
+<section class="hero" id="home">
+<h1>Pop's Diner</h1>
+<p>Where the coffee's always on and everybody knows your name.</p>
+<a class="cta" href="#menu">See What's Cookin'</a>
+</section>
+
+<section class="menu-section" id="menu">
+<h2 class="section-title">From Our Kitchen</h2>
+<p class="section-sub">Homemade favorites served with love since day one.</p>
+<div class="menu-grid">
+<div class="card" style="animation-delay:.1s">
+<span class="emoji">🍳</span>
+<h3>The Big Breakfast</h3>
+<p>Two eggs any style, bacon or sausage, hash browns, and toast. The plate that keeps you going all day long.</p>
+</div>
+<div class="card" style="animation-delay:.25s">
+<span class="emoji">🥧</span>
+<h3>Homemade Pie</h3>
+<p>Baked fresh every morning. From classic cherry to creamy coconut cream — save room, you'll thank yourself.</p>
+</div>
+<div class="card" style="animation-delay:.4s">
+<span class="emoji">☕</span>
+<h3>Bottomless Coffee</h3>
+<p>Refill after refill, no questions asked. Rich, hot, and always ready when you walk through the door.</p>
+</div>
+<div class="card" style="animation-delay:.55s">
+<span class="emoji">🥞</span>
+<h3>Pancake Stack</h3>
+<p>Fluffy golden stacks drizzled in real maple syrup. Light, thick, and big enough to share — but you won't want to.</p>
+</div>
+</div>
+</section>
+
+<section class="story-section" id="story">
+<div class="story-inner">
+<h2 class="section-title">Our Story</h2>
+<p class="section-sub">A little place with a whole lot of heart.</p>
+<p>Pop's Diner started the way most great diners do — with a dream, a cast-iron skillet, and a belief that a good meal can turn anybody's day around. Back in the early days, Pop himself would be here before the sun came up, brewing the first pot of coffee and getting the biscuits in the oven. He wanted a place where folks could pull off Old Highway 46, sit down in a booth that felt like home, and eat a meal that tasted like someone who loved them made it. That spirit hasn't changed one bit.</p>
+<p>Today, Pop's is more than a restaurant — it's where Greensburg gathers. You'll find farmers finishing up early mornings next to families spending Saturday morning together. Regulars who've been coming for decades still sit at the same stools, and newcomers are always welcomed like old friends. We still make our pie from scratch, still pour coffee until your cup runs dry, and still believe there's nothing a warm plate and a kind word can't fix. Pull up a chair. You're always welcome here.</p>
+</div>
+</section>
+
+<section class="contact-section" id="visit">
+<h2 class="section-title">Come On Over</h2>
+<p class="section-sub">We've got a hot cup waiting for you.</p>
+<div class="contact-grid">
+<div class="contact-item">
+<strong>Address</strong>
+4981 Old Highway 46, Greensburg, IN 47240
+</div>
+<div class="contact-item">
+<strong>Phone</strong>
+<a href="tel:8126639363">812-663-9363</a>
+</div>
+<div class="contact-item">
+<strong>Email</strong>
+<a href="mailto:popsdinner2022@yahoo.com">popsdinner2022@yahoo.com</a>
+</div>
+<div class="contact-item">
+<strong>Facebook</strong>
+<a href="https://www.facebook.com/p/Pops-Diner-100087165915795/" target="_blank" rel="noopener">Follow us on Facebook</a>
+</div>
+</div>
+<p class="hours-note">Open early, seven days a week.</p>
+</section>
+
+<footer>
+&copy; 2026 Pop's Diner &mdash; 4981 Old Highway 46, Greensburg, IN &mdash; <a href="tel:8126639363">812-663-9363</a>
+</footer>
+
+<script>
+var hamburger=document.getElementById('hamburger');
+var navMobile=document.getElementById('navMobile');
+var overlay=document.getElementById('overlay');
+function closeMenu(){navMobile.classList.remove('open');overlay.classList.remove('show')}
+hamburger.addEventListener('click',function(){
+navMobile.classList.toggle('open');overlay.classList.toggle('show')});
+overlay.addEventListener('click',closeMenu);
+
+var cards=document.querySelectorAll('.card');
+var observer=new IntersectionObserver(function(entries){
+entries.forEach(function(entry){
+if(entry.isIntersecting){entry.target.style.animationPlayState='running';observer.unobserve(entry.target)}
+})},{threshold:0.15});
+cards.forEach(function(card){card.style.animationPlayState='paused';observer.observe(card)});
+</script>
+</body>
+</html>

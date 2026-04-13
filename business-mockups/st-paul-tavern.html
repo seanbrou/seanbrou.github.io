@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>St. Paul Tavern — St. Paul, Indiana</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;color:#2c1a0e;background:#faf6f0}
+nav{position:sticky;top:0;z-index:10;background:#1e0f07;display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem}
+nav .logo{color:#d4a64a;font-size:1.25rem;font-weight:700;letter-spacing:.04em}
+nav a{color:#e8d5b5;text-decoration:none;font-size:.85rem;margin-left:1.25rem;letter-spacing:.03em}
+nav a:hover{color:#d4a64a}
+.hero{background:linear-gradient(rgba(30,15,7,.72),rgba(30,15,7,.88)),url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect fill="%233a2210" width="400" height="260"/><rect fill="%234a3018" x="20" y="20" width="360" height="220" rx="4"/><circle fill="%23d4a64a" cx="200" cy="100" r="30" opacity=".15"/></svg>') center/cover;height:56vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.5rem}
+.hero h1{color:#d4a64a;font-size:2.4rem;margin-bottom:.35rem;letter-spacing:.06em}
+.hero p{color:#e8d5b5;font-size:1.05rem;font-style:italic;max-width:420px}
+.hero span{display:inline-block;margin-top:1.1rem;padding:.65rem 1.8rem;background:#d4a64a;color:#1e0f07;font-family:sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;text-decoration:none}
+.offers{background:#f3ece0;padding:2.5rem 1.25rem;text-align:center}
+.offers h2{font-size:1.45rem;color:#1e0f07;margin-bottom:1.5rem;letter-spacing:.04em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:640px;margin:0 auto}
+.card{background:#fff;border:1px solid #e2d8c8;padding:1.1rem .9rem;border-radius:4px}
+.card h3{color:#8b1a1a;font-size:1rem;margin-bottom:.35rem}
+.card p{font-size:.82rem;color:#5a4a3a;line-height:1.45}
+.story{background:#1e0f07;padding:2.5rem 1.25rem;text-align:center}
+.story h2{color:#d4a64a;font-size:1.35rem;margin-bottom:.75rem}
+.story p{color:#d5c5a8;font-size:.92rem;line-height:1.65;max-width:520px;margin:0 auto}
+.contact{background:#faf6f0;padding:2.5rem 1.25rem;text-align:center}
+.contact h2{font-size:1.35rem;color:#1e0f07;margin-bottom:1rem}
+.contact p{font-size:.88rem;color:#5a4a3a;line-height:1.65;margin-bottom:.25rem}
+.contact a{color:#8b1a1a;text-decoration:none}
+.contact a:hover{text-decoration:underline}
+.contact .fb{display:inline-block;margin-top:.8rem;padding:.5rem 1.4rem;background:#3b5998;color:#fff;font-family:sans-serif;font-size:.8rem;border-radius:3px;text-decoration:none;letter-spacing:.04em}
+footer{background:#1e0f07;color:#a08868;text-align:center;padding:1.1rem 1.25rem;font-size:.72rem;font-family:sans-serif;letter-spacing:.05em}
+@media(min-width:600px){.hero h1{font-size:3.2rem}.grid{grid-template-columns:1fr 1fr 1fr 1fr;max-width:860px}}
+</style>
+</head>
+<body>
+<nav>
+<div class="logo">St. Paul Tavern</div>
+<div><a href="#menu">Menu</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+</nav>
+<section class="hero" id="top">
+<h1>St. Paul Tavern</h1>
+<p>Good food, cold drinks, and the kind of place where everybody knows your name.</p>
+<a href="#contact" class="hero-cta"><span>Find Us on Webster Street</span></a>
+</section>
+<section class="offers" id="menu">
+<h2>What We're Known For</h2>
+<div class="grid">
+<div class="card"><h3>Breaded Tenderloin</h3><p>Hand-breaded, pan-fried Indiana classic. Served with pickles and onion rings.</p></div>
+<div class="card"><h3>Fish Friday</h3><p>Beer-battered cod, golden fries, and tartar sauce made in house every week.</p></div>
+<div class="card"><h3>Burger Basket</h3><p>Half-pound patty, melted American cheese, on a toasted bun with fresh-cut fries.</p></div>
+<div class="card"><h3>Cold Pints</h3><p>Bud Light, Coors, and local favorites on tap. Always ice-cold, always reasonably priced.</p></div>
+</div>
+</section>
+<section class="story" id="about">
+<h2>A Tavern Built on Regulars</h2>
+<p>Since the day Val and Alicia unlocked the front door, St. Paul Tavern has been the spot where neighbors catch up, newcomers feel welcome, and nobody leaves a stranger. Pull up a stool, order a round, and settle in — you're among friends here.</p>
+</section>
+<section class="contact" id="contact">
+<h2>Come See Us</h2>
+<p>103 North Webster Street, St. Paul, IN 47272</p>
+<p>Open Mon–Sat · Kitchen til close</p>
+<p><a href="tel:7655259502">765-525-9502</a> · <a href="mailto:valandalicia@sbcglobal.net">valandalicia@sbcglobal.net</a></p>
+<a href="https://www.facebook.com/profile.php?id=100063714034265" class="fb" target="_blank" rel="noopener">Follow Us on Facebook</a>
+</section>
+<footer>&copy; 2026 St. Paul Tavern · 103 N Webster St, St. Paul, IN 47272</footer>
+<script>document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id.startsWith('#')){e.preventDefault();document.querySelector(id)?.scrollIntoView({behavior:'smooth'})}}));</script>
+</body>
+</html>

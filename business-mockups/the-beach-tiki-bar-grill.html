@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<script>document.documentElement.classList.remove('no-js');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Beach Tiki Bar & Grill — Greensburg, IN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#00C9A7;--teal-dark:#009E84;--teal-glow:rgba(0,201,167,0.18);
+  --coral:#FF6B5B;--coral-dark:#D94F40;
+  --gold:#FFB347;--gold-light:#FFF3DC;
+  --sand:#F5ECD7;--sand-dim:rgba(245,236,215,0.65);
+  --dark:#0B1215;--dark-mid:#111D21;--dark-card:#152025;--dark-lighter:#1A2E33;
+  --gray:#8FA3A8;--white:#FFFFFF;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-accent:'Pacifico',cursive;
+  --font-body:'Inter',system-ui,sans-serif;
+  --radius:16px;--radius-sm:10px;--radius-full:999px;
+  --shadow-card:0 4px 24px rgba(0,0,0,0.25);
+  --shadow-hover:0 16px 48px rgba(0,0,0,0.4);
+  --transition:.3s ease;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--font-body);color:var(--sand);background:var(--dark);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+ul{list-style:none}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--teal-dark);border-radius:3px}
+
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 24px;transition:background .4s,box-shadow .4s,backdrop-filter .4s}
+.navbar.scrolled{background:rgba(11,18,21,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 2px 32px rgba(0,0,0,.4)}
+.navbar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav-logo{font-family:var(--font-accent);font-size:26px;color:#fff;line-height:1;text-shadow:0 2px 16px rgba(0,201,167,.4);white-space:nowrap}
+.nav-logo span{color:var(--teal)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{color:rgba(255,255,255,.82);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.4px;transition:color var(--transition)}
+.nav-links a:hover{color:var(--teal)}
+.nav-cta{background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:var(--dark)!important;padding:10px 24px;border-radius:var(--radius-full);font-size:11px!important;font-weight:700;letter-spacing:1.4px;transition:transform var(--transition),box-shadow var(--transition)}
+.nav-cta:hover{transform:scale(1.05);box-shadow:0 6px 28px rgba(0,201,167,.4)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none}
+.hamburger span{display:block;width:26px;height:2.5px;background:#fff;border-radius:2px;transition:all .3s}
+
+/* MOBILE MENU */
+.mobile-menu{position:fixed;inset:0;background:rgba(11,18,21,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;opacity:0;pointer-events:none;transition:opacity .35s}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{color:#fff;font-size:17px;font-weight:600;text-transform:uppercase;letter-spacing:2.5px}
+.mobile-menu .close-btn{position:absolute;top:22px;right:22px;font-size:34px;cursor:pointer;color:#fff;background:none;border:none;line-height:1}
+.mobile-menu .mobile-cta{margin-top:8px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:var(--dark)!important;padding:14px 36px;border-radius:var(--radius-full);font-size:13px!important;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--dark);overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:var(--dark) url('https://images.unsplash.com/photo-1542302567-9376ba53c8e6?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(170deg,rgba(11,18,21,.90) 0%,rgba(17,29,33,.80) 45%,rgba(0,201,167,.12) 100%)}
+
+/* Torch glow hotspots */
+.torch-1{position:absolute;top:15%;left:12%;width:280px;height:280px;background:radial-gradient(circle,rgba(255,140,50,.14) 0%,transparent 70%);animation:torchPulse 3s ease-in-out infinite;pointer-events:none}
+.torch-2{position:absolute;top:20%;right:10%;width:240px;height:240px;background:radial-gradient(circle,rgba(255,107,91,.10) 0%,transparent 70%);animation:torchPulse 4s ease-in-out infinite 1s;pointer-events:none}
+.torch-3{position:absolute;bottom:20%;left:8%;width:200px;height:200px;background:radial-gradient(circle,rgba(0,201,167,.12) 0%,transparent 70%);animation:torchPulse 3.5s ease-in-out infinite .5s;pointer-events:none}
+@keyframes torchPulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+
+/* Firefly particles */
+#fireflies{position:absolute;inset:0;pointer-events:none;z-index:1}
+.firefly{position:absolute;border-radius:50%;background:rgba(255,220,100,.85);box-shadow:0 0 6px 2px rgba(255,220,100,.4);animation:floatFirefly linear infinite}
+@keyframes floatFirefly{0%{opacity:0;transform:translateY(0) translateX(0)}20%{opacity:1}80%{opacity:1}100%{opacity:0;transform:translateY(-120px) translateX(30px)}}
+
+.hero-content{position:relative;z-index:3;text-align:center;padding:110px 24px 90px;max-width:860px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,201,167,.10);border:1.5px solid rgba(0,201,167,.30);color:var(--teal);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;padding:8px 22px;border-radius:var(--radius-full);margin-bottom:32px}
+.hero-badge::before{content:'🌴';font-size:14px}
+.hero h1{font-family:var(--font-display);font-size:clamp(52px,10vw,112px);font-weight:700;color:#fff;line-height:.92;margin-bottom:24px;text-shadow:0 4px 48px rgba(0,0,0,.5);letter-spacing:-1px}
+.hero h1 .tiki{font-family:var(--font-accent);color:var(--teal);display:block;font-size:.65em;text-shadow:0 0 40px rgba(0,201,167,.5)}
+.hero-sub{font-size:clamp(16px,2.4vw,21px);color:var(--sand-dim);max-width:580px;margin:0 auto 40px;line-height:1.65;font-weight:400}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 34px;border-radius:var(--radius-full);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;cursor:pointer;border:none;transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-3px)}
+.btn-primary{background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:var(--dark);box-shadow:0 8px 32px rgba(0,201,167,.35)}
+.btn-primary:hover{box-shadow:0 14px 44px rgba(0,201,167,.5)}
+.btn-coral{background:linear-gradient(135deg,var(--coral),var(--coral-dark));color:#fff;box-shadow:0 8px 32px rgba(255,107,91,.3)}
+.btn-coral:hover{box-shadow:0 14px 44px rgba(255,107,91,.45)}
+.btn-outline{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.25);color:#fff;backdrop-filter:blur(4px)}
+.btn-outline:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.55)}
+.hero-scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.4);font-size:11px;letter-spacing:3px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;animation:bob 2.2s ease-in-out infinite;z-index:3}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+.hero-scroll svg{width:18px;height:18px;stroke:rgba(255,255,255,.4)}
+
+/* SECTION GENERAL */
+section{padding:88px 24px}
+.section-inner{max-width:1150px;margin:0 auto}
+.section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:var(--teal);margin-bottom:12px}
+.section-title{font-family:var(--font-display);font-size:clamp(36px,5.5vw,58px);font-weight:700;line-height:1.02;margin-bottom:18px;color:var(--sand)}
+.section-title em{font-style:normal;color:var(--teal)}
+.section-subtitle{font-size:17px;color:var(--gray);max-width:560px;line-height:1.65;margin-bottom:52px}
+
+/* DIVIDER */
+.tiki-divider{text-align:center;padding:0 24px;margin:-8px auto 0;max-width:1150px;opacity:.35}
+.tiki-divider span{font-size:22px;letter-spacing:16px}
+
+/* DRINKS */
+.drinks-section{background:var(--dark)}
+.drinks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px}
+.drink-card{background:linear-gradient(175deg,var(--dark-card),var(--dark));border:1px solid rgba(0,201,167,.07);border-radius:var(--radius);overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;position:relative}
+.drink-card:hover{transform:translateY(-6px);box-shadow:0 20px 56px rgba(0,201,167,.14);border-color:rgba(0,201,167,.22)}
+.drink-card-img{height:220px;background-size:cover;background-position:center;position:relative}
+.drink-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(11,18,21,.6) 0%,transparent 50%)}
+.price-tag{position:absolute;top:16px;right:16px;z-index:2;background:var(--coral);color:#fff;font-weight:700;font-size:13px;padding:6px 16px;border-radius:var(--radius-full);letter-spacing:.5px;box-shadow:0 4px 12px rgba(255,107,91,.35)}
+.drink-card-body{padding:26px}
+.drink-card-body h3{font-family:var(--font-display);font-size:26px;font-weight:700;margin-bottom:10px;color:var(--sand)}
+.drink-card-body p{color:var(--gray);font-size:14px;line-height:1.6;margin-bottom:18px}
+.drink-tags{display:flex;flex-wrap:wrap;gap:8px}
+.drink-tag{display:inline-block;background:rgba(0,201,167,.10);color:var(--teal);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:5px 14px;border-radius:var(--radius-full);border:1px solid rgba(0,201,167,.15)}
+
+/* FOOD */
+.food-section{background:var(--dark-mid)}
+.food-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px}
+.food-card{background:var(--dark-card);border:1px solid rgba(255,179,71,.07);border-radius:var(--radius);overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s}
+.food-card:hover{transform:translateY(-6px);box-shadow:0 20px 56px rgba(255,179,71,.12);border-color:rgba(255,179,71,.22)}
+.food-card-img{height:220px;background-size:cover;background-position:center;position:relative}
+.food-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(11,18,21,.6) 0%,transparent 50%)}
+.food-card .price-tag{background:var(--gold);color:var(--dark);box-shadow:0 4px 12px rgba(255,179,71,.3)}
+.food-card-body{padding:26px}
+.food-card-body h3{font-family:var(--font-display);font-size:26px;font-weight:700;margin-bottom:10px;color:var(--sand)}
+.food-card-body p{color:var(--gray);font-size:14px;line-height:1.6;margin-bottom:18px}
+.food-tags{display:flex;flex-wrap:wrap;gap:8px}
+.food-tag{display:inline-block;background:rgba(255,179,71,.10);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:5px 14px;border-radius:var(--radius-full);border:1px solid rgba(255,179,71,.15)}
+
+/* EVENTS */
+.events-section{background:var(--dark);position:relative;overflow:hidden}
+.events-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 15% 40%,rgba(0,201,167,.07) 0%,transparent 50%),radial-gradient(ellipse at 85% 60%,rgba(255,107,91,.05) 0%,transparent 50%);pointer-events:none}
+.events-section .section-label{color:var(--coral)}
+.events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:22px}
+.event-card{background:rgba(0,201,167,.04);border:1px solid rgba(0,201,167,.09);border-radius:var(--radius);padding:36px 28px;text-align:center;transition:background .3s,border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+.event-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--coral));border-radius:var(--radius) var(--radius) 0 0}
+.event-card:hover{background:rgba(0,201,167,.09);border-color:rgba(0,201,167,.22);box-shadow:0 12px 40px rgba(0,201,167,.08)}
+.event-icon{font-size:48px;margin-bottom:18px;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+.event-card h3{font-family:var(--font-display);font-size:24px;font-weight:700;margin-bottom:10px;color:var(--sand)}
+.event-card p{color:rgba(143,163,168,.72);font-size:14px;line-height:1.6;margin-bottom:18px}
+.event-when{display:inline-flex;align-items:center;gap:6px;background:rgba(255,179,71,.12);color:var(--gold);font-weight:700;font-size:12px;padding:7px 20px;border-radius:var(--radius-full);letter-spacing:.5px}
+.event-when::before{content:'📅';font-size:12px}
+
+/* ABOUT */
+.about-section{background:var(--dark-mid)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-img{border-radius:20px;overflow:hidden;aspect-ratio:4/3;background:var(--dark-card) url('https://images.unsplash.com/photo-1545457480-3d6b5e3c5d16?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.about-img::after{content:'';position:absolute;inset:0;border-radius:20px;box-shadow:inset 0 0 0 4px rgba(0,201,167,.12)}
+.about-img::before{content:'';position:absolute;bottom:-16px;right:-16px;width:60%;height:60%;background:rgba(0,201,167,.05);border-radius:20px;border:2px solid rgba(0,201,167,.08);z-index:-1}
+.about-text .section-subtitle{margin-bottom:28px}
+.about-narrative{font-size:16px;color:var(--gray);line-height:1.75;margin-bottom:32px}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.about-feature{display:flex;align-items:flex-start;gap:14px}
+.about-feature-icon{width:40px;height:40px;border-radius:var(--radius-sm);background:rgba(0,201,167,.10);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.about-feature span{font-size:14px;font-weight:600;color:var(--sand);margin-bottom:2px;display:block}
+.about-feature small{font-size:13px;color:var(--gray);line-height:1.5}
+
+/* GALLERY STRIP */
+.gallery-section{background:var(--dark);padding:60px 0;overflow:hidden}
+.gallery-strip{display:flex;gap:16px;animation:scrollStrip 30s linear infinite}
+.gallery-strip img{height:200px;width:280px;object-fit:cover;border-radius:var(--radius-sm);flex-shrink:0;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+@keyframes scrollStrip{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* CTA BANNER */
+.cta-section{background:linear-gradient(135deg,var(--dark-card) 0%,var(--dark-mid) 50%,var(--dark-card) 100%);position:relative;overflow:hidden;padding:96px 24px}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(0,201,167,.12) 0%,transparent 55%),radial-gradient(ellipse at 70% 50%,rgba(255,107,91,.07) 0%,transparent 55%);pointer-events:none}
+.cta-inner{position:relative;z-index:1;text-align:center;max-width:720px;margin:0 auto}
+.cta-inner .section-title{color:#fff}
+.cta-inner .section-subtitle{color:var(--sand-dim);margin:0 auto 36px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* CONTACT */
+.contact-section{background:var(--dark)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.contact-info{display:flex;flex-direction:column;gap:28px}
+.contact-block{display:flex;gap:16px;align-items:flex-start}
+.contact-icon{width:50px;height:50px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 4px 16px rgba(0,201,167,.25)}
+.contact-block h4{font-weight:700;font-size:15px;margin-bottom:5px;color:var(--sand)}
+.contact-block p{color:var(--gray);font-size:14px;line-height:1.55}
+.contact-block a{color:var(--teal);font-weight:600;transition:color var(--transition)}
+.contact-block a:hover{color:var(--gold)}
+.hours-table{width:100%;border-collapse:collapse}
+.hours-table td{padding:11px 0;font-size:14px;border-bottom:1px solid rgba(0,201,167,.07);color:var(--gray)}
+.hours-table td:last-child{text-align:right;font-weight:600;color:var(--sand)}
+.contact-map-wrap{border-radius:20px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.3);background:var(--dark-card)}
+.contact-map-wrap iframe{width:100%;height:100%;border:none;display:block;min-height:420px}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(0,201,167,.08);color:var(--sand-dim);padding:56px 24px 28px}
+.footer-inner{max-width:1150px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.06)}
+.footer-brand-col .footer-logo{font-family:var(--font-accent);font-size:30px;color:#fff;margin-bottom:10px;text-shadow:0 2px 16px rgba(0,201,167,.3)}
+.footer-brand-col .footer-logo span{color:var(--teal)}
+.footer-brand-col p{font-size:14px;line-height:1.6;max-width:260px}
+.footer-social{display:flex;gap:12px;margin-top:18px}
+.footer-social a{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:rgba(0,201,167,.08);color:var(--sand-dim);font-size:18px;transition:background var(--transition),color var(--transition)}
+.footer-social a:hover{background:var(--teal);color:var(--dark)}
+.footer-col h5{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--teal);margin-bottom:16px}
+.footer-col ul{display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{font-size:14px;color:var(--sand-dim);transition:color var(--transition)}
+.footer-col ul li a:hover{color:var(--teal)}
+.footer-bottom{padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:12px;color:rgba(245,236,215,.3)}
+
+/* ANIMATIONS */
+html.no-js .fade-in{opacity:1;transform:none;transition:none}
+.fade-in{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+.fade-left{opacity:0;transform:translateX(-22px);transition:opacity 0.65s ease,transform 0.65s ease}
+.fade-left.visible{opacity:1;transform:translateX(0)}
+.fade-right{opacity:0;transform:translateX(22px);transition:opacity 0.65s ease,transform 0.65s ease}
+.fade-right.visible{opacity:1;transform:translateX(0)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .about-features{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero h1{font-size:clamp(42px,11vw,72px)}
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn{width:100%;max-width:300px;justify-content:center}
+  .drinks-grid,.food-grid{grid-template-columns:1fr}
+  .events-grid{grid-template-columns:1fr}
+  section{padding:64px 20px}
+  .footer-top{grid-template-columns:1fr}
+  .contact-grid{gap:36px}
+}
+@media(max-width:480px){
+  .hero-content{padding:88px 16px 72px}
+  section{padding:52px 16px}
+  .hero h1 .tiki{font-size:.6em}
+  .hero-sub{font-size:15px}
+  .about-img{aspect-ratio:3/2}
+  .about-features{grid-template-columns:1fr}
+  .cta-section{padding:72px 16px}
+  .cta-btns{flex-direction:column;align-items:center}
+  .footer-bottom{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="#home" class="nav-logo">Beach <span>Tiki</span></a>
+    <div class="nav-links">
+      <a href="#drinks">Drinks</a>
+      <a href="#food">Menu</a>
+      <a href="#events">Events</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="nav-cta">Reserve a Table</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" onclick="document.getElementById('mobileMenu').classList.add('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" aria-label="Close menu" onclick="document.getElementById('mobileMenu').classList.remove('open')">&times;</button>
+  <a href="#drinks" onclick="closeMobile()">Drinks</a>
+  <a href="#food" onclick="closeMobile()">Menu</a>
+  <a href="#events" onclick="closeMobile()">Events</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#contact" class="mobile-cta" onclick="closeMobile()">Reserve a Table</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="torch-1"></div>
+  <div class="torch-2"></div>
+  <div class="torch-3"></div>
+  <div id="fireflies"></div>
+  <div class="hero-content">
+    <div class="hero-badge fade-in">Greensburg's Tropical Escape</div>
+    <h1 class="fade-in">
+      The Beach<br>
+      <span class="tiki">Tiki Bar &amp; Grill</span>
+    </h1>
+    <p class="hero-sub fade-in">Tropical cocktails, island flavors, and vivid nights under the torches — right in the heart of Greensburg, Indiana.</p>
+    <div class="hero-btns fade-in">
+      <a href="#drinks" class="btn btn-primary">Explore Our Drinks</a>
+      <a href="tel:8126635554" class="btn btn-outline">Call to Reserve</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    Scroll
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- TIKI DIVIDER -->
+<div class="tiki-divider"><span>🌴 &nbsp; 🌺 &nbsp; 🍹 &nbsp; 🌴 &nbsp; 🌺 &nbsp; 🍹 &nbsp; 🌴</span></div>
+
+<!-- DRINKS -->
+<section class="drinks-section" id="drinks">
+  <div class="section-inner">
+    <div class="section-label fade-in">Signature Cocktails</div>
+    <h2 class="section-title fade-in">Tiki Drinks Worth <em>Getting Lost In</em></h2>
+    <p class="section-subtitle fade-in">Volcano bowls, frozen island cocktails, and rum flights — crafted with fresh juices, premium spirits, and a little island magic.</p>
+    <div class="drinks-grid">
+
+      <div class="drink-card fade-in">
+        <div class="drink-card-img" style="background-color:#0a1a18;background-image:url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7c1b?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$12</div>
+        </div>
+        <div class="drink-card-body">
+          <h3>Volcano Bowl</h3>
+          <p>Our signature shareable cocktail — a flaming rum bowl for two, served with long straws and a show that sets the night on fire.</p>
+          <div class="drink-tags">
+            <span class="drink-tag">Signature</span>
+            <span class="drink-tag">Serves 2</span>
+            <span class="drink-tag">Flaming</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="drink-card fade-in">
+        <div class="drink-card-img" style="background-color:#0a1a18;background-image:url('https://images.unsplash.com/photo-1551024709-8f23befc7f10?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$9</div>
+        </div>
+        <div class="drink-card-body">
+          <h3>Mai Tai</h3>
+          <p>Classic tiki staple with aged rum, orange curaçao, orgeat, and fresh lime — the benchmark by which all tiki drinks are measured.</p>
+          <div class="drink-tags">
+            <span class="drink-tag">Classic</span>
+            <span class="drink-tag">On Ice</span>
+            <span class="drink-tag">Iconic</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="drink-card fade-in">
+        <div class="drink-card-img" style="background-color:#0a1a18;background-image:url('https://images.unsplash.com/photo-1461023978152-9bc7a4b3e047?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$8</div>
+        </div>
+        <div class="drink-card-body">
+          <h3>Blue Hawaiian</h3>
+          <p>Tropical blue curaçao meets coconut cream and fresh pineapple — a frozen paradise in a hurricane glass that transports you instantly.</p>
+          <div class="drink-tags">
+            <span class="drink-tag">Frozen</span>
+            <span class="drink-tag">Fan Favorite</span>
+            <span class="drink-tag">Tropical</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="drink-card fade-in">
+        <div class="drink-card-img" style="background-color:#0a1a18;background-image:url('https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$11</div>
+        </div>
+        <div class="drink-card-body">
+          <h3>Zombie</h3>
+          <p>Three kinds of rum, fresh citrus, and a secret blend of fruit juices — one is daring, two is a night, three is a weekend you'll barely remember.</p>
+          <div class="drink-tags">
+            <span class="drink-tag">Strong</span>
+            <span class="drink-tag">Signature</span>
+            <span class="drink-tag">Adventurous</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="drink-card fade-in">
+        <div class="drink-card-img" style="background-color:#0a1a18;background-image:url('https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$9</div>
+        </div>
+        <div class="drink-card-body">
+          <h3>Painkiller</h3>
+          <p>Pusser?s rum, cream of coconut, pineapple, and orange — the drink that makes "I?s on island time" a lifestyle. Earned, not given.</p>
+          <div class="drink-tags">
+            <span class="drink-tag">Creamy</span>
+            <span class="drink-tag">Tropical</span>
+            <span class="drink-tag">Smooth</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="drink-card fade-in">
+        <div class="drink-card-img" style="background-color:#0a1a18;background-image:url('https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$10</div>
+        </div>
+        <div class="drink-card-body">
+          <h3>Rum Runner</h3>
+          <p>Black and light rums, fruit juice, and a float of crème de cassis — the bartender's secret weapon and a guest favorite since day one.</p>
+          <div class="drink-tags">
+            <span class="drink-tag"> Fruity</span>
+            <span class="drink-tag">Refreshing</span>
+            <span class="drink-tag">Shareable</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TIKI DIVIDER -->
+<div class="tiki-divider"><span>🌴 &nbsp; 🌺 &nbsp; 🍹 &nbsp; 🌴 &nbsp; 🌺 &nbsp; 🍹 &nbsp; 🌴</span></div>
+
+<!-- FOOD -->
+<section class="food-section" id="food">
+  <div class="section-inner">
+    <div class="section-label fade-in" style="color:var(--gold)">From the Grill</div>
+    <h2 class="section-title fade-in">Island Flavors, <em>Midwest Heart</em></h2>
+    <p class="section-subtitle fade-in">Chargrilled skewers, tropical fish tacos, and comfort favorites that bring the coast to Indiana — bold flavors, honest portions, and prices that don't require a treasure map.</p>
+    <div class="food-grid">
+
+      <div class="food-card fade-in">
+        <div class="food-card-img" style="background-color:#1a140a;background-image:url('https://images.unsplash.com/photo-1555939594-58d7cb7d7717?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">From $14</div>
+        </div>
+        <div class="food-card-body">
+          <h3>Tiki Tinder Skewers</h3>
+          <p>Chargrilled chicken, shrimp &amp; pineapple skewers glazed with teriyaki and a hint of habanero — served with coconut rice and grilled veggies.</p>
+          <div class="food-tags">
+            <span class="food-tag">Popular</span>
+            <span class="food-tag">6 Pieces</span>
+            <span class="food-tag">Chargrilled</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-card fade-in">
+        <div class="food-card-img" style="background-color:#1a140a;background-image:url('https://images.unsplash.com/photo-1551504734-5ee1c4a147cc?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$13</div>
+        </div>
+        <div class="food-card-body">
+          <h3>Island Fish Tacos</h3>
+          <p>Beer-battered white fish, mango salsa, chipotle crema, and crisp slaw on warm corn tortillas — a taste of the coast in every bite.</p>
+          <div class="food-tags">
+            <span class="food-tag">Signature</span>
+            <span class="food-tag">3 Tacos</span>
+            <span class="food-tag">Fresh</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-card fade-in">
+        <div class="food-card-img" style="background-color:#1a140a;background-image:url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$11</div>
+        </div>
+        <div class="food-card-body">
+          <h3>Beach Smash Burger</h3>
+          <p>Half-pound smash burger with grilled pineapple, teriyaki glaze, pepper jack, and crispy onion strings — sweet, savory, and absolutely unstoppable.</p>
+          <div class="food-tags">
+            <span class="food-tag">Hearty</span>
+            <span class="food-tag">1/2 lb</span>
+            <span class="food-tag">Grilled</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-card fade-in">
+        <div class="food-card-img" style="background-color:#1a140a;background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$15</div>
+        </div>
+        <div class="food-card-body">
+          <h3>Teriyaki Chicken Bowl</h3>
+          <p>Marinated teriyaki chicken breast over coconut rice with edamame, pickled ginger, and a side of miso soup — wholesome and deeply satisfying.</p>
+          <div class="food-tags">
+            <span class="food-tag">Bowl</span>
+            <span class="food-tag">Healthy</span>
+            <span class="food-tag">Filling</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-card fade-in">
+        <div class="food-card-img" style="background-color:#1a140a;background-image:url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$10</div>
+        </div>
+        <div class="food-card-body">
+          <h3>Coconut Shrimp</h3>
+          <p>Six jumbo shrimp in a crispy coconut crust, served with mango-chili dipping sauce and a side of crispy fries. Appetizer or meal — you choose.</p>
+          <div class="food-tags">
+            <span class="food-tag">Appetizer</span>
+            <span class="food-tag">Crispy</span>
+            <span class="food-tag">Shareable</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="food-card fade-in">
+        <div class="food-card-img" style="background-color:#1a140a;background-image:url('https://images.unsplash.com/photo-1551782450-17144efb9c50?auto=format&fit=crop&w=600&q=80')">
+          <div class="price-tag">$9</div>
+        </div>
+        <div class="food-card-body">
+          <h3>Island Nachos</h3>
+          <p>House-fried tortilla chips loaded with pulled chicken, pepper jack, pico de gallo, jalape?os, and a drizzle of chipotle crema.</p>
+          <div class="food-tags">
+            <span class="food-tag">Shareable</span>
+            <span class="food-tag">Loaded</span>
+            <span class="food-tag">Spicy</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY STRIP -->
+<div class="gallery-section">
+  <div class="gallery-strip" id="galleryStrip">
+    <img src="https://images.unsplash.com/photo-1542302567-9376ba53c8e6?auto=format&fit=crop&w=600&q=80" alt="Tiki bar atmosphere" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7c1b?auto=format&fit=crop&w=600&q=80" alt="Tropical cocktails" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1555939594-58d7cb7d7717?auto=format&fit=crop&w=600&q=80" alt="Grilled skewers" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a147cc?auto=format&fit=crop&w=600&q=80" alt="Fish tacos" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Beach burger" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1461023978152-9bc7a4b3e047?auto=format&fit=crop&w=600&q=80" alt="Blue hawaiian drink" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1542302567-9376ba53c8e6?auto=format&fit=crop&w=600&q=80" alt="Tiki bar atmosphere" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7c1b?auto=format&fit=crop&w=600&q=80" alt="Tropical cocktails" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1555939594-58d7cb7d7717?auto=format&fit=crop&w=600&q=80" alt="Grilled skewers" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a147cc?auto=format&fit=crop&w=600&q=80" alt="Fish tacos" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Beach burger" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1461023978152-9bc7a4b3e047?auto=format&fit=crop&w=600&q=80" alt="Blue hawaiian drink" loading="lazy">
+  </div>
+</div>
+
+<!-- EVENTS -->
+<section class="events-section" id="events">
+  <div class="section-inner">
+    <div class="section-label fade-in">Events &amp; Nightlife</div>
+    <h2 class="section-title fade-in">Every Weekend Is a <em>Destination</em></h2>
+    <p class="section-subtitle fade-in">Live bands, DJ nights, karaoke, and seasonal luaus — there's always something electric happening under the torches at The Beach.</p>
+    <div class="events-grid">
+
+      <div class="event-card fade-in">
+        <div class="event-icon">&#127928;</div>
+        <h3>Live Music Fridays</h3>
+        <p>Local bands and touring acts lighting up our open-air patio stage every Friday night. Cold drinks, great tunes, and the best crowd in town.</p>
+        <div class="event-when">Every Friday &bull; 8 PM</div>
+      </div>
+
+      <div class="event-card fade-in">
+        <div class="event-icon">&#127908;</div>
+        <h3>Karaoke Night</h3>
+        <p>Grab the mic, channel your inner islander, and own the stage. Wednesday and Saturday nights — prizes, drink specials, and zero judgment.</p>
+        <div class="event-when">Wed &amp; Sat &bull; 9 PM</div>
+      </div>
+
+      <div class="event-card fade-in">
+        <div class="event-icon">&#127754;</div>
+        <h3>Luau Parties</h3>
+        <p>Seasonal blowouts with leis, fire dancers, themed drink specials, and full island immersion. These are the nights Greensburg talks about all year.</p>
+        <div class="event-when">Seasonal Events</div>
+      </div>
+
+      <div class="event-card fade-in">
+        <div class="event-icon">&#127843;</div>
+        <h3>Sunday Funday Brunch</h3>
+        <p>Brunch cocktails, island-inspired small plates, and a laid-back afternoon on the patio. The perfect start to the week, or the best way to recover from it.</p>
+        <div class="event-when">Sundays &bull; 11 AM</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img fade-left"></div>
+      <div class="about-text fade-right">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">The Midwest's <em>Tropical Escape</em></h2>
+        <p class="about-narrative">Step through our doors and Greensburg fades away. The flickering torches, open-air patio, and island rhythms are your passport to somewhere warmer. The Beach Tiki Bar &amp; Grill started as a dream — bring the beach to Indiana — and became the town's favorite night out.</p>
+        <p class="about-narrative">From signature volcano bowls to our famous Fish Tacos, every drink and dish is made to remind you that the best escape is sometimes the closest one.</p>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature-icon">&#127964;</div>
+            <div>
+              <span>Open-Air Patio</span>
+              <small>Heated outdoor space so the island vibes last year-round</small>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">&#127863;</div>
+            <div>
+              <span>Fresh Crafted Cocktails</span>
+              <small>Real juices, premium spirits, no shortcuts behind the bar</small>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">&#127928;</div>
+            <div>
+              <span>Live Entertainment</span>
+              <small>Bands, DJs, karaoke, and luaus every single week</small>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">&#127795;</div>
+            <div>
+              <span>Locally Owned</span>
+              <small>Proudly serving Greensburg since day one</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="section-label fade-in" style="text-align:center">Ready for Island Time?</div>
+    <h2 class="section-title fade-in">Reserve Your <em>Table Tonight</em></h2>
+    <p class="section-subtitle fade-in" style="text-align:center;margin:0 auto 0">Whether it's date night, a birthday, or just a Tuesday — the torches are lit and the bar is open. Grab your crew and come hungry.</p>
+    <div class="cta-btns fade-in">
+      <a href="tel:8126635554" class="btn btn-coral">Call 812-663-5554</a>
+      <a href="https://www.facebook.com/TheBeachTikiBarandGrill" target="_blank" rel="noopener" class="btn btn-outline">Follow on Facebook</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-inner">
+    <div class="section-label fade-in">Find Us</div>
+    <h2 class="section-title fade-in">Come Escape to <em>the Beach</em></h2>
+    <p class="section-subtitle fade-in">We're right on North Broadway Street — walk through the doors and the Midwest fades away.</p>
+    <div class="contact-grid">
+
+      <div class="fade-left">
+        <div class="contact-info">
+          <div class="contact-block">
+            <div class="contact-icon">&#128205;</div>
+            <div>
+              <h4>Address</h4>
+              <p>107-109 North Broadway Street<br>Greensburg, IN 47240</p>
+            </div>
+          </div>
+          <div class="contact-block">
+            <div class="contact-icon">&#128222;</div>
+            <div>
+              <h4>Phone</h4>
+              <p><a href="tel:8126635554">812-663-5554</a></p>
+            </div>
+          </div>
+          <div class="contact-block">
+            <div class="contact-icon">&#9993;</div>
+            <div>
+              <h4>Email</h4>
+              <p><a href="mailto:beachtikibar@hotmail.com">beachtikibar@hotmail.com</a></p>
+            </div>
+          </div>
+          <div class="contact-block">
+            <div class="contact-icon">&#128338;</div>
+            <div>
+              <h4>Hours</h4>
+              <table class="hours-table">
+                <tr><td>Monday &ndash; Thursday</td><td>4:00 PM &ndash; 12:00 AM</td></tr>
+                <tr><td>Friday &ndash; Saturday</td><td>4:00 PM &ndash; 2:00 AM</td></tr>
+                <tr><td>Sunday</td><td>12:00 PM &ndash; 10:00 PM</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-right">
+        <div class="contact-map-wrap">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3083.8!2d-85.4834!3d39.2053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMznCsDEyJzE1LjYiTiA4NcKwMjgnNTUuNiJX!5e0!3m2!1sen!2sus!4v1"
+            title="The Beach Tiki Bar &amp; Grill location map"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <div class="footer-logo">Beach <span>Tiki</span></div>
+        <p>Tropical cocktails, island flavors, and vivid nights under the torches — right in the heart of Greensburg, Indiana.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/TheBeachTikiBarandGrill" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="tel:8126635554" title="Call" aria-label="Call us">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </a>
+          <a href="mailto:beachtikibar@hotmail.com" title="Email" aria-label="Email us">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#drinks">Our Drinks</a></li>
+          <li><a href="#food">Food Menu</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Visit Us</h5>
+        <ul>
+          <li><a href="tel:8126635554">812-663-5554</a></li>
+          <li><a href="mailto:beachtikibar@hotmail.com">beachtikibar@hotmail.com</a></li>
+          <li><a href="https://www.facebook.com/TheBeachTikiBarandGrill" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://maps.google.com/maps?q=107+North+Broadway+Street+Greensburg+IN+47240" target="_blank" rel="noopener">Get Directions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 The Beach Tiki Bar &amp; Grill &mdash; Greensburg, IN. All rights reserved.</div>
+      <div class="footer-copy">107-109 North Broadway Street &bull; Greensburg, IN 47240</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Navbar scroll ──────────────────────────────────────────────
+var navbar = document.getElementById('navbar');
+window.addEventListener('scroll', function() {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ── Firefly particles ─────────────────────────────────────────
+(function(){
+  var container = document.getElementById('fireflies');
+  if (!container) return;
+  function createFirefly(){
+    var ff = document.createElement('div');
+    ff.className = 'firefly';
+    var size = Math.random() * 4 + 2;
+    ff.style.width = size + 'px';
+    ff.style.height = size + 'px';
+    ff.style.left = Math.random() * 100 + '%';
+    ff.style.top = (Math.random() * 60 + 20) + '%';
+    ff.style.animationDuration = (Math.random() * 6 + 4) + 's';
+    ff.style.animationDelay = (Math.random() * 4) + 's';
+    container.appendChild(ff);
+    setTimeout(function(){ ff.remove(); }, 12000);
+  }
+  // spawn 25 fireflies staggered
+  for (var i = 0; i < 25; i++){
+    setTimeout(createFirefly, i * 400);
+  }
+  // keep spawning
+  setInterval(createFirefly, 2000);
+})();
+
+// ── Parallax hero bg ───────────────────────────────────────────
+var heroBg = document.getElementById('heroBg');
+window.addEventListener('scroll', function() {
+  if (window.scrollY < window.innerHeight) {
+    heroBg.style.transform = 'translateY(' + (window.scrollY * 0.3) + 'px)';
+  }
+}, { passive: true });
+
+// ── Scroll animations ──────────────────────────────────────────
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+document.querySelectorAll('.fade-in, .fade-left, .fade-right').forEach(function(el) {
+  observer.observe(el);
+});
+
+// Failsafe reveal
+setTimeout(function(){
+  document.querySelectorAll('.fade-in:not(.visible), .fade-left:not(.visible), .fade-right:not(.visible)').forEach(function(el){
+    el.classList.add('visible');
+  });
+}, 3500);
+
+// ── Smooth scroll ──────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+  anchor.addEventListener('click', function(e) {
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ── Mobile menu helper ─────────────────────────────────────────
+function closeMobile() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// ── Image fallback (if Unsplash is slow/unavailable) ──────────
+(function(){
+  function checkBg(el) {
+    var s = getComputedStyle(el);
+    if (s.backgroundImage && s.backgroundImage.indexOf('url') === -1) return;
+    if (!el.style.backgroundImage || el.style.backgroundImage === 'none') return;
+    var url = el.style.backgroundImage.slice(4, -1).replace(/["']/g, '');
+    if (!url || url === 'none') return;
+    var img = new Image();
+    img.onerror = function() {
+      var color = el.style.backgroundColor || '#152025';
+      el.style.backgroundImage = 'none';
+      el.style.backgroundColor = color;
+    };
+    img.src = url;
+  }
+  document.querySelectorAll('[style*="background-image"]').forEach(function(el) {
+    checkBg(el);
+  });
+})();
+</script>
+<noscript>
+<style>
+.fade-in,.fade-left,.fade-right{opacity:1!important;transform:none!important;transition:none!important}
+</style>
+</noscript>
+</body>
+</html>
