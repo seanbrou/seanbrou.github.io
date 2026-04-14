@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walker's Coffee & Pub | Athens, GA</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --espresso: #2C1810;
+      --amber: #D4A054;
+      --cream: #F5F0E8;
+      --charcoal: #1A1A1A;
+      --brick: #8B3A2A;
+      --sage: #7A8B6E;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: var(--charcoal);
+      color: var(--cream);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    .card-photo { width: 100%; height: 180px; object-fit: cover; display: block; }
+
+    /* ── Sticky Header ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(26, 20, 16, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(212, 160, 84, 0.25);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--amber);
+      letter-spacing: 0.03em;
+    }
+    .logo span { color: var(--cream); font-weight: normal; }
+    nav { display: flex; gap: 1.5rem; }
+    nav a {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cream);
+      opacity: 0.8;
+      transition: color 0.2s, opacity 0.2s;
+    }
+    nav a:hover { color: var(--amber); opacity: 1; }
+    .nav-cta {
+      background: var(--brick);
+      color: var(--cream) !important;
+      opacity: 1 !important;
+      padding: 0.4rem 0.9rem;
+      border-radius: 3px;
+      font-size: 0.8rem !important;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #a34430; }
+
+    /* ── Mobile Nav Toggle ── */
+    .menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+    .menu-btn svg { width: 24px; height: 24px; fill: var(--cream); }
+
+    @media (max-width: 700px) {
+      .menu-btn { display: block; }
+      nav {
+        display: none;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        flex-direction: column;
+        background: rgba(26, 20, 16, 0.98);
+        border-bottom: 1px solid rgba(212, 160, 84, 0.2);
+        padding: 1rem 1.25rem;
+        gap: 1rem;
+      }
+      nav.open { display: flex; }
+      nav a { font-size: 0.9rem; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 1.5rem 4rem;
+      background-image: url(photos/cafe6.jpg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(160deg, rgba(26, 20, 16, 0.88) 0%, rgba(44, 24, 16, 0.82) 40%, rgba(26, 26, 26, 0.92) 100%);
+      z-index: 0;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a054' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--amber);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: normal;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      color: var(--cream);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--amber);
+      display: block;
+    }
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.75;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn-primary {
+      background: var(--amber);
+      color: var(--espresso);
+      padding: 0.8rem 2rem;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #e0b060; transform: translateY(-1px); }
+    .btn-secondary {
+      border: 1px solid rgba(245, 240, 232, 0.4);
+      color: var(--cream);
+      padding: 0.8rem 2rem;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--amber); background: rgba(212, 160, 84, 0.1); }
+    .hero-hours {
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+      color: rgba(245, 240, 232, 0.6);
+    }
+    .hero-hours strong { color: var(--amber); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Section Commons ── */
+    section { padding: 5rem 1.5rem; }
+    .container { max-width: 1080px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--amber);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: normal;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    /* ── Signature Items ── */
+    .menu-section {
+      background: var(--espresso);
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .menu-card {
+      background: rgba(26, 26, 26, 0.6);
+      border: 1px solid rgba(212, 160, 84, 0.12);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .menu-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 160, 84, 0.35);
+    }
+    .card-img {
+      height: 180px;
+      background: linear-gradient(135deg, rgba(139, 58, 42, 0.6), rgba(44, 24, 16, 0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(26, 26, 26, 0.7) 100%);
+    }
+    .card-body { padding: 1.25rem 1.4rem 1.5rem; }
+    .card-category {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--sage);
+      margin-bottom: 0.4rem;
+    }
+    .card-name {
+      font-size: 1.15rem;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+    .card-desc {
+      font-size: 0.82rem;
+      color: rgba(245, 240, 232, 0.6);
+      line-height: 1.55;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid rgba(245, 240, 232, 0.08);
+    }
+    .card-price { color: var(--amber); font-size: 1rem; font-weight: bold; }
+    .card-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(122, 139, 110, 0.2);
+      color: var(--sage);
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+    }
+
+    /* ── Story Section ── */
+    .story-section {
+      background: var(--charcoal);
+      position: relative;
+      overflow: hidden;
+    }
+    .story-section::before {
+      content: '';
+      position: absolute;
+      top: -40%; right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(212, 160, 84, 0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    @media (max-width: 720px) {
+      .story-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+    .story-text .section-title { margin-bottom: 1.25rem; }
+    .story-text p {
+      font-size: 0.92rem;
+      color: rgba(245, 240, 232, 0.72);
+      margin-bottom: 1rem;
+      line-height: 1.75;
+    }
+    .story-text p:last-of-type { margin-bottom: 1.75rem; }
+    .story-aside {
+      position: relative;
+    }
+    .story-photo {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(212, 160, 84, 0.15);
+      display: block;
+    }
+    .story-img-block {
+      background: linear-gradient(145deg, rgba(139, 58, 42, 0.4), rgba(44, 24, 16, 0.7));
+      border-radius: 8px;
+      height: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(212, 160, 84, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .story-img-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 20px,
+        rgba(212, 160, 84, 0.02) 20px,
+        rgba(212, 160, 84, 0.02) 21px
+      );
+    }
+    .story-img-block .big-quote {
+      font-size: 4rem;
+      color: var(--amber);
+      opacity: 0.5;
+      line-height: 1;
+      font-family: Georgia, serif;
+    }
+    .story-img-block .quote-text {
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--cream);
+      opacity: 0.8;
+      text-align: center;
+      max-width: 260px;
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
+    }
+    .quote-attr {
+      font-size: 0.75rem;
+      color: var(--amber);
+      margin-top: 0.5rem;
+      letter-spacing: 0.05em;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Trust Band ── */
+    .trust-band {
+      background: rgba(44, 24, 16, 0.95);
+      border-top: 1px solid rgba(212, 160, 84, 0.15);
+      border-bottom: 1px solid rgba(212, 160, 84, 0.15);
+      padding: 3rem 1.5rem;
+    }
+    .trust-items {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem 4rem;
+    }
+    .trust-item {
+      text-align: center;
+      min-width: 160px;
+    }
+    .trust-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .trust-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--amber);
+      margin-bottom: 0.25rem;
+    }
+    .trust-value {
+      font-size: 0.85rem;
+      color: var(--cream);
+      opacity: 0.8;
+    }
+
+    /* ── Contact ── */
+    .contact-section {
+      background: var(--espresso);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 720px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    .contact-info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1.25rem;
+      color: var(--cream);
+      font-weight: normal;
+    }
+    .contact-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1.1rem;
+    }
+    .contact-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .contact-detail { font-size: 0.88rem; color: rgba(245, 240, 232, 0.75); line-height: 1.5; }
+    .contact-detail a:hover { color: var(--amber); }
+    .contact-hours table { width: 100%; border-collapse: collapse; }
+    .contact-hours td {
+      font-size: 0.82rem;
+      padding: 0.35rem 0;
+      color: rgba(245, 240, 232, 0.7);
+      border-bottom: 1px solid rgba(245, 240, 232, 0.06);
+    }
+    .contact-hours td:last-child { text-align: right; color: var(--amber); }
+    .map-placeholder {
+      background: rgba(26, 26, 26, 0.6);
+      border: 1px solid rgba(212, 160, 84, 0.12);
+      border-radius: 6px;
+      height: 100%;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: rgba(245, 240, 232, 0.5);
+      font-size: 0.85rem;
+    }
+    .map-placeholder .map-icon { font-size: 2.5rem; opacity: 0.4; }
+    .map-placeholder a {
+      color: var(--amber);
+      font-size: 0.8rem;
+      border: 1px solid rgba(212, 160, 84, 0.4);
+      padding: 0.4rem 1rem;
+      border-radius: 3px;
+      transition: background 0.2s;
+    }
+    .map-placeholder a:hover { background: rgba(212, 160, 84, 0.1); }
+
+    /* ── Footer ── */
+    footer {
+      background: #0f0c0a;
+      padding: 3rem 1.5rem 2rem;
+      border-top: 1px solid rgba(212, 160, 84, 0.1);
+    }
+    .footer-inner { max-width: 1080px; margin: 0 auto; }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (max-width: 720px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+    .footer-brand .footer-logo {
+      font-size: 1.15rem;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
+    }
+    .footer-brand p {
+      font-size: 0.8rem;
+      color: rgba(245, 240, 232, 0.5);
+      line-height: 1.6;
+      max-width: 280px;
+    }
+    .footer-col h4 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--amber);
+      margin-bottom: 0.9rem;
+      font-weight: normal;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 0.82rem;
+      color: rgba(245, 240, 232, 0.6);
+      margin-bottom: 0.5rem;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--amber); }
+    .footer-bottom {
+      border-top: 1px solid rgba(245, 240, 232, 0.06);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .footer-bottom p { font-size: 0.72rem; color: rgba(245, 240, 232, 0.35); }
+    .footer-social { display: flex; gap: 1rem; }
+    .footer-social a {
+      font-size: 0.78rem;
+      color: rgba(245, 240, 232, 0.5);
+      transition: color 0.2s;
+    }
+    .footer-social a:hover { color: var(--amber); }
+
+    /* ── Utilities ── */
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ Sticky Header ══ -->
+  <header role="banner">
+    <div class="logo" aria-label="Walker's Coffee & Pub">
+      Walker&rsquo;s <span>Coffee &amp; Pub</span>
+    </div>
+    <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" onclick="document.getElementById('main-nav').classList.toggle('open'); this.setAttribute('aria-expanded', document.getElementById('main-nav').classList.contains('open'))">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+      </svg>
+    </button>
+    <nav id="main-nav" role="navigation" aria-label="Main navigation">
+      <a href="#menu">Menu</a>
+      <a href="#story">Our Story</a>
+      <a href="#contact">Contact</a>
+      <a href="tel:706-543-1433" class="nav-cta">Call Us</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ══ Hero ══ -->
+    <section class="hero" aria-label="Welcome to Walker's Coffee & Pub">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Athens, Georgia &bull; Est. 2008</p>
+        <h1>Where Late Nights<br><em>Meet Good Coffee</em></h1>
+        <p>An eclectic downtown coffeehouse and pub rooted in Athens — home to live music, cold beer, strong espresso, and the conversations that make a town feel like home.</p>
+        <div class="hero-btns">
+          <a href="#menu" class="btn-primary">See the Menu</a>
+          <a href="#contact" class="btn-secondary">Find Us</a>
+        </div>
+        <p class="hero-hours">
+          Open Daily &bull; <strong>7 AM – 3 AM</strong> &nbsp;|&nbsp;
+          Kitchen Open 'til Midnight
+        </p>
+      </div>
+    </section>
+
+    <!-- ══ Signature Items ══ -->
+    <section class="menu-section" id="menu" aria-labelledby="menu-heading">
+      <div class="container">
+        <p class="section-label">What We're Known For</p>
+        <h2 class="section-title" id="menu-heading">Signature Drinks &amp; Plates</h2>
+        <div class="menu-grid">
+
+          <!-- Card 1 -->
+          <article class="menu-card">
+            <img class="card-photo" src="photos/pub-hero.jpg" alt="Cold brew coffee in glass over ice" loading="lazy">
+            <div class="card-body">
+              <p class="card-category">Coffee</p>
+              <h3 class="card-name">The Walker&rsquo;s Old Fashioned</h3>
+              <p class="card-desc">Our signature cold brew steeped 18 hours, served over a large ice cube with a house-made demerara syrup and an orange peel expresses.</p>
+              <div class="card-footer">
+                <span class="card-price">$5.75</span>
+                <span class="card-tag">House Favorite</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="menu-card">
+            <img class="card-photo" src="photos/pub4.jpg" alt="Craft amber ale poured on tap" loading="lazy">
+            <div class="card-body">
+              <p class="card-category">Beer</p>
+              <h3 class="card-name">Athens Amber on Tap</h3>
+              <p class="card-desc">Locally sourced amber ale on rotation — smooth, malty, and pairs perfectly with our smoked gouda grilled cheese or just good company.</p>
+              <div class="card-footer">
+                <span class="card-price">$6.00</span>
+                <span class="card-tag">Local Draft</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="menu-card">
+            <img class="card-photo" src="photos/pub3.jpg" alt="Gourmet grilled cheese sandwich" loading="lazy">
+            <div class="card-body">
+              <p class="card-category">Food</p>
+              <h3 class="card-name">Smoked Gouda Grilled Cheese</h3>
+              <p class="card-desc">Sharp smoked gouda, heirloom tomato, and a whisper of basil on sourdough — griddled until golden and served with a side of tomato bisque.</p>
+              <div class="card-footer">
+                <span class="card-price">$11.50</span>
+                <span class="card-tag">Bestseller</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="menu-card">
+            <img class="card-photo" src="photos/pub2.jpg" alt="Craft bourbon cocktail in rocks glass" loading="lazy">
+            <div class="card-body">
+              <p class="card-category">Cocktails</p>
+              <h3 class="card-name">The Brick &amp; Beam</h3>
+              <p class="card-desc">Bourbon, amaro, honey syrup, and a dash of Angostura — stirred, not shaken — served in a rocks glass over a single large ice cube.</p>
+              <div class="card-footer">
+                <span class="card-price">$12.00</span>
+                <span class="card-tag">Bartender&rsquo;s Pick</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="menu-card">
+            <img class="card-photo" src="photos/pub1.jpg" alt="Freshly baked croissants and pastries" loading="lazy">
+            <div class="card-body">
+              <p class="card-category">Pastry</p>
+              <h3 class="card-name">Daily Fresh-Baked Treats</h3>
+              <p class="card-desc">Croissants, blueberry lemon loaf, and seasonal fruit tarts delivered fresh every morning from a local Athens baker. Vegan options available.</p>
+              <div class="card-footer">
+                <span class="card-price">From $3.50</span>
+                <span class="card-tag">Local Baker</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="menu-card">
+            <img class="card-photo" src="photos/pub7.jpg" alt="Eggs benedict brunch dish" loading="lazy">
+            <div class="card-body">
+              <p class="card-category">Brunch</p>
+              <h3 class="card-name">The Downtown Benny</h3>
+              <p class="card-desc">Two poached eggs, applewood smoked bacon, hollandaise on a toasted English muffin, served with home fries and a side of sriracha mayo.</p>
+              <div class="card-footer">
+                <span class="card-price">$13.25</span>
+                <span class="card-tag">Weekends Only</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Story / About ══ -->
+    <section class="story-section" id="story" aria-labelledby="story-heading">
+      <div class="container">
+        <div class="story-grid">
+          <div class="story-text">
+            <p class="section-label">Our Story</p>
+            <h2 class="section-title" id="story-heading">A Gathering Place<br>Rooted in Athens</h2>
+            <p>
+              Walker's Coffee &amp; Pub opened its doors in 2008 on a quiet corner of downtown Athens, GA — a town already buzzing with music, art, and the kind of energy that doesn't sleep. We wanted to build a place that captured that spirit: somewhere you could start your morning with a proper espresso or finish your night with a pint and a plate of nachos.
+            </p>
+            <p>
+              Sixteen years later, we're still family-owned and still doing it the same way — fresh food, local draft beers, coffee roasted in small batches, and a staff that actually remembers your name. Whether you're here for a study session, a first date, or just somewhere warm to sit and think, our door is open.
+            </p>
+            <a href="#contact" class="btn-primary">Visit Us</a>
+          </div>
+          <aside class="story-aside" aria-label="Walker's Coffee & Pub interior">
+            <img class="story-photo" src="photos/pub6.jpg" alt="Moody interior of Walker's Coffee & Pub with warm lighting and wooden tables" loading="lazy">
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Trust/Details Band ══ -->
+    <div class="trust-band" aria-label="Why people love us">
+      <div class="trust-items">
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">⏰</span>
+          <p class="trust-label">Open Daily</p>
+          <p class="trust-value">7 AM – 3 AM</p>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">🍺</span>
+          <p class="trust-label">Local Drafts</p>
+          <p class="trust-value">12 Rotating Taps</p>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">🎵</span>
+          <p class="trust-label">Live Music</p>
+          <p class="trust-value">Fri &amp; Sat Nights</p>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">🐕</span>
+          <p class="trust-label">Pet Friendly</p>
+          <p class="trust-value">Patio Welcomes All</p>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">📶</span>
+          <p class="trust-label">Free WiFi</p>
+          <p class="trust-value">Password: walker2018</p>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">🚗</span>
+          <p class="trust-label">Street Parking</p>
+          <p class="trust-value">Always Free</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ Contact ══ -->
+    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="container">
+        <p class="section-label">Come Say Hello</p>
+        <h2 class="section-title" id="contact-heading">Find Us in Athens</h2>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h3>Get In Touch</h3>
+            <div class="contact-row">
+              <span class="contact-icon" aria-hidden="true">📍</span>
+              <div class="contact-detail">
+                <strong>Address</strong><br>
+                <a href="https://maps.google.com/?q=Athens+GA" target="_blank" rel="noopener">Athens, Georgia</a><br>
+                Downtown Historic District
+              </div>
+            </div>
+            <div class="contact-row">
+              <span class="contact-icon" aria-hidden="true">📞</span>
+              <div class="contact-detail">
+                <strong>Phone</strong><br>
+                <a href="tel:706-543-1433">706-543-1433</a>
+              </div>
+            </div>
+            <div class="contact-row">
+              <span class="contact-icon" aria-hidden="true">✉️</span>
+              <div class="contact-detail">
+                <strong>Email</strong><br>
+                <a href="mailto:walkerspub@gmail.com">walkerspub@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-row">
+              <span class="contact-icon" aria-hidden="true">🔗</span>
+              <div class="contact-detail">
+                <strong>Facebook</strong><br>
+                <a href="https://www.facebook.com/WalkersPub/" target="_blank" rel="noopener">facebook.com/WalkersPub</a>
+              </div>
+            </div>
+
+            <h3 style="margin-top: 1.75rem;">Hours of Operation</h3>
+            <div class="contact-hours">
+              <table>
+                <tr><td>Monday – Thursday</td><td>7:00 AM – 2:00 AM</td></tr>
+                <tr><td>Friday – Saturday</td><td>7:00 AM – 3:00 AM</td></tr>
+                <tr><td>Sunday</td><td>9:00 AM – 1:00 AM</td></tr>
+                <tr><td>Kitchen</td><td>7:00 AM – Midnight daily</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="map-placeholder" aria-label="Map placeholder – Athens GA">
+            <span class="map-icon" aria-hidden="true">📍</span>
+            <p>Walker's Coffee &amp; Pub</p>
+            <p>Athens, Georgia</p>
+            <a href="https://maps.google.com/?q=Athens+GA" target="_blank" rel="noopener">Open in Google Maps</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══ Footer ══ -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <p class="footer-logo">Walker&rsquo;s Coffee &amp; Pub</p>
+          <p>Eclectic downtown coffeehouse and pub in Athens, GA — serving good coffee, cold beer, and great company since 2008.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <a href="#menu">Menu</a>
+          <a href="#story">Our Story</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="tel:706-543-1433">706-543-1433</a>
+          <a href="mailto:walkerspub@gmail.com">walkerspub@gmail.com</a>
+          <a href="https://www.facebook.com/WalkersPub/" target="_blank" rel="noopener">Facebook</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Walker&rsquo;s Coffee &amp; Pub, Athens GA. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/WalkersPub/" target="_blank" rel="noopener">Facebook</a>
+          <a href="mailto:walkerspub@gmail.com">Email</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

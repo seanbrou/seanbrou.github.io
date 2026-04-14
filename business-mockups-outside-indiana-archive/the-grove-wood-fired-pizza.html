@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Grove Wood Fired Pizza | Granbury, TX</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --burnt-orange: #c45c26;
+      --warm-gold: #d4a056;
+      --cream: #faf6f0;
+      --charcoal: #2d2a26;
+      --brick: #8b3a2f;
+      --smoke: #5a524a;
+      --white: #ffffff;
+    }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+    }
+    
+    /* STICKY HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(45, 42, 38, 0.97);
+      backdrop-filter: blur(8px);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    
+    .logo {
+      color: var(--warm-gold);
+      font-size: 1.3rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .logo span { color: var(--burnt-orange); }
+    
+    nav { display: flex; gap: 1.5rem; }
+    
+    nav a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: color 0.3s;
+      text-transform: uppercase;
+    }
+    
+    nav a:hover { color: var(--warm-gold); }
+    
+    .nav-cta {
+      background: var(--burnt-orange);
+      color: var(--white) !important;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+    }
+    
+    .nav-cta:hover { background: var(--brick); }
+    
+    /* MOBILE MENU */
+    .menu-toggle { display: none; background: none; border: none; cursor: pointer; }
+    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--cream); margin: 5px 0; }
+    
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(rgba(45,42,38,0.65), rgba(45,42,38,0.75)), 
+                  url(photos/grove-hero.jpg) center/cover no-repeat,
+                  radial-gradient(ellipse at center bottom, rgba(196,92,38,0.4) 0%, transparent 70%),
+                  var(--charcoal);
+      padding: 6rem 1.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212,160,86,0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from { opacity: 0.5; transform: translateX(-50%) scale(1); }
+      to { opacity: 1; transform: translateX(-50%) scale(1.2); }
+    }
+    
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    
+    .hero-tag {
+      color: var(--warm-gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero h1 {
+      color: var(--white);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      font-weight: normal;
+    }
+    
+    .hero h1 em {
+      color: var(--burnt-orange);
+      font-style: normal;
+    }
+    
+    .hero p {
+      color: rgba(250,246,240,0.9);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .btn-primary {
+      background: var(--burnt-orange);
+      color: var(--white);
+    }
+    
+    .btn-primary:hover { background: var(--brick); transform: translateY(-2px); }
+    
+    .btn-outline {
+      background: transparent;
+      color: var(--warm-gold);
+      border: 2px solid var(--warm-gold);
+    }
+    
+    .btn-outline:hover { background: var(--warm-gold); color: var(--charcoal); }
+    
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    
+    /* SECTION STYLES */
+    section { padding: 4rem 1.5rem; }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .section-header h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      color: var(--charcoal);
+      margin-bottom: 0.75rem;
+    }
+    
+    .section-header p {
+      color: var(--smoke);
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    
+    /* MENU SECTION */
+    .menu { background: var(--white); }
+    
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    
+    .menu-card {
+      background: var(--cream);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    
+    .menu-img {
+      height: 180px;
+      background: linear-gradient(135deg, var(--burnt-orange) 0%, var(--brick) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      overflow: hidden;
+    }
+    
+    .menu-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .menu-content { padding: 1.5rem; }
+    
+    .menu-content h3 {
+      color: var(--charcoal);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .menu-content p {
+      color: var(--smoke);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    
+    .menu-price {
+      color: var(--burnt-orange);
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    /* ABOUT SECTION */
+    .about {
+      background: var(--charcoal);
+      color: var(--cream);
+    }
+    
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      align-items: center;
+    }
+    
+    .about-img {
+      height: 300px;
+      background: linear-gradient(135deg, var(--warm-gold) 0%, var(--burnt-orange) 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      overflow: hidden;
+    }
+    
+    .about-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    
+    .about h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      margin-bottom: 1.5rem;
+      color: var(--warm-gold);
+    }
+    
+    .about p {
+      color: rgba(250,246,240,0.9);
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+    
+    /* TRUST BAND */
+    .trust {
+      background: var(--burnt-orange);
+      color: var(--white);
+      padding: 3rem 1.5rem;
+    }
+    
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .trust-item h3 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+    }
+    
+    .trust-item p {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    
+    .trust-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    
+    /* GALLERY SECTION */
+    .gallery {
+      background: var(--white);
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    
+    .gallery-item {
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 1;
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+    
+    .gallery-item--tall {
+      grid-row: span 2;
+    }
+    
+    .gallery-item--wide {
+      grid-column: span 2;
+      aspect-ratio: 2/1;
+    }
+    
+    @media (min-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      
+      .gallery-item--tall {
+        grid-row: span 2;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .gallery-item--wide {
+        grid-column: span 1;
+        aspect-ratio: 1;
+      }
+    }
+    
+    /* CONTACT SECTION */
+    .contact { background: var(--cream); }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .contact-card {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
+    
+    .contact-card h3 {
+      color: var(--burnt-orange);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .contact-card p { color: var(--smoke); margin-bottom: 0.5rem; }
+    
+    .contact-card a {
+      color: var(--charcoal);
+      text-decoration: none;
+      font-size: 1.05rem;
+      display: block;
+      transition: color 0.3s;
+    }
+    
+    .contact-card a:hover { color: var(--burnt-orange); }
+    
+    .contact-cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    
+    /* FOOTER */
+    footer {
+      background: var(--charcoal);
+      color: rgba(250,246,240,0.8);
+      padding: 3rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+    
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo {
+      color: var(--warm-gold);
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .footer-logo span { color: var(--burnt-orange); }
+    
+    footer p { margin-bottom: 0.5rem; font-size: 0.9rem; }
+    
+    .footer-social {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .footer-social a {
+      color: var(--warm-gold);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--warm-gold);
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+    
+    .footer-social a:hover {
+      background: var(--warm-gold);
+      color: var(--charcoal);
+    }
+    
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(250,246,240,0.1);
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+    
+    /* DESKTOP */
+    @media (min-width: 768px) {
+      section { padding: 5rem 2rem; }
+      
+      .about-grid { grid-template-columns: 1fr 1fr; }
+      
+      .contact-grid { grid-template-columns: repeat(3, 1fr); }
+      
+      .menu-grid { grid-template-columns: repeat(3, 1fr); }
+      
+      .trust-grid { grid-template-columns: repeat(4, 1fr); }
+      
+      .hero { padding-top: 8rem; }
+    }
+    
+    @media (max-width: 600px) {
+      .menu-toggle { display: block; }
+      nav { 
+        display: none; 
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--charcoal);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        text-align: center;
+      }
+      nav.active { display: flex; }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- STICKY HEADER -->
+  <header>
+    <div class="logo">The <span>Grove</span></div>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="nav">
+      <a href="#menu">Menu</a>
+      <a href="#about">Our Story</a>
+      <a href="#contact">Contact</a>
+      <a href="tel:8175597770" class="nav-cta">Call Now</a>
+    </nav>
+  </header>
+  
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">Wood Fired Pizza in Granbury</p>
+      <h1>Handcrafted Pizza <em>Baked</em> in Tradition</h1>
+      <p>Experience the warmth of a wood-fired oven, the magic of artisanal crusts, and the flavors of Texas-made pizza perfection.</p>
+      <div class="hero-btns">
+        <a href="#menu" class="btn btn-primary">View Menu</a>
+        <a href="tel:8175597770" class="btn btn-outline">Call to Reserve</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- MENU SECTION -->
+  <section class="menu" id="menu">
+    <div class="section-header">
+      <h2>Signature Pizzas</h2>
+      <p>Made fresh daily with house-made dough, San Marzano tomatoes, and locally-sourced ingredients</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-img"><img src="photos/grove-pizza1.jpg" alt="The Grove Classic pizza" loading="lazy"></div>
+        <div class="menu-content">
+          <h3>The Grove Classic</h3>
+          <p>San Marzano tomatoes, fresh mozzarella, basil, extra virgin olive oil, and our signature herb blend</p>
+          <span class="menu-price">From $16</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-img"><img src="photos/grove-pizza2.jpg" alt="Texas Smoker pizza with brisket" loading="lazy"></div>
+        <div class="menu-content">
+          <h3>Texas Smoker</h3>
+          <p>Smoked brisket, pickled jalapenos, white cheddar, caramelized onions, and tangy BBQ drizzle</p>
+          <span class="menu-price">From $19</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-img"><img src="photos/grove-pizza3.jpg" alt="Truffle Mushroom pizza" loading="lazy"></div>
+        <div class="menu-content">
+          <h3>Truffle Mushroom</h3>
+          <p>Wild mushroom blend, truffle cream, fontina, thyme, and a finish of aged parmesan</p>
+          <span class="menu-price">From $18</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-img"><img src="photos/grove-pizza4.jpg" alt="Granbury Heat spicy pizza" loading="lazy"></div>
+        <div class="menu-content">
+          <h3>Granbury Heat</h3>
+          <p>Spicy Italian sausage, roasted red peppers, chili flake, garlic, and pepperoncini</p>
+          <span class="menu-price">From $17</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-img"><img src="photos/grove-pizza5.jpg" alt="Garden Grove vegetarian pizza" loading="lazy"></div>
+        <div class="menu-content">
+          <h3>Garden Grove</h3>
+          <p>Roasted zucchini, squash, bell peppers, red onion, fresh herbs, and goat cheese</p>
+          <span class="menu-price">From $15</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-img"><img src="photos/grove-pizza6.jpg" alt="Honey Drizzle prosciutto pizza" loading="lazy"></div>
+        <div class="menu-content">
+          <h3>Honey Drizzle</h3>
+          <p>Prosciutto, arugula, fig jam, fresh mozzarella, finished with local Texas honey</p>
+          <span class="menu-price">From $20</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ABOUT SECTION -->
+  <section class="about" id="about">
+    <div class="about-grid">
+      <div class="about-img"><img src="photos/grove-oven.jpg" alt="Pizza being placed in wood-fired oven" loading="lazy"></div>
+      <div class="about-text">
+        <h2>Our Story</h2>
+        <p>The Grove began with a simple dream: bring the authentic taste of wood-fired pizza to Granbury. Our clay oven, fired to 900 degrees, creates that perfect char on our hand-stretched dough.</p>
+        <p>Every pizza starts with flour milled in small batches, tomatoes crushed fresh, and cheeses aged to perfection. We source from local Texas farms whenever possible, because great pizza starts with great ingredients.</p>
+        <p>Whether you're here for a romantic evening, family gathering, or just a craving worth satisfying, you'll taste the difference that passion makes.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- GALLERY SECTION -->
+  <section class="gallery" id="gallery">
+    <div class="section-header">
+      <h2>A Taste of The Grove</h2>
+      <p>From oven to table, every pizza tells a story of tradition and flavor</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item gallery-item--tall">
+        <img src="photos/grove-hero.jpg" alt="Wood-fired oven glow" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="photos/grove-pizza6.jpg" alt="Fresh baked pizza" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="photos/grove-gallery1.jpg" alt="Pizza dough being stretched" loading="lazy">
+      </div>
+      <div class="gallery-item gallery-item--wide">
+        <img src="photos/grove-interior.jpg" alt="Cozy restaurant interior" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="photos/grove-gallery3.jpg" alt="Pizza fresh from the oven" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="photos/grove-flames.jpg" alt="Wood-fired oven flames" loading="lazy">
+      </div>
+    </div>
+  </section>
+  
+  <!-- TRUST BAND -->
+  <section class="trust">
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-icon">🕐</div>
+        <h3>Hours</h3>
+        <p>Tue–Thu 4–9pm</p>
+        <p>Fri–Sat 4–10pm</p>
+        <p>Sun 4–8pm</p>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">📍</div>
+        <h3>Location</h3>
+        <p>Granbury, Texas</p>
+        <p>Find us downtown</p>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">📞</div>
+        <h3>Call Us</h3>
+        <p><a href="tel:8175597770" style="color:#fff;text-decoration:none;">(817) 559-7770</a></p>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">💬</div>
+        <h3>Follow</h3>
+        <p><a href="https://www.facebook.com/profile.php?id=100086062165209" target="_blank" style="color:#fff;text-decoration:none;">Facebook</a></p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CONTACT SECTION -->
+  <section class="contact" id="contact">
+    <div class="section-header">
+      <h2>Get In Touch</h2>
+      <p>Ready to experience the oven? Reach out to reserve a table or ask us anything.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>Call Us</h3>
+        <p>For reservations & questions</p>
+        <a href="tel:8175597770">(817) 559-7770</a>
+      </div>
+      <div class="contact-card">
+        <h3>Email</h3>
+        <p>Send us a message</p>
+        <a href="mailto:thegrovewoodfiredpizza@gmail.com">thegrovewoodfiredpizza@gmail.com</a>
+      </div>
+      <div class="contact-card">
+        <h3>Visit</h3>
+        <p>Granbury, Texas</p>
+        <a href="https://www.facebook.com/profile.php?id=100086062165209" target="_blank">Find on Facebook</a>
+      </div>
+    </div>
+    <div class="contact-cta">
+      <a href="tel:8175597770" class="btn btn-primary">Call Now to Reserve</a>
+    </div>
+  </section>
+  
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">The <span>Grove</span></div>
+      <p>Wood Fired Pizza in Granbury, TX</p>
+      <p><a href="tel:8175597770" style="color:#d4a056;text-decoration:none;">(817) 559-7770</a></p>
+      <p><a href="mailto:thegrovewoodfiredpizza@gmail.com" style="color:#d4a056;text-decoration:none;">thegrovewoodfiredpizza@gmail.com</a></p>
+      <p>Granbury, TX</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/profile.php?id=100086062165209" target="_blank">Facebook</a>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Grove Wood Fired Pizza. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav').classList.toggle('active');
+    }
+    
+    // Smooth scroll and close mobile menu on link click
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('nav').classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>

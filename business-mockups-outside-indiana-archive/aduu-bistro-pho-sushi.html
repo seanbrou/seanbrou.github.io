@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aduu Bistro Pho & Sushi | Granbury TX</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --crimson:#c0392b;
+  --gold:#d4a843;
+  --dark:#1a1a1a;
+  --charcoal:#2d2d2d;
+  --warm:#f7f3ee;
+  --white:#fff;
+  --soft:#f0ebe3;
+  --text:#3d3d3d;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--text);background:var(--warm);line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+/* ── HEADER ── */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(26,26,26,0.95);
+  backdrop-filter:blur(8px);
+  border-bottom:2px solid var(--gold);
+  transition:box-shadow .3s;
+}
+header.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.35)}
+.inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-size:1.2rem;font-weight:700;color:var(--white);letter-spacing:.5px}
+.logo span{color:var(--gold)}
+nav{display:flex;gap:24px}
+nav a{color:var(--soft);font-size:.88rem;font-weight:500;letter-spacing:.3px;transition:color .25s;position:relative}
+nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:width .25s}
+nav a:hover{color:var(--gold)}
+nav a:hover::after{width:100%}
+.menu-toggle{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px}
+.menu-toggle span{display:block;width:24px;height:2px;background:var(--white);transition:.3s}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,rgba(26,26,26,.75) 0%,rgba(45,20,10,.70) 100%),
+    url(photos/bistro2.jpg) center/cover no-repeat;
+  text-align:center;padding:100px 20px 60px;
+}
+.hero-content{max-width:700px}
+.hero-tag{
+  display:inline-block;font-size:.78rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--gold);padding:6px 18px;margin-bottom:22px;
+}
+.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);color:var(--white);line-height:1.12;margin-bottom:18px;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:1.05rem;color:#ccc;max-width:520px;margin:0 auto 36px;line-height:1.7}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary{
+  background:var(--crimson);color:var(--white);padding:14px 34px;border-radius:4px;
+  font-weight:600;letter-spacing:.4px;font-size:.95rem;transition:background .25s,transform .2s;
+  border:2px solid var(--crimson);cursor:pointer;
+}
+.btn-primary:hover{background:#a93226;transform:translateY(-2px)}
+.btn-outline{
+  background:transparent;color:var(--white);padding:14px 34px;border-radius:4px;
+  font-weight:600;letter-spacing:.4px;font-size:.95rem;transition:all .25s;
+  border:2px solid var(--gold);cursor:pointer;
+}
+.btn-outline:hover{background:var(--gold);color:var(--dark)}
+
+/* ── SECTION BASE ── */
+section{padding:80px 20px}
+.section-title{
+  text-align:center;font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;
+  color:var(--dark);margin-bottom:12px;
+}
+.section-tag{
+  text-align:center;font-size:.78rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--crimson);margin-bottom:50px;
+}
+
+/* ── SIGNATURE ITEMS ── */
+.items{background:var(--white)}
+.cards{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;
+}
+.card{
+  background:var(--warm);border-radius:8px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);transition:transform .3s,box-shadow .3s;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,.14)}
+.card-img{
+  height:200px;
+  background:linear-gradient(135deg,#4a2210,#8b3d20,#2d1a0a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;
+}
+.card-body{padding:22px 22px 26px}
+.card-badge{
+  display:inline-block;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--crimson);border:1px solid var(--crimson);padding:3px 10px;border-radius:20px;margin-bottom:10px;
+}
+.card h3{font-size:1.15rem;margin-bottom:8px;color:var(--dark)}
+.card p{font-size:.88rem;color:#666;line-height:1.65}
+.card-price{font-size:1.05rem;font-weight:700;color:var(--crimson);margin-top:12px}
+
+/* ── ABOUT / STORY ── */
+.about{background:var(--soft)}
+.about-inner{max-width:1050px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-img{
+  background:linear-gradient(135deg,#3d1a0a,#8b3d20,#1a0a00);
+  border-radius:12px;height:360px;display:flex;align-items:center;justify-content:center;
+  font-size:5rem;
+}
+.about-text h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;color:var(--dark);margin-bottom:18px}
+.about-text p{font-size:.95rem;color:#555;line-height:1.8;margin-bottom:14px}
+.about-signature{font-style:italic;color:var(--crimson);font-size:.9rem;margin-top:20px}
+
+/* ── GALLERY ── */
+.gallery{
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:320px 320px;
+}
+.gallery-item{
+  overflow:hidden;
+  position:relative;
+}
+.gallery-item img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s;
+  display:block;
+}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 60%);
+  display:flex;align-items:flex-end;padding:20px;
+}
+.gallery-overlay span{color:#fff;font-size:.85rem;font-weight:500;letter-spacing:.5px}
+
+/* ── TRUST BAND ── */
+.trust{background:var(--charcoal);padding:50px 20px}
+.trust-inner{max-width:1050px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:40px 60px}
+.trust-item{text-align:center;min-width:160px}
+.trust-icon{font-size:2.2rem;margin-bottom:10px}
+.trust-item h4{color:var(--gold);font-size:.95rem;font-weight:700;margin-bottom:4px}
+.trust-item p{color:#aaa;font-size:.82rem}
+
+/* ── CONTACT ── */
+.contact{background:var(--white)}
+.contact-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:50px}
+.contact-info h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;color:var(--dark);margin-bottom:20px}
+.contact-info p{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;font-size:.95rem;color:#555}
+.contact-info p span{font-size:1.2rem;margin-top:2px}
+.contact-fb{display:inline-flex;align-items:center;gap:10px;margin-top:8px;background:var(--crimson);color:var(--white);padding:12px 24px;border-radius:4px;font-weight:600;font-size:.9rem;transition:background .25s}
+.contact-fb:hover{background:#a93226}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.contact-form input,.contact-form textarea{
+  width:100%;padding:13px 16px;border:1.5px solid #ddd;border-radius:4px;
+  font-size:.95rem;font-family:inherit;transition:border-color .25s;background:var(--warm);
+}
+.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--gold)}
+.contact-form textarea{resize:vertical;min-height:110px}
+.contact-form button{
+  background:var(--crimson);color:var(--white);padding:14px;border-radius:4px;
+  font-weight:600;font-size:.95rem;border:none;cursor:pointer;transition:background .25s;letter-spacing:.4px;
+}
+.contact-form button:hover{background:#a93226}
+
+/* ── FOOTER ── */
+footer{background:var(--dark);padding:40px 20px;text-align:center;border-top:3px solid var(--gold)}
+footer p{color:#888;font-size:.85rem;margin-bottom:8px}
+footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<header id="header">
+  <div class="inner">
+    <a href="#" class="logo">Aduu <span>Bistro</span></a>
+    <nav id="nav">
+      <a href="#menu">Menu</a>
+      <a href="#about">Our Story</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-tag">Granbury, Texas</div>
+    <h1>Pho. Sushi. <em>Heart.</em></h1>
+    <p class="hero-sub">Aduu Bistro brings together the soul-warming comfort of handcrafted pho and the artful precision of sushi — in one welcoming Granbury neighborhood spot.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">Explore Our Menu</a>
+      <a href="#contact" class="btn-outline">Find Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE ITEMS -->
+<section class="items" id="menu">
+  <p class="section-tag">Chef's Selection</p>
+  <h2 class="section-title">Signature Dishes</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-img" style="background:url(photos/bistro8.jpg) center/cover no-repeat #2d1a0a"></div>
+      <div class="card-body">
+        <span class="card-badge">House Specialty</span>
+        <h3>Traditional Beef Pho</h3>
+        <p>Slow-simmered bone broth with rice noodles, tender sliced beef, fresh herbs, and house-made hoisin. A bowl built on hours of tradition.</p>
+        <div class="card-price">$14.95</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:url(photos/bistro7.jpg) center/cover no-repeat #1a2e1a"></div>
+      <div class="card-body">
+        <span class="card-badge">Sushi Counter</span>
+        <h3>Rainbow Roll</h3>
+        <p>Imitation crab and cucumber wrapped in seaweed rice, crowned with slices of salmon, tuna, and tilapia. Served with pickled ginger and wasabi.</p>
+        <div class="card-price">$16.95</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:url(photos/bistro6.jpg) center/cover no-repeat #3d1a0a"></div>
+      <div class="card-body">
+        <span class="card-badge">Comfort Classic</span>
+        <h3>Chicken Pho</h3>
+        <p>Light yet deeply flavored chicken broth, rice noodles, shredded white chicken, and the same fresh herb basket that makes every bowl special.</p>
+        <div class="card-price">$13.95</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:url(photos/bistro3.jpg) center/cover no-repeat #1a2e1a"></div>
+      <div class="card-body">
+        <span class="card-badge">Chef's Selection</span>
+        <h3>Dragon Roll</h3>
+        <p>Shrimp tempura and avocado at the core, draped with eel and drizzled with unagi sauce. A showpiece of flavor and texture.</p>
+        <div class="card-price">$18.95</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:url(photos/bistro6.jpg) center/cover no-repeat #2d1a0a"></div>
+      <div class="card-body">
+        <span class="card-badge">Spicy Favorite</span>
+        <h3>Spicy Tonkotsu Ramen</h3>
+        <p>Rich pork broth, ramen noodles, chashu pork, soft-boiled egg, corn, and a kick of house-made chili paste. Comfort in every spoonful.</p>
+        <div class="card-price">$15.95</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:url(photos/bistro10.jpg) center/cover no-repeat #1a2e1a"></div>
+      <div class="card-body">
+        <span class="card-badge">Sushi Counter</span>
+        <h3>Cali Crunch Roll</h3>
+        <p>Imitation crab, cream cheese, and cucumber rolled in crispy tortilla strips. A customer favorite that delivers crunch and flavor in every bite.</p>
+        <div class="card-price">$14.95</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / STORY -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-img" style="background:url(photos/bistro1.jpg) center/cover no-repeat #1a1a1a"></div>
+    <div class="about-text">
+      <p class="section-tag" style="text-align:left">Our Story</p>
+      <h2>Aduu Bistro Pho & Sushi</h2>
+      <p>Aduu Bistro was born from a love of gathering around food that feels like home — whether that means a steaming bowl of pho after a long day or perfectly crafted sushi shared with friends.</p>
+      <p>We bring together two culinary traditions under one roof in Granbury, Texas. Every broth is simmered for hours. Every roll is made to order. We believe great food should be both an art and a comfort.</p>
+      <p class="about-signature">— The Aduu Bistro Family</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAND -->
+<div class="trust">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <div class="trust-icon">🍜</div>
+      <h4>Handcrafted Broth</h4>
+      <p>Simmered for hours from scratch</p>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🍣</div>
+      <h4>Made to Order</h4>
+      <p>Every roll, every bowl — fresh for you</p>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">📍</div>
+      <h4>Granbury, TX</h4>
+      <p>Proudly serving Hood County</p>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🤝</div>
+      <h4>Welcoming Space</h4>
+      <p>Neighborhood vibes, every visit</p>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery">
+  <div class="gallery-item">
+    <img src="photos/bistro4.jpg" alt="Moody restaurant dining room" loading="lazy">
+    <div class="gallery-overlay"><span>The Dining Room</span></div>
+  </div>
+  <div class="gallery-item">
+    <img src="photos/bistro9.jpg" alt="Fresh sushi plating" loading="lazy">
+    <div class="gallery-overlay"><span>Sushi Counter</span></div>
+  </div>
+  <div class="gallery-item">
+    <img src="photos/bistro11.jpg" alt="Steaming pho bowl" loading="lazy">
+    <div class="gallery-overlay"><span>Steaming Pho</span></div>
+  </div>
+  <div class="gallery-item" style="grid-column:span 2">
+    <img src="photos/bistro-hero.jpg" alt="Restaurant ambiance" loading="lazy">
+    <div class="gallery-overlay"><span>Our Space — Granbury, TX</span></div>
+  </div>
+  <div class="gallery-item">
+    <img src="photos/bistro-interior.jpg" alt="Chef preparing sushi" loading="lazy">
+    <div class="gallery-overlay"><span>Chef at Work</span></div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <p class="section-tag">Visit Us</p>
+  <h2 class="section-title">Get in Touch</h2>
+  <div class="contact-inner">
+    <div class="contact-info">
+      <h2>Aduu Bistro Pho & Sushi</h2>
+      <p><span>📍</span>Granbury, Texas</p>
+      <p><span>📧</span>aduubistro@gmail.com</p>
+      <p>Come hungry. We'll take good care of you.</p>
+      <a href="https://www.facebook.com/AduuBistroPhoandSushi/" target="_blank" rel="noopener" class="contact-fb">
+        <span>📱</span> Follow Us on Facebook
+      </a>
+    </div>
+    <form class="contact-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Sent! Thank you!';this.querySelector('button').style.background='#27ae60';">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Message or question..."></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong style="color:#eee">Aduu Bistro Pho & Sushi</strong> — Granbury, TX</p>
+  <p>📧 <a href="mailto:aduubistro@gmail.com">aduubistro@gmail.com</a></p>
+  <p style="margin-top:8px">
+    <a href="https://www.facebook.com/AduuBistroPhoandSushi/" target="_blank" rel="noopener">Facebook</a>
+  </p>
+  <p style="margin-top:14px;color:#555;font-size:.78rem">&copy; 2026 Aduu Bistro. All rights reserved.</p>
+</footer>
+
+<script>
+// Sticky header shadow on scroll
+const hdr=document.getElementById('header');
+window.addEventListener('scroll',()=>{hdr.classList.toggle('scrolled',window.scrollY>20);},{'passive':true});
+
+// Mobile nav toggle
+const toggle=document.getElementById('menuToggle');
+const nav=document.getElementById('nav');
+toggle.addEventListener('click',()=>{
+  const open=nav.style.display==='flex';
+  nav.style.display=open?'none':'flex';
+  nav.style.flexDirection='column';
+  nav.style.position='absolute';
+  nav.style.top='64px';
+  nav.style.left='0';
+  nav.style.right='0';
+  nav.style.background='rgba(26,26,26,.97)';
+  nav.style.padding='16px 20px';
+  nav.style.gap='16px';
+  nav.style.borderBottom='2px solid var(--gold)';
+  toggle.querySelectorAll('span')[0].style.transform=open?'':'rotate(45deg) translate(5px,5px)';
+  toggle.querySelectorAll('span')[1].style.opacity=open?'':'0';
+  toggle.querySelectorAll('span')[2].style.transform=open?'':'rotate(-45deg) translate(5px,-5px)';
+});
+
+// Close mobile nav on link click
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  nav.style.display='';
+  toggle.querySelectorAll('span')[0].style.transform='';
+  toggle.querySelectorAll('span')[1].style.opacity='';
+  toggle.querySelectorAll('span')[2].style.transform='';
+}));
+</script>
+</body>
+</html>
