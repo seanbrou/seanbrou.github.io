@@ -44,8 +44,8 @@ nav a:hover::after{width:100%}
 /* ── HERO ── */
 .hero{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(160deg,rgba(26,26,26,.82) 0%,rgba(45,20,10,.75) 100%),
-    linear-gradient(135deg,#3d1a0a 0%,#6b2d1a 40%,#2d1a0a 100%);
+  background:linear-gradient(160deg,rgba(26,26,26,.75) 0%,rgba(45,20,10,.70) 100%),
+    url('https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1600&q=80') center/cover no-repeat;
   text-align:center;padding:100px 20px 60px;
 }
 .hero-content{max-width:700px}
@@ -119,6 +119,30 @@ section{padding:80px 20px}
 .about-text p{font-size:.95rem;color:#555;line-height:1.8;margin-bottom:14px}
 .about-signature{font-style:italic;color:var(--crimson);font-size:.9rem;margin-top:20px}
 
+/* ── GALLERY ── */
+.gallery{
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:320px 320px;
+}
+.gallery-item{
+  overflow:hidden;
+  position:relative;
+}
+.gallery-item img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s;
+  display:block;
+}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 60%);
+  display:flex;align-items:flex-end;padding:20px;
+}
+.gallery-overlay span{color:#fff;font-size:.85rem;font-weight:500;letter-spacing:.5px}
+
 /* ── TRUST BAND ── */
 .trust{background:var(--charcoal);padding:50px 20px}
 .trust-inner{max-width:1050px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:40px 60px}
@@ -190,7 +214,7 @@ footer a{color:var(--gold)}
   <h2 class="section-title">Signature Dishes</h2>
   <div class="cards">
     <div class="card">
-      <div class="card-img">🍜</div>
+      <div class="card-img" style="background:url('https://images.unsplash.com/photo-1583224964978-2257b960c3d3?w=600&q=80') center/cover no-repeat #2d1a0a"></div>
       <div class="card-body">
         <span class="card-badge">House Specialty</span>
         <h3>Traditional Beef Pho</h3>
@@ -199,7 +223,7 @@ footer a{color:var(--gold)}
       </div>
     </div>
     <div class="card">
-      <div class="card-img">🍣</div>
+      <div class="card-img" style="background:url('https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=600&q=80') center/cover no-repeat #1a2e1a"></div>
       <div class="card-body">
         <span class="card-badge">Sushi Counter</span>
         <h3>Rainbow Roll</h3>
@@ -208,7 +232,7 @@ footer a{color:var(--gold)}
       </div>
     </div>
     <div class="card">
-      <div class="card-img">🍲</div>
+      <div class="card-img" style="background:url('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80') center/cover no-repeat #3d1a0a"></div>
       <div class="card-body">
         <span class="card-badge">Comfort Classic</span>
         <h3>Chicken Pho</h3>
@@ -217,7 +241,7 @@ footer a{color:var(--gold)}
       </div>
     </div>
     <div class="card">
-      <div class="card-img">🥢</div>
+      <div class="card-img" style="background:url('https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=80') center/cover no-repeat #1a2e1a"></div>
       <div class="card-body">
         <span class="card-badge">Chef's Selection</span>
         <h3>Dragon Roll</h3>
@@ -226,7 +250,7 @@ footer a{color:var(--gold)}
       </div>
     </div>
     <div class="card">
-      <div class="card-img">🍜</div>
+      <div class="card-img" style="background:url('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80') center/cover no-repeat #2d1a0a"></div>
       <div class="card-body">
         <span class="card-badge">Spicy Favorite</span>
         <h3>Spicy Tonkotsu Ramen</h3>
@@ -235,7 +259,7 @@ footer a{color:var(--gold)}
       </div>
     </div>
     <div class="card">
-      <div class="card-img">🍣</div>
+      <div class="card-img" style="background:url('https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=600&q=80') center/cover no-repeat #1a2e1a"></div>
       <div class="card-body">
         <span class="card-badge">Sushi Counter</span>
         <h3>Cali Crunch Roll</h3>
@@ -249,7 +273,7 @@ footer a{color:var(--gold)}
 <!-- ABOUT / STORY -->
 <section class="about" id="about">
   <div class="about-inner">
-    <div class="about-img">🥢</div>
+    <div class="about-img" style="background:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80') center/cover no-repeat #1a1a1a"></div>
     <div class="about-text">
       <p class="section-tag" style="text-align:left">Our Story</p>
       <h2>Aduu Bistro Pho & Sushi</h2>
@@ -283,6 +307,30 @@ footer a{color:var(--gold)}
       <h4>Welcoming Space</h4>
       <p>Neighborhood vibes, every visit</p>
     </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery">
+  <div class="gallery-item">
+    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" alt="Moody restaurant dining room" loading="lazy">
+    <div class="gallery-overlay"><span>The Dining Room</span></div>
+  </div>
+  <div class="gallery-item">
+    <img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=800&q=80" alt="Fresh sushi plating" loading="lazy">
+    <div class="gallery-overlay"><span>Sushi Counter</span></div>
+  </div>
+  <div class="gallery-item">
+    <img src="https://images.unsplash.com/photo-1562967968-71c8b57673c3?w=800&q=80" alt="Steaming pho bowl" loading="lazy">
+    <div class="gallery-overlay"><span>Steaming Pho</span></div>
+  </div>
+  <div class="gallery-item" style="grid-column:span 2">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80" alt="Restaurant ambiance" loading="lazy">
+    <div class="gallery-overlay"><span>Our Space — Granbury, TX</span></div>
+  </div>
+  <div class="gallery-item">
+    <img src="https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=800&q=80" alt="Chef preparing sushi" loading="lazy">
+    <div class="gallery-overlay"><span>Chef at Work</span></div>
   </div>
 </div>
 

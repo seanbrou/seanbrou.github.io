@@ -83,10 +83,10 @@
     
     /* Hero Section */
     .hero {
-      background: linear-gradient(135deg, var(--rust-dark) 0%, var(--rust) 50%, var(--brown-light) 100%);
+      background: linear-gradient(rgba(122, 49, 21, 0.7), rgba(122, 49, 21, 0.85)), url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1600&q=80') center/cover no-repeat;
       color: var(--cream);
       text-align: center;
-      padding: 4rem 1.5rem 5rem;
+      padding: 5rem 1.5rem 6rem;
       position: relative;
     }
     
@@ -101,10 +101,15 @@
       border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     }
     
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    
     .hero h1 {
       font-size: clamp(2rem, 5vw, 3.2rem);
       margin-bottom: 0.5rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
     
     .hero-tagline {
@@ -173,12 +178,20 @@
     .menu-card:hover { transform: translateY(-4px); }
     
     .menu-card-img {
-      height: 160px;
+      height: 180px;
       background: var(--tan);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
+      overflow: hidden;
+    }
+    
+    .menu-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    
+    .menu-card:hover .menu-card-img img {
+      transform: scale(1.05);
     }
     
     .menu-card-body { padding: 1.25rem; }
@@ -213,10 +226,17 @@
       .about-inner { grid-template-columns: 1fr 1fr; align-items: center; }
     }
     
-    .about-icon {
-      font-size: 4rem;
-      text-align: center;
-      padding: 1rem;
+    .about-photo {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+    
+    .about-photo img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
     }
     
     .about-text h2 {
@@ -228,6 +248,36 @@
     .about-text p {
       margin-bottom: 1rem;
       font-size: 0.95rem;
+    }
+    
+    /* Atmosphere Gallery */
+    .atmosphere-section {
+      padding: 2rem 0;
+    }
+    
+    .atmosphere-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .atmosphere-item {
+      height: 220px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    
+    .atmosphere-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    
+    .atmosphere-item:hover img {
+      transform: scale(1.08);
     }
     
     /* Trust Band */
@@ -349,6 +399,11 @@
       nav { justify-content: center; }
       .logo { width: 100%; text-align: center; }
     }
+    
+    @media (max-width: 600px) {
+      .hero { padding: 3.5rem 1rem 4.5rem; }
+      .atmosphere-item { height: 180px; }
+    }
   </style>
 </head>
 <body>
@@ -368,9 +423,11 @@
 
   <!-- Hero -->
   <section class="hero">
-    <h1>Mary's Brazos Cafe</h1>
-    <p class="hero-tagline">Where Tin Top Comes for Breakfast</p>
-    <a href="#menu" class="hero-cta">See Our Menu</a>
+    <div class="hero-content">
+      <h1>Mary's Brazos Cafe</h1>
+      <p class="hero-tagline">Where Tin Top Comes for Breakfast</p>
+      <a href="#menu" class="hero-cta">See Our Menu</a>
+    </div>
   </section>
 
   <main>
@@ -380,7 +437,9 @@
       <div class="menu-grid">
         
         <article class="menu-card">
-          <div class="menu-card-img">&#127829;</div>
+          <div class="menu-card-img">
+            <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&q=80" alt="The Brazos Breakfast - eggs, sausage, bacon with hash browns and toast" loading="lazy">
+          </div>
           <div class="menu-card-body">
             <h3>The Brazos Breakfast</h3>
             <p>Two eggs any style, smoked sausage links, crispy bacon, hash browns, and toast. The plate that keeps 'em coming back.</p>
@@ -388,7 +447,9 @@
         </article>
         
         <article class="menu-card">
-          <div class="menu-card-img">&#127838;</div>
+          <div class="menu-card-img">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="Chicken Fried Steak with creamy pepper gravy" loading="lazy">
+          </div>
           <div class="menu-card-body">
             <h3>Chicken Fried Steak</h3>
             <p>Hand-breaded, golden-fried steak smothered in creamy white pepper gravy. Served with two eggs and fresh-baked biscuits.</p>
@@ -396,7 +457,9 @@
         </article>
         
         <article class="menu-card">
-          <div class="menu-card-img">&#129388;</div>
+          <div class="menu-card-img">
+            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=80" alt="Fluffy buttermilk pancakes with maple syrup" loading="lazy">
+          </div>
           <div class="menu-card-body">
             <h3>Pancake Stack</h3>
             <p>Three fluffy buttermilk pancakes served with butter and real maple syrup. Add bacon or sausage for the perfect morning.</p>
@@ -404,7 +467,9 @@
         </article>
         
         <article class="menu-card">
-          <div class="menu-card-img">&#127815;</div>
+          <div class="menu-card-img">
+            <img src="https://images.unsplash.com/photo-1510693206972-df098062cb71?w=600&q=80" alt="Farm Fresh Omelette with vegetables and cheese" loading="lazy">
+          </div>
           <div class="menu-card-body">
             <h3>Farm Fresh Omelette</h3>
             <p>Three-egg omelette loaded with your choice of cheese, peppers, onions, mushrooms, and jalapeños. Served with hash browns.</p>
@@ -412,7 +477,9 @@
         </article>
         
         <article class="menu-card">
-          <div class="menu-card-img">&#127869;</div>
+          <div class="menu-card-img">
+            <img src="https://images.unsplash.com/photo-1558030006-450675393462?w=600&q=80" alt="Country Ham and Eggs with grits" loading="lazy">
+          </div>
           <div class="menu-card-body">
             <h3>Country Ham & Eggs</h3>
             <p>Thick-sliced country ham grilled to perfection, served with two eggs, grits or hash browns, and a side of toast.</p>
@@ -420,7 +487,9 @@
         </article>
         
         <article class="menu-card">
-          <div class="menu-card-img">&#129360;</div>
+          <div class="menu-card-img">
+            <img src="https://images.unsplash.com/photo-1607723618620-3dca6e0f3e35?w=600&q=80" alt="Chicken and Dumplings comfort food" loading="lazy">
+          </div>
           <div class="menu-card-body">
             <h3>Chicken & Dumplings</h3>
             <p>Our signature comfort classic. Tender chicken, handmade dumplings, and vegetables in a rich, savory broth. Available all day.</p>
@@ -433,12 +502,30 @@
     <!-- About Section -->
     <section class="about-section" id="about">
       <div class="about-inner">
-        <div class="about-icon">&#127959;</div>
+        <div class="about-photo">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80" alt="Cozy Texas cafe interior with warm lighting and coffee" loading="lazy">
+        </div>
         <div class="about-text">
           <h2>A Tin Top Tradition Since Day One</h2>
           <p>Mary's Brazos Cafe has been the heart of Tin Top's mornings for years. When you walk through our doors, you're not just a customer — you're family.</p>
           <p>We believe in good food, honest portions, and the kind of unpretentious service that makes you feel right at home. Our regulars know the drill: cup of coffee's already poured, and your usual is ready when you are.</p>
           <p>From our hearty breakfast plates to our soul-warming comfort classics, every dish is made to order with the stuff that matters — quality ingredients and a whole lot of care.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Atmosphere Gallery -->
+    <section class="atmosphere-section">
+      <h2 class="section-title">Our Place</h2>
+      <div class="atmosphere-grid">
+        <div class="atmosphere-item">
+          <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80" alt="Warm coffee being poured at a cozy cafe" loading="lazy">
+        </div>
+        <div class="atmosphere-item">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" alt="Latte art in a rustic diner setting" loading="lazy">
+        </div>
+        <div class="atmosphere-item">
+          <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=600&q=80" alt="Classic American diner atmosphere" loading="lazy">
         </div>
       </div>
     </section>

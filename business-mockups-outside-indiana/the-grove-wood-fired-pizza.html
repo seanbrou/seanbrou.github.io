@@ -85,7 +85,8 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      background: linear-gradient(rgba(45,42,38,0.7), rgba(45,42,38,0.7)), 
+      background: linear-gradient(rgba(45,42,38,0.65), rgba(45,42,38,0.75)), 
+                  url('https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat,
                   radial-gradient(ellipse at center bottom, rgba(196,92,38,0.4) 0%, transparent 70%),
                   var(--charcoal);
       padding: 6rem 1.5rem 4rem;
@@ -225,6 +226,13 @@
       align-items: center;
       justify-content: center;
       font-size: 3rem;
+      overflow: hidden;
+    }
+    
+    .menu-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     
     .menu-content { padding: 1.5rem; }
@@ -270,6 +278,14 @@
       align-items: center;
       justify-content: center;
       font-size: 4rem;
+      overflow: hidden;
+    }
+    
+    .about-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
     }
     
     .about h2 {
@@ -314,6 +330,63 @@
     }
     
     .trust-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    
+    /* GALLERY SECTION */
+    .gallery {
+      background: var(--white);
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    
+    .gallery-item {
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 1;
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+    
+    .gallery-item--tall {
+      grid-row: span 2;
+    }
+    
+    .gallery-item--wide {
+      grid-column: span 2;
+      aspect-ratio: 2/1;
+    }
+    
+    @media (min-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      
+      .gallery-item--tall {
+        grid-row: span 2;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .gallery-item--wide {
+        grid-column: span 1;
+        aspect-ratio: 1;
+      }
+    }
     
     /* CONTACT SECTION */
     .contact { background: var(--cream); }
@@ -484,7 +557,7 @@
     </div>
     <div class="menu-grid">
       <div class="menu-card">
-        <div class="menu-img">🔥</div>
+        <div class="menu-img"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80" alt="The Grove Classic pizza" loading="lazy"></div>
         <div class="menu-content">
           <h3>The Grove Classic</h3>
           <p>San Marzano tomatoes, fresh mozzarella, basil, extra virgin olive oil, and our signature herb blend</p>
@@ -492,7 +565,7 @@
         </div>
       </div>
       <div class="menu-card">
-        <div class="menu-img">🤠</div>
+        <div class="menu-img"><img src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80" alt="Texas Smoker pizza with brisket" loading="lazy"></div>
         <div class="menu-content">
           <h3>Texas Smoker</h3>
           <p>Smoked brisket, pickled jalapenos, white cheddar, caramelized onions, and tangy BBQ drizzle</p>
@@ -500,7 +573,7 @@
         </div>
       </div>
       <div class="menu-card">
-        <div class="menu-img">🧀</div>
+        <div class="menu-img"><img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=600&q=80" alt="Truffle Mushroom pizza" loading="lazy"></div>
         <div class="menu-content">
           <h3>Truffle Mushroom</h3>
           <p>Wild mushroom blend, truffle cream, fontina, thyme, and a finish of aged parmesan</p>
@@ -508,7 +581,7 @@
         </div>
       </div>
       <div class="menu-card">
-        <div class="menu-img">🌶️</div>
+        <div class="menu-img"><img src="https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?auto=format&fit=crop&w=600&q=80" alt="Granbury Heat spicy pizza" loading="lazy"></div>
         <div class="menu-content">
           <h3>Granbury Heat</h3>
           <p>Spicy Italian sausage, roasted red peppers, chili flake, garlic, and pepperoncini</p>
@@ -516,7 +589,7 @@
         </div>
       </div>
       <div class="menu-card">
-        <div class="menu-img">🍃</div>
+        <div class="menu-img"><img src="https://images.unsplash.com/photo-1511689660979-10d2b1aada49?auto=format&fit=crop&w=600&q=80" alt="Garden Grove vegetarian pizza" loading="lazy"></div>
         <div class="menu-content">
           <h3>Garden Grove</h3>
           <p>Roasted zucchini, squash, bell peppers, red onion, fresh herbs, and goat cheese</p>
@@ -524,7 +597,7 @@
         </div>
       </div>
       <div class="menu-card">
-        <div class="menu-img">🍯</div>
+        <div class="menu-img"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80" alt="Honey Drizzle prosciutto pizza" loading="lazy"></div>
         <div class="menu-content">
           <h3>Honey Drizzle</h3>
           <p>Prosciutto, arugula, fig jam, fresh mozzarella, finished with local Texas honey</p>
@@ -537,12 +610,40 @@
   <!-- ABOUT SECTION -->
   <section class="about" id="about">
     <div class="about-grid">
-      <div class="about-img">🍕</div>
+      <div class="about-img"><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" alt="Pizza being placed in wood-fired oven" loading="lazy"></div>
       <div class="about-text">
         <h2>Our Story</h2>
         <p>The Grove began with a simple dream: bring the authentic taste of wood-fired pizza to Granbury. Our clay oven, fired to 900 degrees, creates that perfect char on our hand-stretched dough.</p>
         <p>Every pizza starts with flour milled in small batches, tomatoes crushed fresh, and cheeses aged to perfection. We source from local Texas farms whenever possible, because great pizza starts with great ingredients.</p>
         <p>Whether you're here for a romantic evening, family gathering, or just a craving worth satisfying, you'll taste the difference that passion makes.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- GALLERY SECTION -->
+  <section class="gallery" id="gallery">
+    <div class="section-header">
+      <h2>A Taste of The Grove</h2>
+      <p>From oven to table, every pizza tells a story of tradition and flavor</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item gallery-item--tall">
+        <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?auto=format&fit=crop&w=600&q=80" alt="Wood-fired oven glow" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80" alt="Fresh baked pizza" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?auto=format&fit=crop&w=600&q=80" alt="Pizza dough being stretched" loading="lazy">
+      </div>
+      <div class="gallery-item gallery-item--wide">
+        <img src="https://images.unsplash.com/photo-1559183465-bf9cb49980da?auto=format&fit=crop&w=1200&q=80" alt="Cozy restaurant interior" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80" alt="Pizza fresh from the oven" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=600&q=80" alt="Wood-fired oven flames" loading="lazy">
       </div>
     </div>
   </section>
