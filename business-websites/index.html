@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiniMax Website Mockups</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    
+:root {
+  --bg: #fffdf9;
+  --surface: rgba(255,255,255,0.82);
+  --surface-solid: #ffffff;
+  --text: #171717;
+  --muted: #5f5f66;
+  --border: rgba(23,23,23,0.08);
+  --shadow: 0 18px 60px rgba(17, 24, 39, 0.10);
+  --shadow-soft: 0 10px 30px rgba(17, 24, 39, 0.08);
+  --accent: #d9480f;
+  --accent-2: #0f172a;
+  --accent-3: #f97316;
+  --button: #111827;
+  --button-text: #ffffff;
+  --radius-xl: 34px;
+  --radius-lg: 26px;
+  --radius-md: 20px;
+  --radius-sm: 16px;
+  --max: 1180px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(249,115,22,0.12), transparent 32%),
+    radial-gradient(circle at 80% 15%, rgba(59,130,246,0.10), transparent 26%),
+    linear-gradient(180deg, var(--bg), #ffffff 58%, #fffefb 100%);
+  color: var(--text);
+}
+a { color: inherit; text-decoration: none; }
+.shell { position: relative; overflow: hidden; }
+.orb { position: absolute; border-radius: 999px; filter: blur(28px); opacity: .8; pointer-events: none; }
+.orb.one { width: 280px; height: 280px; background: rgba(249,115,22,.10); top: -80px; left: -70px; }
+.orb.two { width: 240px; height: 240px; background: rgba(59,130,246,.10); top: 20px; right: -80px; }
+.orb.three { width: 220px; height: 220px; background: rgba(244,114,182,.09); bottom: 260px; left: 10%; }
+.container { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; position: relative; z-index: 1; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0 0; }
+.brand { display: inline-flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; background: rgba(255,255,255,.65); backdrop-filter: blur(12px); box-shadow: var(--shadow-soft); }
+.brand-mark { width: 34px; height: 34px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-3)); box-shadow: 0 10px 24px rgba(217,72,15,.25); }
+.brand-title { display: flex; flex-direction: column; line-height: 1.05; }
+.brand-title strong { font-family: 'Outfit', system-ui, sans-serif; font-size: 15px; letter-spacing: .02em; }
+.brand-title span { font-size: 12px; color: var(--muted); }
+.nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.pill { border: 1px solid var(--border); background: rgba(255,255,255,.76); color: var(--text); padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+.pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+.pill.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
+.hero { display: grid; grid-template-columns: 1.02fr .98fr; gap: 34px; align-items: center; padding: 44px 0 26px; min-height: calc(100vh - 100px); }
+.kicker { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid var(--border); font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.kicker-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
+h1 { margin: 18px 0 14px; font-family: 'Outfit', system-ui, sans-serif; font-size: clamp(42px, 6.1vw, 80px); line-height: .98; letter-spacing: -0.04em; }
+.lead { margin: 0; max-width: 56ch; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; color: var(--muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.actions .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 999px; font-weight: 700; border: 1px solid var(--border); }
+.actions .btn.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
+.actions .btn.secondary { background: rgba(255,255,255,.76); color: var(--text); }
+.hero-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); }
+.meta-item strong { display: block; font-size: 18px; font-family: 'Outfit', sans-serif; }
+.meta-item span { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
+.visual { position: relative; min-height: 660px; display: grid; place-items: center; }
+.hero-card { width: min(100%, 560px); border-radius: 38px; background: linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.64)); border: 1px solid rgba(255,255,255,.7); box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(14px); }
+.hero-photo { position: relative; height: 420px; background-size: cover; background-position: center; }
+.hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.28)); }
+.photo-badge { position: absolute; left: 22px; top: 22px; z-index: 1; background: rgba(255,255,255,.88); padding: 12px 16px; border-radius: 18px; font-weight: 700; box-shadow: var(--shadow-soft); }
+.card-stack { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 18px; }
+.feature-card { border-radius: 22px; padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
+.feature-card h3 { margin: 0 0 6px; font-family: 'Outfit', sans-serif; font-size: 18px; }
+.feature-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.section { padding: 28px 0 0; }
+.section .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.75); border: 1px solid var(--border); text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+.section h2 { margin: 14px 0 10px; font-family: 'Outfit', sans-serif; font-size: clamp(28px, 3vw, 44px); line-height: 1.02; letter-spacing: -0.03em; }
+.section p.intro { margin: 0 0 22px; max-width: 62ch; color: var(--muted); font-size: 17px; line-height: 1.58; }
+.grid { display: grid; gap: 16px; }
+.grid.cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tiny-card { background: rgba(255,255,255,.82); border: 1px solid var(--border); border-radius: 24px; padding: 18px; box-shadow: var(--shadow-soft); }
+.tiny-card .label { display: inline-flex; margin-bottom: 12px; padding: 7px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .04em; background: rgba(0,0,0,.04); }
+.tiny-card h3 { margin: 0 0 8px; font-family: 'Outfit', sans-serif; font-size: 22px; }
+.tiny-card p { margin: 0; color: var(--muted); line-height: 1.55; }
+.split { display: grid; grid-template-columns: 1.02fr .98fr; gap: 18px; align-items: stretch; }
+.story { background: rgba(255,255,255,.8); border: 1px solid var(--border); border-radius: 30px; box-shadow: var(--shadow-soft); padding: 22px; }
+.story ul { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 12px; }
+.story li { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 18px; background: rgba(0,0,0,.03); }
+.story li .dot { width: 12px; height: 12px; border-radius: 999px; background: var(--accent); margin-top: 4px; flex: none; }
+.callout { margin: 24px 0 18px; border-radius: 32px; padding: 22px; background: linear-gradient(135deg, rgba(17,24,39,0.98), rgba(17,24,39,0.86)); color: #fff; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.callout h3 { margin: 0 0 4px; font-family: 'Outfit', sans-serif; font-size: 28px; }
+.callout p { margin: 0; color: rgba(255,255,255,.75); }
+.footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 0 34px; color: var(--muted); font-size: 14px; }
+.footer strong { color: var(--text); }
+@media (max-width: 1060px) { .hero, .split { grid-template-columns: 1fr; } .visual { min-height: 560px; } .grid.cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .container { width: min(var(--max), calc(100% - 22px)); } .header { align-items: flex-start; flex-direction: column; } .nav { justify-content: flex-start; } .hero { padding-top: 30px; min-height: auto; } .hero-card { width: 100%; } .hero-photo { height: 320px; } .card-stack { grid-template-columns: 1fr; } .grid.cards, .grid.two { grid-template-columns: 1fr; } }
+
+    :root { --accent: #1456f0; --accent-2: #0f172a; --accent-3: #ea5ec1; }
+    .hero-photo { background-image: linear-gradient(180deg, rgba(5, 10, 20, .08), rgba(5, 10, 20, .30)), url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1600&q=80'); }
+    .section.alt { padding-top: 32px; }
+    .tiny-card h3 { margin: 0 0 8px; font-family:'Outfit',sans-serif; font-size: 22px; }
+    .tiny-card p { margin:0; color: var(--muted); line-height:1.55; }
+    .grid.cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (max-width: 1060px) { .grid.cards { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="orb one"></div><div class="orb two"></div><div class="orb three"></div>
+    <div class="container">
+      <header class="header"><a class="brand" href="#top"><div class="brand-mark"></div><div class="brand-title"><strong>MiniMax-inspired website mockups</strong><span>Custom homepages for the leads you asked me to build</span></div></a><nav class="nav"><a class="pill" href="#sites">Sites</a><a class="pill primary" href="#sites">Open all</a></nav></header>
+      <section class="hero" id="top">
+        <div>
+          <div class="kicker"><span class="kicker-dot"></span>Launch-ready mockups</div>
+          <h1>Three custom websites, tuned to each business.</h1>
+          <p class="lead">I made each page feel like a real local business site — distinct branding, mobile-first layout, strong hero section, and contact-first CTAs.</p>
+          <div class="actions"><a class="btn primary" href="#sites">Open the pages</a><a class="btn secondary" href="j-and-j-a-taste-of-home.html">Start with J & J</a></div>
+          <div class="hero-meta"><div class="meta-item"><strong>3</strong><span>separate homepages</span></div><div class="meta-item"><strong>100%</strong><span>responsive</span></div><div class="meta-item"><strong>MiniMax</strong><span>visual language</span></div></div>
+        </div>
+        <div class="visual"><div class="hero-card"><div class="hero-photo"><div class="photo-badge">Custom pages · distinct palettes · contact-first</div><div class="hero-rail"></div></div><div class="card-stack"><div class="feature-card"><h3>MiniMax styling</h3><p>White canvas, rounded cards, crisp typography, and smooth hover-ready pills.</p></div><div class="feature-card"><h3>Different for each brand</h3><p>No copy-paste layout; every business gets its own look and homepage message.</p></div><div class="feature-card"><h3>Ready to preview</h3><p>Each page is a standalone HTML file, so you can open and inspect it right away.</p></div><div class="feature-card"><h3>Built for outreach</h3><p>These feel like real sites you can show a prospect instead of a design deck.</p></div></div></div></div>
+      </section>
+      <section class="section alt" id="sites"><div class="eyebrow"><span class="kicker-dot"></span> Websites</div><h2>Open a custom homepage</h2><p class="intro">Every page is tuned to the business type, the city, and the vibe — not just the color palette.</p><div class="grid cards"><a class="tiny-card" href="j-and-j-a-taste-of-home.html" style="display:block"><div class="label">Paprika + navy</div><h3>J & J A Taste Of Home Catering & Food Truck</h3><p>Indianapolis comfort-food catering with market energy and a catering-first structure.</p><div style="margin-top:14px;font-weight:700;color:var(--accent);">Open website →</div></a><a class="tiny-card" href="futile-bakery.html" style="display:block"><div class="label">Butter + berry</div><h3>Futile Bakery</h3><p>Lexington bakery homepage with airy editorial spacing and seasonal gift-box focus.</p><div style="margin-top:14px;font-weight:700;color:var(--accent);">Open website →</div></a><a class="tiny-card" href="carousel-bakery.html" style="display:block"><div class="label">Cherry + aqua</div><h3>Carousel Bakery</h3><p>Hazlet neighborhood bakery with retro charm, breads, cakes, and daily-fresh appeal.</p><div style="margin-top:14px;font-weight:700;color:var(--accent);">Open website →</div></a></div></section>
+      <footer class="footer"><div><strong>MiniMax-inspired mockups</strong> · local preview bundle</div><div>Created for your lead outreach workflow.</div></footer>
+    </div>
+  </main>
+</body>
+</html>
