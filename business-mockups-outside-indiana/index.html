@@ -4,203 +4,320 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Website Mockups — Outside Indiana</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
   <style>
-:root {
-  --bg: #fffdf9;
-  --surface: rgba(255,255,255,0.82);
-  --surface-solid: #ffffff;
-  --text: #171717;
-  --muted: #5f5f66;
-  --border: rgba(23,23,23,0.08);
-  --shadow: 0 18px 60px rgba(17, 24, 39, 0.10);
-  --shadow-soft: 0 10px 30px rgba(17, 24, 39, 0.08);
-  --accent: #d9480f;
-  --accent-2: #0f172a;
-  --accent-3: #f97316;
-  --button: #111827;
-  --button-text: #ffffff;
-  --radius-xl: 34px;
-  --radius-lg: 26px;
-  --radius-md: 20px;
-  --radius-sm: 16px;
-  --max: 1180px;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(249,115,22,0.12), transparent 32%),
-    radial-gradient(circle at 80% 15%, rgba(59,130,246,0.10), transparent 26%),
-    linear-gradient(180deg, var(--bg), #ffffff 58%, #fffefb 100%);
-  color: var(--text);
-}
-a { color: inherit; text-decoration: none; }
-.shell { position: relative; overflow: hidden; }
-.orb { position: absolute; border-radius: 999px; filter: blur(28px); opacity: .8; pointer-events: none; }
-.orb.one { width: 280px; height: 280px; background: rgba(249,115,22,.10); top: -80px; left: -70px; }
-.orb.two { width: 240px; height: 240px; background: rgba(59,130,246,.10); top: 20px; right: -80px; }
-.orb.three { width: 220px; height: 220px; background: rgba(244,114,182,.09); bottom: 260px; left: 10%; }
-.container { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; position: relative; z-index: 1; }
-.header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0 0; }
-.brand { display: inline-flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; background: rgba(255,255,255,.65); backdrop-filter: blur(12px); box-shadow: var(--shadow-soft); }
-.brand-mark { width: 34px; height: 34px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-3)); box-shadow: 0 10px 24px rgba(217,72,15,.25); }
-.brand-title { display: flex; flex-direction: column; line-height: 1.05; }
-.brand-title strong { font-family: 'Outfit', system-ui, sans-serif; font-size: 15px; letter-spacing: .02em; }
-.brand-title span { font-size: 12px; color: var(--muted); }
-.nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-.pill { border: 1px solid var(--border); background: rgba(255,255,255,.76); color: var(--text); padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
-.pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
-.pill.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
-.hero { display: grid; grid-template-columns: 1.02fr .98fr; gap: 34px; align-items: center; padding: 44px 0 0; }
-.kicker { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid var(--border); font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-.kicker-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
-h1 { margin: 18px 0 14px; font-family: 'Outfit', system-ui, sans-serif; font-size: clamp(38px, 5.5vw, 68px); line-height: 1.0; letter-spacing: -0.04em; }
-.lead { margin: 0; max-width: 56ch; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; color: var(--muted); }
-.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-.actions .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 999px; font-weight: 700; border: 1px solid var(--border); }
-.actions .btn.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
-.actions .btn.secondary { background: rgba(255,255,255,.76); color: var(--text); }
-.hero-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); }
-.meta-item strong { display: block; font-size: 18px; font-family: 'Outfit', sans-serif; }
-.meta-item span { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
-.visual { position: relative; display: grid; place-items: center; }
-.hero-card { width: min(100%, 560px); border-radius: 38px; background: linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.64)); border: 1px solid rgba(255,255,255,.7); box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(14px); }
-.hero-photo { position: relative; height: 380px; background-size: cover; background-position: center;
-  background-image: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.28)),
-  url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1600&q=80');
-}
-.hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.26)); }
-.photo-badge { position: absolute; left: 22px; top: 22px; z-index: 1; background: rgba(255,255,255,.92); padding: 12px 16px; border-radius: 18px; font-weight: 700; font-size: 14px; box-shadow: var(--shadow-soft); }
-.card-stack { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 18px; }
-.feature-card { border-radius: 22px; padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
-.feature-card h3 { margin: 0 0 6px; font-family: 'Outfit', sans-serif; font-size: 18px; }
-.feature-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
-.section { padding: 28px 0 0; }
-.section .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.75); border: 1px solid var(--border); text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
-.section h2 { margin: 14px 0 10px; font-family: 'Outfit', system-ui, sans-serif; font-size: clamp(28px, 3vw, 44px); line-height: 1.02; letter-spacing: -0.03em; }
-.section p.intro { margin: 0 0 22px; max-width: 62ch; color: var(--muted); font-size: 17px; line-height: 1.58; }
-.grid { display: grid; gap: 16px; }
-.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.site-card { display:block; background: rgba(255,255,255,.82); border: 1px solid var(--border); border-radius: 28px; padding: 24px; box-shadow: var(--shadow-soft); transition: transform .2s, box-shadow .2s; }
-.site-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-.site-card .card-palette { display: flex; gap: 6px; margin-bottom: 16px; }
-.swatch { width: 22px; height: 22px; border-radius: 999px; }
-.site-card h3 { margin: 0 0 8px; font-family: 'Outfit', sans-serif; font-size: 22px; }
-.site-card .location { margin-bottom: 8px; font-size: 13px; color: var(--muted); font-weight: 500; }
-.site-card p { margin: 0 0 16px; color: var(--muted); font-size: 14px; line-height: 1.55; }
-.site-card .open-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; color: var(--accent); }
-.footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 0 34px; color: var(--muted); font-size: 14px; }
-.footer strong { color: var(--text); }
-.footer a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 1060px) { .hero { grid-template-columns: 1fr; } .grid.two { grid-template-columns: 1fr; } }
-@media (max-width: 720px) {
-  .container { width: min(var(--max), calc(100% - 22px)); }
-  .header { align-items: flex-start; flex-direction: column; }
-  .nav { justify-content: flex-start; }
-  .hero { padding-top: 30px; }
-  .hero-card { width: 100%; }
-  .card-stack { grid-template-columns: 1fr; }
-  .grid.two { grid-template-columns: 1fr; }
-}
+    :root {
+      --bg: #f5f3ee;
+      --bg-dark: #0f0e0b;
+      --surface: #ffffff;
+      --surface-2: #f0ede6;
+      --text: #1a1714;
+      --muted: #7a7068;
+      --border: rgba(26,23,20,0.10);
+      --accent: #bf4c1a;
+      --accent-dark: #8b3010;
+      --blue: #1a4f9f;
+      --green: #1a7f5f;
+      --max: 1200px;
+      --r1: 18px;
+      --r2: 32px;
+      --r3: 48px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
+
+    /* ── Top bar ── */
+    .topbar { background: var(--bg-dark); padding: 14px 0; text-align: center; }
+    .topbar span { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+    .topbar strong { color: var(--accent); }
+
+    /* ── Header ── */
+    header { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--accent); display: grid; place-items: center; flex: none; }
+    .logo-icon span { font-family: 'DM+Mono', monospace; font-size: 13px; color: #fff; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+    .logo-text small { display: block; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 400; color: var(--muted); }
+    nav { display: flex; gap: 8px; align-items: center; }
+    .nlink { padding: 9px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: background .15s; }
+    .nlink:hover { background: var(--surface-2); }
+    .nlink.primary { background: var(--bg-dark); color: #fff; }
+
+    /* ── Intro ── */
+    .intro { padding: 72px 0 56px; text-align: center; }
+    .intro-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .intro-eyebrow::before, .intro-eyebrow::after { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
+    .intro h1 { margin: 0 0 18px; font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 64px); line-height: 1.1; letter-spacing: -0.03em; }
+    .intro p { margin: 0 auto; font-size: 17px; color: var(--muted); max-width: 52ch; line-height: 1.7; }
+
+    /* ── Showcase grid ── */
+    .showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-bottom: 80px; }
+
+    /* ── Site card (browser frame style) ── */
+    .site-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); overflow: hidden; transition: transform .2s, box-shadow .2s; }
+    .site-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(26,23,20,0.12); }
+
+    .browser-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+    .browser-dot { width: 10px; height: 10px; border-radius: 999px; }
+    .browser-dot.r { background: #ff5f57; }
+    .browser-dot.y { background: #febc2e; }
+    .browser-dot.g { background: #28c840; }
+    .browser-url { flex: 1; margin-left: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-family: 'DM+Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .site-thumb { height: 220px; overflow: hidden; position: relative; }
+    .site-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .site-card:hover .site-thumb img { transform: scale(1.04); }
+
+    .site-thumb-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,14,11,0.55) 0%, transparent 55%); pointer-events: none; }
+
+    .site-badge { position: absolute; top: 12px; right: 12px; padding: 5px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .04em; }
+
+    .site-info { padding: 20px; }
+    .site-location { font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .site-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin: 0 0 8px; color: var(--text); }
+    .site-desc { font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0 0 14px; }
+    .site-open { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--accent); }
+
+    /* ── Color swatches per card ── */
+    .swatch-row { display: flex; gap: 5px; margin-bottom: 12px; }
+    .swatch { width: 20px; height: 20px; border-radius: 999px; border: 1px solid rgba(0,0,0,0.08); }
+
+    /* ── Highlight banner ── */
+    .highlight-banner { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: 48px 52px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; margin-bottom: 24px; }
+    .highlight-banner .label { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .highlight-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.5vw, 46px); margin: 0 0 12px; letter-spacing: -0.03em; line-height: 1.1; }
+    .highlight-banner p { font-size: 15px; color: var(--muted); margin: 0 0 20px; line-height: 1.65; max-width: 46ch; }
+    .highlight-banner .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-weight: 700; font-size: 14px; border: none; cursor: pointer; transition: transform .15s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-accent { background: var(--accent); color: #fff; box-shadow: 0 4px 16px rgba(191,76,26,0.28); }
+    .btn-outline { background: transparent; color: var(--text); border: 2px solid var(--border); }
+    .highlight-thumb { border-radius: var(--r2); overflow: hidden; height: 280px; }
+    .highlight-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Feature pills ── */
+    .feature-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+    .f-pill { display: flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--muted); }
+    .f-pill strong { color: var(--text); }
+
+    /* ── Mini cards row ── */
+    .mini-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .mini-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); overflow: hidden; display: flex; gap: 0; transition: transform .2s, box-shadow .2s; }
+    .mini-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,23,20,0.10); }
+    .mini-thumb { width: 120px; flex: none; overflow: hidden; }
+    .mini-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .mini-body { padding: 18px; flex: 1; }
+    .mini-body .site-location { margin-bottom: 4px; }
+    .mini-body .site-name { font-size: 17px; margin-bottom: 6px; }
+    .mini-body .site-open { font-size: 12px; }
+
+    /* ── Footer ── */
+    footer { border-top: 1px solid var(--border); padding: 28px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 14px; color: var(--muted); }
+    footer strong { color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .showcase-grid { grid-template-columns: 1fr; gap: 20px; }
+      .highlight-banner { grid-template-columns: 1fr; padding: 32px 28px; }
+      .highlight-thumb { height: 220px; }
+      .mini-cards { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .container { width: min(var(--max), calc(100% - 32px)); }
+      header { flex-direction: column; gap: 12px; align-items: flex-start; }
+      nav .nlink:not(.primary) { display: none; }
+      .intro { padding: 48px 0 40px; }
+    }
   </style>
 </head>
 <body>
-<main class="shell">
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="container"><span>3 redesigned mockups &nbsp;·&nbsp; <strong>Outside Indiana</strong> &nbsp;·&nbsp; MiniMax visual style</span></div>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+    <a class="logo" href="#">
+      <div class="logo-icon"><span>#</span></div>
+      <div class="logo-text">Mockups<small>Outside Indiana · MiniMax design</small></div>
+    </a>
+    <nav>
+      <a class="nlink" href="#sites">All sites</a>
+      <a class="nlink" href="#highlight">Highlight</a>
+      <a class="nlink primary" href="https://seanbrou.github.io/business-mockups-outside-indiana/">Live preview</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Intro -->
+<section class="intro">
   <div class="container">
+    <div class="intro-eyebrow">Full redesign · 2026</div>
+    <h1>Three local business websites — completely redesigned.</h1>
+    <p>Each page now has a clearly different visual system, richer layout, and business-specific copy. Scroll down to preview all three or jump to the live hosted version.</p>
+  </div>
+</section>
 
-    <header class="header">
-      <a class="brand" href="#top">
-        <div class="brand-mark"></div>
-        <div class="brand-title">
-          <strong>Outside Indiana Mockups</strong>
-          <span>Business website previews · MiniMax visual style</span>
-        </div>
-      </a>
-      <nav class="nav">
-        <a class="pill primary" href="#sites">Open all sites</a>
-      </nav>
-    </header>
+<!-- Carousel Bakery highlight -->
+<section class="highlight-banner" id="highlight">
+  <div>
+    <div class="label">New redesign · Hazlet, NJ</div>
+    <h2>Carousel Bakery — bold neighborhood style.</h2>
+    <p>A completely new look: bold red-and-cream retro grid, strong typography, and a layout that leads with bread, cakes, and the phone number. Full browser-frame mockup below.</p>
+    <div class="btn-row">
+      <a class="btn btn-accent" href="carousel-bakery.html">Open website</a>
+      <a class="btn btn-outline" href="https://seanbrou.github.io/business-mockups-outside-indiana/carousel-bakery.html">Live link</a>
+    </div>
+    <div class="feature-pills">
+      <div class="f-pill"><strong>Red</strong> &amp; cream palette</div>
+      <div class="f-pill"><strong>Playfair Display</strong> serif</div>
+      <div class="f-pill"><strong>4-col grid</strong> products</div>
+      <div class="f-pill"><strong>Bold CTAs</strong> call + email</div>
+    </div>
+  </div>
+  <div class="highlight-thumb">
+    <img src="https://images.unsplash.com/photo-1517433367423-c7f6c8cbf8c7?auto=format&fit=crop&w=900&q=80" alt="Carousel Bakery">
+  </div>
+</section>
 
-    <section class="hero" id="top">
-      <div>
-        <div class="kicker"><span class="kicker-dot"></span>Launch-ready mockups</div>
-        <h1>Two local business websites, built for outreach.</h1>
-        <p class="lead">Each page is tuned to the business type, city, and brand vibe — with warm photography, clear CTAs, and contact-first structure. These feel like real sites you can send to a prospect.</p>
-        <div class="actions">
-          <a class="btn primary" href="#sites">See all sites</a>
-        </div>
-        <div class="hero-meta">
-          <div class="meta-item"><strong>2</strong><span>custom homepages</span></div>
-          <div class="meta-item"><strong>MiniMax</strong><span>visual language</span></div>
-          <div class="meta-item"><strong>100%</strong><span>mobile responsive</span></div>
-        </div>
+<!-- Site cards -->
+<section class="showcase-grid" id="sites">
+  <div class="container" style="display:contents;">
+
+    <!-- J&J -->
+    <a class="site-card" href="j-and-j-a-taste-of-home.html">
+      <div class="browser-bar">
+        <div class="browser-dot r"></div>
+        <div class="browser-dot y"></div>
+        <div class="browser-dot g"></div>
+        <div class="browser-url">seanbrou.github.io/j-and-j-a-taste-of-home</div>
       </div>
-      <div class="visual">
-        <div class="hero-card">
-          <div class="hero-photo">
-            <div class="photo-badge">Custom pages · distinct palettes · contact-first</div>
-          </div>
-          <div class="card-stack">
-            <div class="feature-card"><h3>Warm orb aesthetic</h3><p>White canvas, frosted glass cards, soft radial gradients — a polished MiniMax-inspired look.</p></div>
-            <div class="feature-card"><h3>Business-specific copy</h3><p>Real language for each brand — comfort food, artisan pastry, no generic placeholder text.</p></div>
-            <div class="feature-card"><h3>Contact-first CTAs</h3><p>Email and phone front-and-center on every page — designed for outreach response.</p></div>
-            <div class="feature-card"><h3>Standalone HTML files</h3><p>Each mockup is a single self-contained page — open locally or host anywhere.</p></div>
-          </div>
+      <div class="site-thumb">
+        <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=800&q=80" alt="J&J A Taste Of Home">
+        <div class="site-thumb-overlay"></div>
+        <div class="site-badge" style="background:#bf4c1a;color:#fff;">Catering</div>
+      </div>
+      <div class="site-info">
+        <div class="swatch-row">
+          <div class="swatch" style="background:#bf4c1a"></div>
+          <div class="swatch" style="background:#1c1008"></div>
+          <div class="swatch" style="background:#f0e8dc"></div>
+          <div class="swatch" style="background:#e8925a"></div>
         </div>
+        <div class="site-location">Indianapolis, IN · Soul food</div>
+        <h3 class="site-name">J &amp; J A Taste Of Home</h3>
+        <p class="site-desc">Editorial magazine layout with Playfair Display headings, full-bleed photo hero, terracotta palette, and card-based menu grid.</p>
+        <div class="site-open">Open website →</div>
       </div>
-    </section>
+    </a>
 
-    <section class="section" id="sites">
-      <div class="eyebrow"><span class="kicker-dot"></span> Website previews</div>
-      <h2>Open a custom homepage</h2>
-      <p class="intro">Each business got its own palette, photography direction, and homepage structure tuned to what they actually sell.</p>
-      <div class="grid two">
-
-        <a class="site-card" href="j-and-j-a-taste-of-home.html">
-          <div class="card-palette">
-            <div class="swatch" style="background:#d9480f"></div>
-            <div class="swatch" style="background:#111827"></div>
-            <div class="swatch" style="background:#f59e0b"></div>
-          </div>
-          <div class="location">Indianapolis, IN · Soul food catering + food truck</div>
-          <h3>J &amp; J A Taste Of Home Catering &amp; Food Truck</h3>
-          <p>Warm orange and navy palette for a family-run soul-food catering business. Egg roll trays, party pans, and food truck market stops — with email-first ordering and a clean contact block.</p>
-          <div class="open-link">Open website →</div>
-        </a>
-
-        <a class="site-card" href="futile-bakery.html">
-          <div class="card-palette">
-            <div class="swatch" style="background:#b5651d"></div>
-            <div class="swatch" style="background:#2d1f1f"></div>
-            <div class="swatch" style="background:#e8c07d"></div>
-          </div>
-          <div class="location">Lexington, KY · Small-batch bakery</div>
-          <h3>Futile Bakery</h3>
-          <p>Caramel and cream palette for a Lexington artisan bakery. Cinnamon rolls, seasonal cookie tins, and morning pickup — with warm editorial spacing and an email-first ordering flow.</p>
-          <div class="open-link">Open website →</div>
-        </a>
-
+    <!-- Futile -->
+    <a class="site-card" href="futile-bakery.html">
+      <div class="browser-bar">
+        <div class="browser-dot r"></div>
+        <div class="browser-dot y"></div>
+        <div class="browser-dot g"></div>
+        <div class="browser-url">seanbrou.github.io/futile-bakery</div>
       </div>
-    </section>
-
-    <footer class="footer">
-      <div>
-        <strong>Outside Indiana Mockups</strong> · MiniMax visual style
-        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
-          <a href="/business-mockups/">← Original mockups</a>
-          <a href="/indiana-site-mockups/">Indiana site mockups →</a>
+      <div class="site-thumb">
+        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80" alt="Futile Bakery">
+        <div class="site-thumb-overlay"></div>
+        <div class="site-badge" style="background:#c8922a;color:#1c1409;">Bakery</div>
+      </div>
+      <div class="site-info">
+        <div class="swatch-row">
+          <div class="swatch" style="background:#1c1409"></div>
+          <div class="swatch" style="background:#c8922a"></div>
+          <div class="swatch" style="background:#f0e6d3"></div>
+          <div class="swatch" style="background:#a08870"></div>
         </div>
+        <div class="site-location">Lexington, KY · Small-batch</div>
+        <h3 class="site-name">Futile Bakery</h3>
+        <p class="site-desc">Dark editorial aesthetic: rich browns and cream, Cormorant Garamond serif, horizontal scroll showcase, and gold accent CTAs.</p>
+        <div class="site-open">Open website →</div>
       </div>
-      <div>Ready to preview · Ready to send</div>
-    </footer>
+    </a>
+
+    <!-- Carousel -->
+    <a class="site-card" href="carousel-bakery.html">
+      <div class="browser-bar">
+        <div class="browser-dot r"></div>
+        <div class="browser-dot y"></div>
+        <div class="browser-dot g"></div>
+        <div class="browser-url">seanbrou.github.io/carousel-bakery</div>
+      </div>
+      <div class="site-thumb">
+        <img src="https://images.unsplash.com/photo-1517433367423-c7f6c8cbf8c7?auto=format&fit=crop&w=800&q=80" alt="Carousel Bakery">
+        <div class="site-thumb-overlay"></div>
+        <div class="site-badge" style="background:#b91c1c;color:#fff;">New</div>
+      </div>
+      <div class="site-info">
+        <div class="swatch-row">
+          <div class="swatch" style="background:#b91c1c"></div>
+          <div class="swatch" style="background:#fef9f3"></div>
+          <div class="swatch" style="background:#1c1008"></div>
+          <div class="swatch" style="background:#c4956a"></div>
+        </div>
+        <div class="site-location">Hazlet, NJ · Neighborhood</div>
+        <h3 class="site-name">Carousel Bakery</h3>
+        <p class="site-desc">Bold retro grid: red-and-cream palette, Space Grotesk + Playfair Display, 4-column product grid, strong phone-first CTAs.</p>
+        <div class="site-open">Open website →</div>
+      </div>
+    </a>
 
   </div>
-</main>
+</section>
+
+<!-- Mini cards -->
+<section style="padding-bottom:80px;">
+  <div class="container">
+    <div class="intro-eyebrow" style="margin-bottom:20px;">Quick links · all three redesigned sites</div>
+    <div class="mini-cards">
+      <a class="mini-card" href="j-and-j-a-taste-of-home.html">
+        <div class="mini-thumb">
+          <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=400&q=80" alt="J&J">
+        </div>
+        <div class="mini-body">
+          <div class="site-location">Indianapolis · Soul food</div>
+          <h3 class="site-name">J &amp; J A Taste Of Home</h3>
+          <div class="site-open">Open →</div>
+        </div>
+      </a>
+      <a class="mini-card" href="futile-bakery.html">
+        <div class="mini-thumb">
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80" alt="Futile">
+        </div>
+        <div class="mini-body">
+          <div class="site-location">Lexington, KY · Bakery</div>
+          <h3 class="site-name">Futile Bakery</h3>
+          <div class="site-open">Open →</div>
+        </div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:24px;">
+      <a class="btn btn-accent" href="carousel-bakery.html" style="font-size:15px;padding:14px 26px;">View Carousel Bakery →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%;">
+    <div><strong>Outside Indiana Mockups</strong> · MiniMax visual redesign<br><span style="font-size:13px;">3 pages · fully responsive · outreach-ready</span></div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="/business-mockups/" style="color:var(--muted);">← Original mockups</a>
+      <a href="/indiana-site-mockups/" style="color:var(--muted);">Indiana sites →</a>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

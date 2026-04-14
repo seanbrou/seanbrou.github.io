@@ -4,313 +4,327 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Futile Bakery — Small-Batch Pastries · Lexington, KY</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-:root {
-  --bg: #fffdf9;
-  --surface: rgba(255,255,255,0.82);
-  --surface-solid: #ffffff;
-  --text: #171717;
-  --muted: #5f5f66;
-  --border: rgba(23,23,23,0.08);
-  --shadow: 0 18px 60px rgba(17, 24, 39, 0.10);
-  --shadow-soft: 0 10px 30px rgba(17, 24, 39, 0.08);
-  --accent: #b5651d;
-  --accent-2: #2d1f1f;
-  --accent-3: #e8c07d;
-  --button: #2d1f1f;
-  --button-text: #ffffff;
-  --radius-xl: 34px;
-  --radius-lg: 26px;
-  --radius-md: 20px;
-  --radius-sm: 16px;
-  --max: 1180px;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(181,101,29,0.09), transparent 32%),
-    radial-gradient(circle at 80% 15%, rgba(232,192,125,0.12), transparent 26%),
-    linear-gradient(180deg, var(--bg), #ffffff 58%, #fffdf7 100%);
-  color: var(--text);
-}
-a { color: inherit; text-decoration: none; }
-.shell { position: relative; overflow: hidden; }
-.orb { position: absolute; border-radius: 999px; filter: blur(28px); opacity: .8; pointer-events: none; }
-.orb.one { width: 300px; height: 300px; background: rgba(181,101,29,.09); top: -90px; left: -80px; }
-.orb.two { width: 260px; height: 260px; background: rgba(232,192,125,.12); top: 20px; right: -90px; }
-.orb.three { width: 200px; height: 200px; background: rgba(181,101,29,.07); bottom: 280px; left: 8%; }
-.container { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; position: relative; z-index: 1; }
+    :root {
+      --bg: #f5ede0;
+      --bg-dark: #1c1409;
+      --surface: #faf4eb;
+      --surface-dark: #251a0d;
+      --text: #f0e6d3;
+      --text-dark: #1c1409;
+      --muted: #a08870;
+      --border: rgba(240,230,211,0.14);
+      --border-dark: rgba(28,20,9,0.12);
+      --accent: #c8922a;
+      --accent-dark: #8a5f10;
+      --max: 1200px;
+      --r1: 18px;
+      --r2: 32px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.6; }
 
-/* ── Header ── */
-.header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0 0; }
-.brand { display: inline-flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; background: rgba(255,255,255,.65); backdrop-filter: blur(12px); box-shadow: var(--shadow-soft); }
-.brand-mark { width: 34px; height: 34px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-3)); box-shadow: 0 10px 24px rgba(181,101,29,.28); flex: none; }
-.brand-title { display: flex; flex-direction: column; line-height: 1.05; }
-.brand-title strong { font-family: 'Outfit', system-ui, sans-serif; font-size: 15px; letter-spacing: .02em; }
-.brand-title span { font-size: 12px; color: var(--muted); }
-.nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-.pill { border: 1px solid var(--border); background: rgba(255,255,255,.76); color: var(--text); padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
-.pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
-.pill.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
 
-/* ── Hero ── */
-.hero { display: grid; grid-template-columns: 1.02fr .98fr; gap: 34px; align-items: center; padding: 44px 0 0; }
-.kicker { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid var(--border); font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-.kicker-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
-h1 { margin: 18px 0 14px; font-family: 'Outfit', system-ui, sans-serif; font-size: clamp(38px, 5.5vw, 72px); line-height: 1.0; letter-spacing: -0.04em; }
-.lead { margin: 0; max-width: 56ch; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; color: var(--muted); }
-.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-.actions .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 999px; font-weight: 700; border: 1px solid var(--border); }
-.actions .btn.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
-.actions .btn.secondary { background: rgba(255,255,255,.76); color: var(--text); }
-.hero-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); }
-.meta-item strong { display: block; font-size: 18px; font-family: 'Outfit', sans-serif; }
-.meta-item span { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
+    /* ── Nav ── */
+    nav.top { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border-dark); margin-bottom: 0; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-mark { width: 40px; height: 40px; border-radius: 12px; background: var(--bg-dark); display: grid; place-items: center; flex: none; border: 1px solid rgba(200,146,42,0.3); }
+    .logo-mark span { font-family: 'DM+Mono', monospace; font-size: 13px; font-weight: 500; color: var(--accent); }
+    .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--bg-dark); line-height: 1.1; }
+    .logo-text small { display: block; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 400; color: var(--muted); letter-spacing: 0.04em; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nlink { padding: 9px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: background .15s; color: var(--text-dark); }
+    .nlink:hover { background: var(--bg-dark); color: var(--text); }
+    .nlink.primary { background: var(--bg-dark); color: var(--text); }
+    .nlink.primary:hover { background: #2d1f0d; }
 
-/* ── Visual ── */
-.visual { position: relative; display: grid; place-items: center; }
-.hero-card { width: min(100%, 560px); border-radius: 38px; background: linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.64)); border: 1px solid rgba(255,255,255,.7); box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(14px); }
-.hero-photo { position: relative; height: 440px; background-size: cover; background-position: center;
-  background-image: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.28)),
-  url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1600&q=80');
-}
-.hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.22)); }
-.photo-badge { position: absolute; left: 22px; top: 22px; z-index: 1; background: rgba(255,255,255,.94); padding: 12px 16px; border-radius: 18px; font-weight: 700; font-size: 14px; box-shadow: var(--shadow-soft); color: var(--accent-2); }
-.card-stack { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 18px; }
-.feature-card { border-radius: 22px; padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
-.feature-card h3 { margin: 0 0 6px; font-family: 'Outfit', sans-serif; font-size: 18px; }
-.feature-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    /* ── Hero ── */
+    .hero-dark { background: var(--bg-dark); border-radius: 0 0 var(--r2) var(--r2); overflow: hidden; margin-bottom: 0; position: relative; }
+    .hero-dark-inner { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
+    .hero-left { padding: 64px 0; display: flex; flex-direction: column; justify-content: center; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+    .hero-left h1 { margin: 0 0 20px; font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 5.5vw, 78px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); font-weight: 600; }
+    .hero-left p { margin: 0 0 28px; font-size: 16px; color: rgba(240,230,211,0.7); max-width: 42ch; line-height: 1.7; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px; font-weight: 700; font-size: 14px; border: none; cursor: pointer; transition: transform .15s, box-shadow .15s; text-decoration: none; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-gold { background: var(--accent); color: var(--bg-dark); box-shadow: 0 6px 20px rgba(200,146,42,0.35); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid rgba(240,230,211,0.2); }
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+    .hero-right::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(28,20,9,0.5) 0%, transparent 50%); }
+    .hero-pills { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+    .h-pill { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,0.07); border: 1px solid rgba(240,230,211,0.12); font-size: 13px; font-weight: 500; color: rgba(240,230,211,0.8); }
+    .h-pill strong { color: var(--accent); font-weight: 600; }
 
-/* ── Sections ── */
-.section { padding: 28px 0 0; }
-.section .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.75); border: 1px solid var(--border); text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
-.section h2 { margin: 14px 0 10px; font-family: 'Outfit', system-ui, sans-serif; font-size: clamp(28px, 3vw, 44px); line-height: 1.02; letter-spacing: -0.03em; }
-.section p.intro { margin: 0 0 22px; max-width: 62ch; color: var(--muted); font-size: 17px; line-height: 1.58; }
-.grid { display: grid; gap: 16px; }
-.grid.cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* ── Scroll showcase ── */
+    .showcase-section { padding: 80px 0; }
+    .showcase-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
+    .showcase-header h2 { margin: 0; font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 600; color: var(--bg-dark); letter-spacing: -0.02em; }
+    .showcase-header p { margin: 8px 0 0; font-size: 15px; color: var(--muted); }
+    .showcase-scroll { display: grid; grid-auto-flow: column; grid-auto-columns: 280px; gap: 18px; overflow-x: auto; padding-bottom: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+    .showcase-scroll::-webkit-scrollbar { height: 4px; }
+    .showcase-scroll::-webkit-scrollbar-track { background: var(--bg); }
+    .showcase-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 999px; }
+    .scroll-card { background: var(--surface); border: 1px solid var(--border-dark); border-radius: var(--r2); overflow: hidden; scroll-snap-align: start; flex-shrink: 0; }
+    .scroll-card-img { height: 200px; overflow: hidden; }
+    .scroll-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .scroll-card:hover .scroll-card-img img { transform: scale(1.05); }
+    .scroll-card-body { padding: 20px; }
+    .scroll-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--bg); color: var(--accent-dark); padding: 4px 10px; border-radius: 999px; margin-bottom: 8px; }
+    .scroll-card-body h3 { margin: 0 0 6px; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--bg-dark); }
+    .scroll-card-body p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.55; }
 
-/* ── Menu cards ── */
-.menu-grid { display:grid; gap:16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.menu-card { position: relative; background: rgba(255,255,255,.82); border: 1px solid var(--border); border-radius: 24px; padding: 20px; box-shadow: var(--shadow-soft); overflow: hidden; }
-.menu-card::after { content:''; position:absolute; right:-36px; top:-36px; width:110px; height:110px; border-radius:999px; background: radial-gradient(circle, rgba(255,255,255,.5), transparent 65%); pointer-events: none; }
-.menu-card .item-tag { display: inline-flex; margin-bottom: 12px; padding: 6px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; background: rgba(181,101,29,.10); color: var(--accent); }
-.menu-card h3 { margin: 0 0 8px; font-family: 'Outfit', sans-serif; font-size: 22px; }
-.menu-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    /* ── Story section ── */
+    .story-section { padding: 80px 0; }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .story-img-col { border-radius: var(--r2); overflow: hidden; height: 520px; }
+    .story-img-col img { width: 100%; height: 100%; object-fit: cover; }
+    .story-copy h2 { margin: 0 0 16px; font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 3.5vw, 48px); font-weight: 600; color: var(--bg-dark); line-height: 1.1; letter-spacing: -0.02em; }
+    .story-copy > p { margin: 0 0 28px; font-size: 15px; color: var(--muted); line-height: 1.7; }
+    .story-points { display: grid; gap: 12px; }
+    .point { display: flex; gap: 14px; padding: 18px; background: var(--surface); border: 1px solid var(--border-dark); border-radius: var(--r1); }
+    .point-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--bg-dark); display: grid; place-items: center; flex: none; }
+    .point-icon svg { width: 16px; height: 16px; fill: var(--accent); }
+    .point h4 { margin: 0 0 3px; font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; color: var(--bg-dark); }
+    .point p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-/* ── Split ── */
-.split { display: grid; grid-template-columns: 1.02fr .98fr; gap: 18px; align-items: stretch; }
-.story { background: rgba(255,255,255,.8); border: 1px solid var(--border); border-radius: 30px; box-shadow: var(--shadow-soft); padding: 24px; }
-.story ul { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 12px; }
-.story li { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 18px; background: rgba(0,0,0,.03); }
-.story li .dot { width: 12px; height: 12px; border-radius: 999px; background: var(--accent); margin-top: 4px; flex: none; }
-.story li strong { font-family: 'Outfit', sans-serif; }
-.mini-tag { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px; background: rgba(255,255,255,.80); border:1px solid var(--border); font-size:12px; font-weight:700; white-space:nowrap; }
-.mini-tag b { font-family:'Outfit',sans-serif; letter-spacing:.02em; }
-.badge-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    /* ── Quote band ── */
+    .quote-band { background: var(--surface-dark); border-radius: var(--r2); padding: 52px 56px; text-align: center; }
+    .quote-band blockquote { margin: 0 0 12px; font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 3vw, 36px); font-style: italic; color: var(--text); line-height: 1.4; }
+    .quote-band cite { font-size: 13px; color: var(--accent); font-style: normal; font-weight: 600; letter-spacing: .05em; }
 
-/* ── CTA section ── */
-.section-cta { margin: 28px 0 10px; display:grid; grid-template-columns: 1.1fr .9fr; gap: 16px; align-items: stretch; }
-.cta-panel { border-radius: 28px; padding: 24px; background: linear-gradient(135deg, rgba(255,255,255,.90), rgba(255,255,255,.66)); border:1px solid var(--border); box-shadow: var(--shadow-soft); }
-.cta-panel h3 { margin:0 0 8px; font-family:'Outfit',sans-serif; font-size: 26px; }
-.cta-panel p { margin:0; color: var(--muted); line-height: 1.55; font-size: 15px; }
-.contact-list { display:grid; gap:10px; margin-top:16px; }
-.contact-item { display:flex; justify-content:space-between; gap:12px; padding: 13px 14px; border-radius: 16px; background: rgba(0,0,0,.03); }
-.contact-item span { color: var(--muted); }
-.contact-item strong { font-family: 'Outfit', sans-serif; font-size: 15px; }
-a.email-link { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    /* ── CTA ── */
+    .cta-section { padding: 80px 0; }
+    .cta-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; }
+    .cta-main { background: var(--bg-dark); border-radius: var(--r2); padding: 48px; }
+    .cta-main h2 { margin: 0 0 12px; font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3.5vw, 46px); color: var(--text); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+    .cta-main p { margin: 0 0 24px; color: rgba(240,230,211,0.65); font-size: 15px; line-height: 1.65; }
+    .cta-main .btn-gold { font-size: 15px; padding: 14px 26px; }
+    .cta-info { display: grid; gap: 12px; }
+    .info-card { background: var(--surface); border: 1px solid var(--border-dark); border-radius: var(--r1); padding: 18px 20px; }
+    .info-card .label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .info-card strong { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--bg-dark); display: block; }
+    .info-card a { color: var(--accent-dark); font-size: 14px; font-weight: 600; }
+    .info-card a:hover { text-decoration: underline; }
 
-/* ── Footer ── */
-.footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 0 34px; color: var(--muted); font-size: 14px; }
-.footer strong { color: var(--text); }
+    /* ── Footer ── */
+    footer { border-top: 1px solid var(--border-dark); padding: 28px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: 14px; }
+    footer strong { color: var(--bg-dark); }
 
-/* ── Responsive ── */
-@media (max-width: 1060px) {
-  .hero, .split { grid-template-columns: 1fr; }
-  .grid.cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .menu-grid, .section-cta { grid-template-columns: 1fr; }
-}
-@media (max-width: 720px) {
-  .container { width: min(var(--max), calc(100% - 22px)); }
-  .header { align-items: flex-start; flex-direction: column; }
-  .nav { justify-content: flex-start; }
-  .hero { padding-top: 30px; }
-  .hero-card { width: 100%; }
-  .hero-photo { height: 300px; }
-  .card-stack { grid-template-columns: 1fr; }
-  .grid.cards, .grid.two, .menu-grid { grid-template-columns: 1fr; }
-}
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .hero-dark-inner { grid-template-columns: 1fr; }
+      .hero-right { height: 50vw; min-height: 300px; }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-img-col { height: 300px; }
+      .cta-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .container { width: min(var(--max), calc(100% - 32px)); }
+      .nav-links .nlink:not(.primary) { display: none; }
+      .showcase-scroll { grid-auto-columns: 240px; }
+      .quote-band { padding: 36px 28px; }
+      .cta-main { padding: 32px 28px; }
+    }
   </style>
 </head>
 <body>
-<main class="shell">
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
-  <div class="container">
 
-    <!-- Header -->
-    <header class="header">
-      <a class="brand" href="#top">
-        <div class="brand-mark"></div>
-        <div class="brand-title">
-          <strong>Futile Bakery</strong>
-          <span>Small-batch pastries · Lexington, KY</span>
-        </div>
-      </a>
-      <nav class="nav">
-        <a class="pill" href="#menu">Pastries</a>
-        <a class="pill" href="#story">About</a>
-        <a class="pill primary" href="#contact">Email to Order</a>
-      </nav>
-    </header>
-
-    <!-- Hero -->
-    <section class="hero" id="top">
-      <div>
-        <div class="kicker"><span class="kicker-dot"></span>Small-Batch Bakery · Lexington, KY</div>
-        <h1>Cinnamon rolls, cookie tins, and slow-morning pastries.</h1>
-        <p class="lead">Fresh from the oven every morning — gooey cinnamon rolls, rotating seasonal buns, and gift-ready cookie tins. Order ahead for pickup or ship a box to someone who deserves something made from scratch.</p>
-        <div class="actions">
-          <a class="btn primary" href="mailto:orders@futilebakery.com">Email to order</a>
-          <a class="btn secondary" href="#menu">See what's fresh</a>
-        </div>
-        <div class="hero-meta">
-          <div class="meta-item"><strong>Morning pickup</strong><span>Come by before they sell out</span></div>
-          <div class="meta-item"><strong>Cookie tins</strong><span>Seasonal gift boxes available</span></div>
-          <div class="meta-item"><strong>Custom orders</strong><span>Email ahead for trays &amp; specials</span></div>
-        </div>
-      </div>
-      <div class="visual">
-        <div class="hero-card">
-          <div class="hero-photo">
-            <div class="photo-badge">Cinnamon rolls · Cookie tins · Morning pickup</div>
-          </div>
-          <div class="card-stack">
-            <div class="feature-card">
-              <h3>Morning pastry case</h3>
-              <p>Cinnamon rolls, sticky buns, scones, and whatever came out of the oven first. Available for pickup starting early morning.</p>
-            </div>
-            <div class="feature-card">
-              <h3>Seasonal cookie tins</h3>
-              <p>Holiday boxes and rotating seasonal flavors — order ahead, pickup or ship. Gift wrapping available on request.</p>
-            </div>
-            <div class="feature-card">
-              <h3>Custom bakery trays</h3>
-              <p>Email us for custom orders: wedding cookies, party platters, corporate gift sets, and other special requests.</p>
-            </div>
-            <div class="feature-card">
-              <h3>Small-batch from scratch</h3>
-              <p>No frozen dough, no shortcuts — everything mixed, shaped, and baked in small batches in our Lexington kitchen.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pastry highlights -->
-    <section class="section alt" id="menu">
-      <div class="eyebrow"><span class="kicker-dot"></span> What's fresh</div>
-      <h2>The morning case and seasonal favorites.</h2>
-      <p class="intro">The things regulars come back for — from the first warm cinnamon roll of the day to the cookie tin that ships statewide every December.</p>
-      <div class="menu-grid">
-        <article class="menu-card">
-          <div class="item-tag">Signature</div>
-          <h3>Cinnamon Rolls</h3>
-          <p>Our signature: gooey, frosted, and served warm. Order ahead to guarantee availability — they go fast on weekend mornings.</p>
-        </article>
-        <article class="menu-card">
-          <div class="item-tag">Rotating daily</div>
-          <h3>Sticky Buns &amp; Scones</h3>
-          <p>Brown butter pecan, seasonal fruit, classic buttermilk — whatever's in the case depends on the day. Come early for the best selection.</p>
-        </article>
-        <article class="menu-card">
-          <div class="item-tag">Gift-ready</div>
-          <h3>Seasonal Cookie Tins</h3>
-          <p>Holiday boxes and rotating seasonal flavors. Ships to KY and beyond — order at least a week ahead for holiday windows.</p>
-        </article>
-        <article class="menu-card">
-          <div class="item-tag">Morning lineup</div>
-          <h3>Baguettes &amp; Morning Breads</h3>
-          <p>Baguettes, focaccia, and whatever's still warm by mid-morning. Grab one on your way past — they rarely last past 10am.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section class="section" id="story">
-      <div class="split">
-        <div class="story">
-          <div class="eyebrow"><span class="kicker-dot"></span> About Futile</div>
-          <h2>Baked in small batches, by hand, in Lexington.</h2>
-          <p class="intro">We opened Futile because we believe mornings deserve better than a microwave danish. Every dough is mixed from scratch; every batch is sized small so nothing sits.</p>
-          <ul>
-            <li><span class="dot"></span><div><strong>Everything from scratch.</strong> No pre-made dough, no cake mix shortcuts. If it came from our oven, it started as flour and butter.</div></li>
-            <li><span class="dot"></span><div><strong>Small batch, every day.</strong> We bake multiple times throughout the morning so the case stays fresh and the cinnamon rolls are warm when you arrive.</div></li>
-            <li><span class="dot"></span><div><strong>Gift boxes ship statewide.</strong> Cookie tins and seasonal boxes go out with a week lead time. Email to arrange.</div></li>
-            <li><span class="dot"></span><div><strong>Morning-first hours.</strong> We open early and we close when the case sells out — which is the honest way to run a bakery.</div></li>
-          </ul>
-        </div>
-        <div class="story">
-          <div class="eyebrow"><span class="kicker-dot"></span> How to order</div>
-          <h2>Order ahead for pickup or shipping.</h2>
-          <p class="intro">Email is the fastest way to reach us — tell us what you'd like, when you need it, and whether it's pickup or shipping. We'll confirm same day.</p>
-          <div class="badge-row">
-            <div class="mini-tag"><b>Order</b> Cinnamon rolls</div>
-            <div class="mini-tag"><b>Order</b> Cookie tins</div>
-            <div class="mini-tag"><b>Order</b> Custom trays</div>
-            <div class="mini-tag"><b>Ask</b> Morning breads</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="section" id="contact">
-      <div class="section-cta">
-        <div class="cta-panel">
-          <h3>Order ahead for pickup or shipping.</h3>
-          <p>Email us with what you'd like and when you need it — cinnamon rolls, seasonal tins, custom trays, or a mix. We confirm same day and bake fresh for your order.</p>
-          <div class="badge-row" style="margin-top:20px;">
-            <div class="mini-tag"><b>Lead time</b> Same-day email</div>
-            <div class="mini-tag"><b>Ships</b> KY &amp; beyond</div>
-            <div class="mini-tag"><b>Pickup</b> Morning hours</div>
-          </div>
-        </div>
-        <div class="cta-panel">
-          <h3>Get in touch</h3>
-          <div class="contact-list">
-            <div class="contact-item">
-              <span>Email</span>
-              <strong><a class="email-link" href="mailto:orders@futilebakery.com">orders@futilebakery.com</a></strong>
-            </div>
-            <div class="contact-item">
-              <span>Phone</span>
-              <strong><a class="email-link" href="tel:+18596870141">(859) 687-0141</a></strong>
-            </div>
-            <div class="contact-item">
-              <span>Location</span>
-              <strong>Lexington, KY</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div>
-        <strong>Futile Bakery</strong> · Small-batch pastries
-        <div style="margin-top:8px; font-size:13px;">Lexington, KY · <a class="email-link" href="mailto:orders@futilebakery.com">orders@futilebakery.com</a></div>
-      </div>
-      <div>Fresh every morning · Cookie tins · Order ahead</div>
-    </footer>
-
+<!-- Nav -->
+<nav class="top">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;">
+    <a class="logo" href="#">
+      <div class="logo-mark"><span>FB</span></div>
+      <div class="logo-text">Futile Bakery<small>Small-batch · Lexington, KY</small></div>
+    </a>
+    <div class="nav-links">
+      <a class="nlink" href="#pastries">Pastries</a>
+      <a class="nlink" href="#story">About</a>
+      <a class="nlink primary" href="mailto:orders@futilebakery.com">Email to Order</a>
+    </div>
   </div>
-</main>
+</nav>
+
+<!-- Hero -->
+<section class="hero-dark">
+  <div class="container" style="padding-bottom:0;">
+    <div class="hero-dark-inner">
+      <div class="hero-left">
+        <div class="container" style="width:100%;">
+          <div class="hero-tag">Small-batch bakery · Lexington, KY</div>
+          <h1>Cinnamon rolls, seasonal buns, and slow-morning pastries.</h1>
+          <p>Fresh from the oven every morning — gooey cinnamon rolls, rotating seasonal buns, and gift-ready cookie tins. Order ahead for pickup or shipping.</p>
+          <div class="hero-actions">
+            <a class="btn btn-gold" href="mailto:orders@futilebakery.com">Email to order</a>
+            <a class="btn btn-ghost" href="#pastries">See what's fresh</a>
+          </div>
+          <div class="hero-pills">
+            <div class="h-pill"><strong>Morning pickup</strong> — come by early</div>
+            <div class="h-pill"><strong>Cookie tins</strong> — ships statewide</div>
+            <div class="h-pill"><strong>Custom trays</strong> — email ahead</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1200&q=80" alt="Fresh pastries from Futile Bakery">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Showcase -->
+<section class="showcase-section" id="pastries">
+  <div class="container">
+    <div class="showcase-header">
+      <div>
+        <h2>The morning case &amp; seasonal favorites.</h2>
+        <p>The things regulars come back for — baked fresh and selling out by mid-morning.</p>
+      </div>
+    </div>
+    <div class="showcase-scroll">
+      <article class="scroll-card">
+        <div class="scroll-card-img">
+          <img src="https://images.unsplash.com/photo-1609127102567-8a9a21dc27d8?auto=format&fit=crop&w=600&q=80" alt="Cinnamon rolls">
+        </div>
+        <div class="scroll-card-body">
+          <div class="scroll-tag">Signature</div>
+          <h3>Cinnamon Rolls</h3>
+          <p>Gooey, frosted, and served warm. Order ahead to guarantee availability — they go fast on weekends.</p>
+        </div>
+      </article>
+      <article class="scroll-card">
+        <div class="scroll-card-img">
+          <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=600&q=80" alt="Sticky buns">
+        </div>
+        <div class="scroll-card-body">
+          <div class="scroll-tag">Rotating daily</div>
+          <h3>Sticky Buns &amp; Scones</h3>
+          <p>Brown butter pecan, seasonal fruit, classic buttermilk — whatever's in the case depends on the day.</p>
+        </div>
+      </article>
+      <article class="scroll-card">
+        <div class="scroll-card-img">
+          <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80" alt="Cookie tins">
+        </div>
+        <div class="scroll-card-body">
+          <div class="scroll-tag">Gift-ready</div>
+          <h3>Seasonal Cookie Tins</h3>
+          <p>Holiday boxes and rotating seasonal flavors. Ships to KY and beyond — order a week ahead.</p>
+        </div>
+      </article>
+      <article class="scroll-card">
+        <div class="scroll-card-img">
+          <img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=600&q=80" alt="Baguettes">
+        </div>
+        <div class="scroll-card-body">
+          <div class="scroll-tag">Morning lineup</div>
+          <h3>Baguettes &amp; Morning Breads</h3>
+          <p>Baguettes, focaccia, and whatever's still warm by mid-morning. Rarely last past 10am.</p>
+        </div>
+      </article>
+      <article class="scroll-card">
+        <div class="scroll-card-img">
+          <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=600&q=80" alt="Custom trays">
+        </div>
+        <div class="scroll-card-body">
+          <div class="scroll-tag">Special orders</div>
+          <h3>Custom Bakery Trays</h3>
+          <p>Wedding cookies, party platters, corporate gift sets — email us for custom orders and special requests.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="story-section" id="story">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-img-col">
+        <img src="https://images.unsplash.com/photo-1517433670267-30a09fb43578?auto=format&fit=crop&w=900&q=80" alt="Futile Bakery interior">
+      </div>
+      <div class="story-copy">
+        <div class="hero-tag">About Futile</div>
+        <h2>Baked in small batches, by hand, in Lexington.</h2>
+        <p>We opened Futile because mornings deserve better than a microwave danish. Every dough is mixed from scratch; every batch is sized small so nothing sits.</p>
+        <div class="story-points">
+          <div class="point">
+            <div class="point-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+            <div><h4>Everything from scratch</h4><p>No pre-made dough, no cake mix shortcuts. If it came from our oven, it started as flour and butter.</p></div>
+          </div>
+          <div class="point">
+            <div class="point-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+            <div><h4>Small batch, every day</h4><p>We bake multiple times throughout the morning so the case stays fresh and cinnamon rolls are warm when you arrive.</p></div>
+          </div>
+          <div class="point">
+            <div class="point-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+            <div><h4>Gift boxes ship statewide</h4><p>Cookie tins and seasonal boxes go out with a week lead time. Email to arrange.</p></div>
+          </div>
+          <div class="point">
+            <div class="point-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+            <div><h4>Morning-first hours</h4><p>We open early and close when the case sells out — which is the honest way to run a bakery.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quote -->
+<section class="cta-section">
+  <div class="container">
+    <div class="quote-band">
+      <blockquote>"No frozen dough, no shortcuts. Everything mixed, shaped, and baked in small batches — the way mornings should be."</blockquote>
+      <cite>— Futile Bakery, Lexington KY</cite>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / Contact -->
+<section class="cta-section" style="padding-top:0;">
+  <div class="container">
+    <div class="cta-grid">
+      <div class="cta-main">
+        <h2>Order ahead for pickup or shipping.</h2>
+        <p>Email us with what you'd like and when you need it — cinnamon rolls, seasonal tins, custom trays, or a mix. We confirm same day and bake fresh for your order.</p>
+        <a class="btn btn-gold" href="mailto:orders@futilebakery.com">Email to order</a>
+      </div>
+      <div class="cta-info">
+        <div class="info-card">
+          <div class="label">Email</div>
+          <strong><a href="mailto:orders@futilebakery.com">orders@futilebakery.com</a></strong>
+        </div>
+        <div class="info-card">
+          <div class="label">Phone</div>
+          <strong><a href="tel:+18596870141">(859) 687-0141</a></strong>
+        </div>
+        <div class="info-card">
+          <div class="label">Location</div>
+          <strong>Lexington, KY</strong>
+        </div>
+        <div class="info-card">
+          <div class="label">Lead time</div>
+          <strong>Same-day email · Ships statewide</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%;">
+    <div><strong>Futile Bakery</strong> · Small-batch pastries<br><span style="font-size:13px;">Lexington, KY · <a href="mailto:orders@futilebakery.com" style="color:var(--accent-dark);">orders@futilebakery.com</a></span></div>
+    <div>Fresh every morning · Cookie tins · Order ahead</div>
+  </div>
+</footer>
+
 </body>
 </html>

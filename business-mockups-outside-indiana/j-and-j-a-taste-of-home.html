@@ -3,314 +3,308 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>J & J A Taste Of Home Catering & Food Truck — Indianapolis</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>J &amp; J A Taste Of Home — Catering &amp; Food Truck · Indianapolis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-:root {
-  --bg: #fffdf9;
-  --surface: rgba(255,255,255,0.82);
-  --surface-solid: #ffffff;
-  --text: #171717;
-  --muted: #5f5f66;
-  --border: rgba(23,23,23,0.08);
-  --shadow: 0 18px 60px rgba(17, 24, 39, 0.10);
-  --shadow-soft: 0 10px 30px rgba(17, 24, 39, 0.08);
-  --accent: #d9480f;
-  --accent-2: #111827;
-  --accent-3: #f59e0b;
-  --button: #111827;
-  --button-text: #ffffff;
-  --radius-xl: 34px;
-  --radius-lg: 26px;
-  --radius-md: 20px;
-  --radius-sm: 16px;
-  --max: 1180px;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(249,115,22,0.12), transparent 32%),
-    radial-gradient(circle at 80% 15%, rgba(59,130,246,0.10), transparent 26%),
-    linear-gradient(180deg, var(--bg), #ffffff 58%, #fffefb 100%);
-  color: var(--text);
-}
-a { color: inherit; text-decoration: none; }
-.shell { position: relative; overflow: hidden; }
-.orb { position: absolute; border-radius: 999px; filter: blur(28px); opacity: .8; pointer-events: none; }
-.orb.one { width: 280px; height: 280px; background: rgba(249,115,22,.10); top: -80px; left: -70px; }
-.orb.two { width: 240px; height: 240px; background: rgba(59,130,246,.10); top: 20px; right: -80px; }
-.orb.three { width: 220px; height: 220px; background: rgba(244,114,182,.09); bottom: 260px; left: 10%; }
-.container { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; position: relative; z-index: 1; }
+    :root {
+      --bg: #faf6f1;
+      --bg-2: #f0e8dc;
+      --surface: #ffffff;
+      --text: #1c1008;
+      --text-mid: #4a3728;
+      --muted: #8a7060;
+      --border: rgba(28,16,8,0.12);
+      --accent: #bf4c1a;
+      --accent-dark: #8b3010;
+      --accent-light: #e8925a;
+      --navy: #1c1008;
+      --max: 1200px;
+      --r1: 22px;
+      --r2: 36px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; }
 
-/* ── Header ── */
-.header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0 0; }
-.brand { display: inline-flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; background: rgba(255,255,255,.65); backdrop-filter: blur(12px); box-shadow: var(--shadow-soft); }
-.brand-mark { width: 34px; height: 34px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-3)); box-shadow: 0 10px 24px rgba(217,72,15,.25); flex: none; }
-.brand-title { display: flex; flex-direction: column; line-height: 1.05; }
-.brand-title strong { font-family: 'Outfit', system-ui, sans-serif; font-size: 15px; letter-spacing: .02em; }
-.brand-title span { font-size: 12px; color: var(--muted); }
-.nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-.pill { border: 1px solid var(--border); background: rgba(255,255,255,.76); color: var(--text); padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
-.pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
-.pill.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
+    /* ── Utility ── */
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
 
-/* ── Hero ── */
-.hero { display: grid; grid-template-columns: 1.02fr .98fr; gap: 34px; align-items: center; padding: 44px 0 0; }
-.kicker { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid var(--border); font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-.kicker-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
-h1 { margin: 18px 0 14px; font-family: 'Outfit', system-ui, sans-serif; font-size: clamp(38px, 5.5vw, 72px); line-height: 1.0; letter-spacing: -0.04em; }
-.lead { margin: 0; max-width: 56ch; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; color: var(--muted); }
-.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-.actions .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 999px; font-weight: 700; border: 1px solid var(--border); }
-.actions .btn.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
-.actions .btn.secondary { background: rgba(255,255,255,.76); color: var(--text); }
-.hero-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); }
-.meta-item strong { display: block; font-size: 18px; font-family: 'Outfit', sans-serif; }
-.meta-item span { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
+    /* ── Nav ── */
+    nav.top { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 0; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon { width: 40px; height: 40px; border-radius: 12px; background: var(--accent); display: grid; place-items: center; flex: none; }
+    .logo-icon span { font-family: 'DM+Mono', monospace; font-size: 16px; font-weight: 500; color: #fff; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; line-height: 1.2; }
+    .logo-text small { display: block; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 400; color: var(--muted); letter-spacing: 0.02em; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nlink { padding: 9px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: background .15s; }
+    .nlink:hover { background: var(--bg-2); }
+    .nlink.primary { background: var(--navy); color: #fff; }
+    .nlink.primary:hover { background: #2d1a0e; }
 
-/* ── Visual ── */
-.visual { position: relative; display: grid; place-items: center; }
-.hero-card { width: min(100%, 560px); border-radius: 38px; background: linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.64)); border: 1px solid rgba(255,255,255,.7); box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(14px); }
-.hero-photo { position: relative; height: 440px; background-size: cover; background-position: center;
-  background-image: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.30)),
-  url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=1600&q=80');
-}
-.hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.28)); }
-.photo-badge { position: absolute; left: 22px; top: 22px; z-index: 1; background: rgba(255,255,255,.92); padding: 12px 16px; border-radius: 18px; font-weight: 700; font-size: 14px; box-shadow: var(--shadow-soft); color: var(--accent-2); }
-.card-stack { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 18px; }
-.feature-card { border-radius: 22px; padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
-.feature-card h3 { margin: 0 0 6px; font-family: 'Outfit', sans-serif; font-size: 18px; }
-.feature-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    /* ── Hero — full-bleed split ── */
+    .hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 86vh; }
+    .hero-text { padding: 60px 0 60px; display: flex; flex-direction: column; justify-content: center; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .hero-tag::before { content: ''; display: block; width: 28px; height: 2px; background: var(--accent); }
+    .hero-text h1 { margin: 0 0 20px; font-family: 'Playfair Display', serif; font-size: clamp(44px, 5.5vw, 80px); line-height: 1.0; letter-spacing: -0.03em; color: var(--navy); }
+    .hero-text p { margin: 0 0 28px; font-size: 17px; color: var(--text-mid); max-width: 44ch; line-height: 1.65; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px; font-weight: 700; font-size: 14px; border: none; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-accent { background: var(--accent); color: #fff; box-shadow: 0 6px 20px rgba(191,76,26,0.30); }
+    .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--border); }
+    .hero-img { position: relative; overflow: hidden; }
+    .hero-img img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-img-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(250,246,241,0) 60%, rgba(250,246,241,0.5)); }
+    .hero-stat-bar { margin-top: 36px; display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--r1); overflow: hidden; background: var(--surface); }
+    .stat { flex: 1; padding: 16px 20px; border-right: 1px solid var(--border); }
+    .stat:last-child { border-right: none; }
+    .stat strong { display: block; font-family: 'Playfair Display', serif; font-size: 22px; color: var(--navy); }
+    .stat span { font-size: 12px; color: var(--muted); }
 
-/* ── Sections ── */
-.section { padding: 28px 0 0; }
-.section .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.75); border: 1px solid var(--border); text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
-.section h2 { margin: 14px 0 10px; font-family: 'Outfit', system-ui, sans-serif; font-size: clamp(28px, 3vw, 44px); line-height: 1.02; letter-spacing: -0.03em; }
-.section p.intro { margin: 0 0 22px; max-width: 62ch; color: var(--muted); font-size: 17px; line-height: 1.58; }
-.grid { display: grid; gap: 16px; }
-.grid.cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* ── Section base ── */
+    .section { padding: 80px 0; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 56px); line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 16px; color: var(--navy); }
+    .section-sub { font-size: 17px; color: var(--text-mid); max-width: 56ch; line-height: 1.65; margin: 0 0 44px; }
 
-/* ── Menu cards ── */
-.menu-grid { display:grid; gap:16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.menu-card { position: relative; background: rgba(255,255,255,.82); border: 1px solid var(--border); border-radius: 24px; padding: 20px; box-shadow: var(--shadow-soft); overflow: hidden; }
-.menu-card::after { content:''; position:absolute; right:-36px; top:-36px; width:110px; height:110px; border-radius:999px; background: radial-gradient(circle, rgba(255,255,255,.5), transparent 65%); pointer-events: none; }
-.menu-card .item-tag { display: inline-flex; margin-bottom: 12px; padding: 6px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; background: rgba(217,72,15,.10); color: var(--accent); }
-.menu-card h3 { margin: 0 0 8px; font-family: 'Outfit', sans-serif; font-size: 22px; }
-.menu-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    /* ── Menu cards ── */
+    .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .menu-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); overflow: hidden; transition: transform .2s, box-shadow .2s; }
+    .menu-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(28,16,8,0.10); }
+    .menu-card-img { height: 200px; overflow: hidden; }
+    .menu-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .menu-card:hover .menu-card-img img { transform: scale(1.04); }
+    .menu-card-body { padding: 22px; }
+    .menu-card-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--bg-2); color: var(--accent); padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; }
+    .menu-card-body h3 { margin: 0 0 8px; font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); }
+    .menu-card-body p { margin: 0; font-size: 14px; color: var(--text-mid); line-height: 1.6; }
 
-/* ── Split ── */
-.split { display: grid; grid-template-columns: 1.02fr .98fr; gap: 18px; align-items: stretch; }
-.story { background: rgba(255,255,255,.8); border: 1px solid var(--border); border-radius: 30px; box-shadow: var(--shadow-soft); padding: 24px; }
-.story ul { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 12px; }
-.story li { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 18px; background: rgba(0,0,0,.03); }
-.story li .dot { width: 12px; height: 12px; border-radius: 999px; background: var(--accent); margin-top: 4px; flex: none; }
-.story li strong { font-family: 'Outfit', sans-serif; }
-.mini-tag { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px; background: rgba(255,255,255,.80); border:1px solid var(--border); font-size:12px; font-weight:700; white-space:nowrap; }
-.mini-tag b { font-family:'Outfit',sans-serif; letter-spacing:.02em; }
-.badge-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    /* ── Story section ── */
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .story-img { border-radius: var(--r2); overflow: hidden; height: 480px; }
+    .story-img img { width: 100%; height: 100%; object-fit: cover; }
+    .story-points { display: grid; gap: 14px; }
+    .point { display: flex; gap: 16px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r1); }
+    .point-num { width: 36px; height: 36px; border-radius: 10px; background: var(--accent); display: grid; place-items: center; flex: none; }
+    .point-num span { font-family: 'DM+Mono', monospace; font-size: 14px; font-weight: 500; color: #fff; }
+    .point h4 { margin: 0 0 4px; font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); }
+    .point p { margin: 0; font-size: 14px; color: var(--text-mid); line-height: 1.55; }
 
-/* ── CTA section ── */
-.section-cta { margin: 28px 0 10px; display:grid; grid-template-columns: 1.1fr .9fr; gap: 16px; align-items: stretch; }
-.cta-panel { border-radius: 28px; padding: 24px; background: linear-gradient(135deg, rgba(255,255,255,.90), rgba(255,255,255,.66)); border:1px solid var(--border); box-shadow: var(--shadow-soft); }
-.cta-panel h3 { margin:0 0 8px; font-family:'Outfit',sans-serif; font-size: 26px; }
-.cta-panel p { margin:0; color: var(--muted); line-height: 1.55; font-size: 15px; }
-.contact-list { display:grid; gap:10px; margin-top:16px; }
-.contact-item { display:flex; justify-content:space-between; gap:12px; padding: 13px 14px; border-radius: 16px; background: rgba(0,0,0,.03); }
-.contact-item span { color: var(--muted); }
-.contact-item strong { font-family: 'Outfit', sans-serif; font-size: 15px; }
-a.email-link { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    /* ── CTA band ── */
+    .cta-band { background: var(--navy); border-radius: var(--r2); padding: 52px 56px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .cta-band h2 { margin: 0; font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.5vw, 48px); color: #fff; letter-spacing: -0.03em; line-height: 1.1; }
+    .cta-band p { margin: 8px 0 0; color: rgba(255,255,255,0.65); font-size: 16px; }
+    .cta-band .btn-accent { background: var(--accent); box-shadow: 0 6px 20px rgba(191,76,26,0.40); font-size: 15px; padding: 15px 28px; }
 
-/* ── Footer ── */
-.footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 0 34px; color: var(--muted); font-size: 14px; }
-.footer strong { color: var(--text); }
+    /* ── Contact strip ── */
+    .contact-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r1); padding: 22px; }
+    .contact-card .label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .contact-card strong { display: block; font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); margin-bottom: 4px; }
+    .contact-card a { color: var(--accent); font-size: 14px; font-weight: 600; }
+    .contact-card a:hover { text-decoration: underline; }
 
-/* ── Responsive ── */
-@media (max-width: 1060px) {
-  .hero, .split { grid-template-columns: 1fr; }
-  .grid.cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .menu-grid, .section-cta { grid-template-columns: 1fr; }
-}
-@media (max-width: 720px) {
-  .container { width: min(var(--max), calc(100% - 22px)); }
-  .header { align-items: flex-start; flex-direction: column; }
-  .nav { justify-content: flex-start; }
-  .hero { padding-top: 30px; }
-  .hero-card { width: 100%; }
-  .hero-photo { height: 300px; }
-  .card-stack { grid-template-columns: 1fr; }
-  .grid.cards, .grid.two, .menu-grid { grid-template-columns: 1fr; }
-}
+    /* ── Footer ── */
+    footer { border-top: 1px solid var(--border); padding: 28px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: 14px; }
+    footer strong { color: var(--navy); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-img { height: 50vw; min-height: 320px; }
+      .hero-img-overlay { background: linear-gradient(to bottom, rgba(250,246,241,0) 60%, rgba(250,246,241,0.6)); }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-img { height: 300px; }
+      .contact-strip { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .container { width: min(var(--max), calc(100% - 32px)); }
+      .nav-links .nlink:not(.primary) { display: none; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .hero-text { padding: 40px 0 40px; }
+      .hero-stat-bar { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+      .cta-band { padding: 36px 28px; }
+    }
   </style>
 </head>
 <body>
-<main class="shell">
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
-  <div class="container">
 
-    <!-- Header -->
-    <header class="header">
-      <a class="brand" href="#top">
-        <div class="brand-mark"></div>
-        <div class="brand-title">
-          <strong>J &amp; J A Taste Of Home</strong>
-          <span>Soul food catering + food truck</span>
-        </div>
-      </a>
-      <nav class="nav">
-        <a class="pill" href="#menu">Menu</a>
-        <a class="pill" href="#story">About</a>
-        <a class="pill primary" href="#contact">Email to Order</a>
-      </nav>
-    </header>
-
-    <!-- Hero -->
-    <section class="hero" id="top">
-      <div>
-        <div class="kicker"><span class="kicker-dot"></span>Soul Food Catering · Indianapolis</div>
-        <h1>Comfort food that shows up ready to feed the whole room.</h1>
-        <p class="lead">Egg rolls, soul-food trays, and catering platters for offices, family reunions, birthday parties, and weekend markets. Email to order — we'll confirm availability fast.</p>
-        <div class="actions">
-          <a class="btn primary" href="mailto:atasteofhomecatering@ymail.com">Email to order</a>
-          <a class="btn secondary" href="#menu">See the menu</a>
-        </div>
-        <div class="hero-meta">
-          <div class="meta-item"><strong>Catering trays</strong><span>Offices, reunions, parties</span></div>
-          <div class="meta-item"><strong>Food truck</strong><span>Markets &amp; pop-up events</span></div>
-          <div class="meta-item"><strong>Email-first</strong><span>Quick confirm, no hassle</span></div>
-        </div>
-      </div>
-      <div class="visual">
-        <div class="hero-card">
-          <div class="hero-photo">
-            <div class="photo-badge">Egg rolls · Party trays · Food truck stops</div>
-          </div>
-          <div class="card-stack">
-            <div class="feature-card">
-              <h3>Soul-food catering trays</h3>
-              <p>Platters and party pans built for offices, reunions, and birthday parties. Feeding 10 to 100.</p>
-            </div>
-            <div class="feature-card">
-              <h3>Food truck market stops</h3>
-              <p>Find us at Indy weekend markets, festivals, and pop-up events around the city.</p>
-            </div>
-            <div class="feature-card">
-              <h3>Email-first ordering</h3>
-              <p>Send your tray count, date, and event type — we'll confirm availability same day.</p>
-            </div>
-            <div class="feature-card">
-              <h3>Family-run since day one</h3>
-              <p>A small team that treats every order like feeding their own extended family.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Menu highlights -->
-    <section class="section alt" id="menu">
-      <div class="eyebrow"><span class="kicker-dot"></span> Menu highlights</div>
-      <h2>From egg roll trays to full catering spreads.</h2>
-      <p class="intro">The dishes customers ask for again and again — available for pickup, delivery, or truck-side at your next event.</p>
-      <div class="menu-grid">
-        <article class="menu-card">
-          <div class="item-tag">Best seller</div>
-          <h3>Egg Roll Trays</h3>
-          <p>Crispy, handmade egg rolls available in tray quantities for parties and office lunches. Choose your filling — meat or vegetable.</p>
-        </article>
-        <article class="menu-card">
-          <div class="item-tag">Party favorite</div>
-          <h3>Soul-Food Party Pans</h3>
-          <p>Comfort-classic platters — collard greens, mac &amp; cheese, candied yams, and more. All portioned for groups of 8 to 40.</p>
-        </article>
-        <article class="menu-card">
-          <div class="item-tag">Book the truck</div>
-          <h3>Food Truck Catering</h3>
-          <p>Book the truck for your event — festivals, corporate days, neighborhood parties, and private gatherings.</p>
-        </article>
-        <article class="menu-card">
-          <div class="item-tag">Market favorite</div>
-          <h3>Market Day Favorites</h3>
-          <p>The dishes people line up for at Indy farmers markets and weekend pop-ups. Check the schedule and come hungry.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section class="section" id="story">
-      <div class="split">
-        <div class="story">
-          <div class="eyebrow"><span class="kicker-dot"></span> About J &amp; J</div>
-          <h2>Catering and a food truck — two ways to reach us.</h2>
-          <p class="intro">Whether you need a tray order delivered to the office or want the truck parked at your event, J &amp; J brings the same homemade quality to every order.</p>
-          <ul>
-            <li><span class="dot"></span><div><strong>Catering for every occasion.</strong> Birthday parties, office lunches, family reunions — trays travel well and serving is simple.</div></li>
-            <li><span class="dot"></span><div><strong>The food truck moves.</strong> Catch us at Indy farmers markets, festival grounds, and scheduled pop-ups throughout the city.</div></li>
-            <li><span class="dot"></span><div><strong>Email to order ahead.</strong> Give us your tray count, date, and event details — we'll have everything ready when you need it.</div></li>
-            <li><span class="dot"></span><div><strong>Made with care.</strong> Every dish starts with real ingredients and a recipe that goes back years.</div></li>
-          </ul>
-        </div>
-        <div class="story">
-          <div class="eyebrow"><span class="kicker-dot"></span> Order info</div>
-          <h2>Ready to place an order?</h2>
-          <p class="intro">Send an email with your event date, estimated headcount, and what you'd like to order. We'll reply with availability and a straightforward confirmation.</p>
-          <div class="badge-row">
-            <div class="mini-tag"><b>Order</b> Egg roll trays</div>
-            <div class="mini-tag"><b>Order</b> Party pans</div>
-            <div class="mini-tag"><b>Book</b> Food truck</div>
-            <div class="mini-tag"><b>Ask</b> Market schedule</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="section" id="contact">
-      <div class="section-cta">
-        <div class="cta-panel">
-          <h3>Book catering for your next event.</h3>
-          <p>Email us with your event date, headcount, and what you'd like to order. We respond quickly with availability and a simple path to confirmation.</p>
-          <div class="badge-row" style="margin-top:20px;">
-            <div class="mini-tag"><b>Lead time</b> 48-hour notice</div>
-            <div class="mini-tag"><b>Serves</b> 10 to 100+</div>
-            <div class="mini-tag"><b>Book via</b> Email first</div>
-          </div>
-        </div>
-        <div class="cta-panel">
-          <h3>Get in touch</h3>
-          <div class="contact-list">
-            <div class="contact-item">
-              <span>Email</span>
-              <strong><a class="email-link" href="mailto:atasteofhomecatering@ymail.com">atasteofhomecatering@ymail.com</a></strong>
-            </div>
-            <div class="contact-item">
-              <span>Service</span>
-              <strong>Catering trays, party pans, food truck events</strong>
-            </div>
-            <div class="contact-item">
-              <span>Location</span>
-              <strong>Indianapolis, IN</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div>
-        <strong>J &amp; J A Taste Of Home</strong> · Soul food catering + food truck
-        <div style="margin-top:8px; font-size:13px;">Indianapolis, IN · <a class="email-link" href="mailto:atasteofhomecatering@ymail.com">atasteofhomecatering@ymail.com</a></div>
-      </div>
-      <div>Catering trays · Food truck stops · Weekend markets</div>
-    </footer>
-
+<!-- Nav -->
+<nav class="top">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;">
+    <a class="logo" href="#">
+      <div class="logo-icon"><span>J&amp;J</span></div>
+      <div class="logo-text">J &amp; J<small>A Taste Of Home</small></div>
+    </a>
+    <div class="nav-links">
+      <a class="nlink" href="#menu">Menu</a>
+      <a class="nlink" href="#story">About</a>
+      <a class="nlink primary" href="mailto:atasteofhomecatering@ymail.com">Email to Order</a>
+    </div>
   </div>
-</main>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container" style="display:contents;">
+    <div class="hero-text" style="padding-left:0;">
+      <div class="container" style="width:100%;">
+        <div class="hero-tag">Soul food catering &amp; food truck · Indianapolis</div>
+        <h1>Comfort food made for feeding a crowd.</h1>
+        <p>Egg roll trays, soul-food party pans, and catering spreads built for office lunches, family reunions, birthday parties, and weekend market crowds.</p>
+        <div class="hero-actions">
+          <a class="btn btn-accent" href="mailto:atasteofhomecatering@ymail.com">Email to order</a>
+          <a class="btn btn-outline" href="#menu">See the menu</a>
+        </div>
+        <div class="hero-stat-bar">
+          <div class="stat"><strong>10–100+</strong><span>Catering servings</span></div>
+          <div class="stat"><strong>48 hrs</strong><span>Order notice</span></div>
+          <div class="stat"><strong>Email</strong><span>asiest ordering</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=1400&q=80" alt="Soul food spread">
+      <div class="hero-img-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Menu -->
+<section class="section" id="menu">
+  <div class="container">
+    <div class="section-label">Menu highlights</div>
+    <h2 class="section-title">From egg roll trays to full spread catering.</h2>
+    <p class="section-sub">The dishes customers ask for again and again — available for pickup, delivery, or truck-side at your next event.</p>
+    <div class="menu-grid">
+      <article class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Egg rolls">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-tag">Best seller</div>
+          <h3>Egg Roll Trays</h3>
+          <p>Crispy, handmade egg rolls in tray quantities. Meat or vegetable filling — perfect for office lunches and party spreads.</p>
+        </div>
+      </article>
+      <article class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1595617210008-0d51e368f93c?auto=format&fit=crop&w=800&q=80" alt="Soul food party pans">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-tag">Party favorite</div>
+          <h3>Soul-Food Party Pans</h3>
+          <p>Collard greens, mac &amp; cheese, candied yams, and more — portioned for groups of 8 to 40. Feed the whole room.</p>
+        </div>
+      </article>
+      <article class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=800&q=80" alt="Food truck">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-tag">Book the truck</div>
+          <h3>Food Truck Catering</h3>
+          <p>Book the truck for festivals, corporate events, neighborhood parties, and private gatherings. The food comes to you.</p>
+        </div>
+      </article>
+      <article class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Market favorites">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-tag">Market favorite</div>
+          <h3>Market Day Favorites</h3>
+          <p>Come hungry to Indy farmers markets and weekend pop-ups. Follow us on social for the weekly schedule.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="section" id="story" style="background:var(--bg-2);border-radius:40px;">
+  <div class="container" style="padding-top:80px;padding-bottom:80px;">
+    <div class="story-grid">
+      <div class="story-img">
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80" alt="J&J kitchen">
+      </div>
+      <div class="story-points">
+        <div class="section-label">About J &amp; J</div>
+        <h2 class="section-title">Catering and a food truck — two ways to reach us.</h2>
+        <p class="section-sub" style="margin-bottom:24px;">Whether you need trays delivered to the office or want the truck at your event, the same homemade quality goes into every order.</p>
+        <div class="point">
+          <div class="point-num"><span>1</span></div>
+          <div><h4>Catering for every occasion</h4><p>Birthday parties, office lunches, family reunions — trays travel well and serving is simple.</p></div>
+        </div>
+        <div class="point">
+          <div class="point-num"><span>2</span></div>
+          <div><h4>The food truck moves</h4><p>Catch us at Indy farmers markets, festival grounds, and pop-ups throughout the city.</p></div>
+        </div>
+        <div class="point">
+          <div class="point-num"><span>3</span></div>
+          <div><h4>Email to order ahead</h4><p>Give us your tray count, date, and event details — we'll have everything ready when you need it.</p></div>
+        </div>
+        <div class="point">
+          <div class="point-num"><span>4</span></div>
+          <div><h4>Made with care</h4><p>Every dish starts with real ingredients and a recipe that goes back years.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-band">
+      <div>
+        <h2>Ready to place an order?</h2>
+        <p>Email us your event date, headcount, and what you'd like. We'll reply with availability and a quick confirmation.</p>
+      </div>
+      <a class="btn btn-accent" href="mailto:atasteofhomecatering@ymail.com">Email to order</a>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Get in touch</div>
+    <h2 class="section-title">Contact &amp; ordering info</h2>
+    <p class="section-sub">Email is the fastest path to an order — send your details and we'll confirm same day.</p>
+    <div class="contact-strip">
+      <div class="contact-card">
+        <div class="label">Email</div>
+        <strong><a href="mailto:atasteofhomecatering@ymail.com">atasteofhomecatering@ymail.com</a></strong>
+        <span style="font-size:13px;color:var(--muted);">Primary ordering method</span>
+      </div>
+      <div class="contact-card">
+        <div class="label">Service</div>
+        <strong>Catering trays, party pans &amp; food truck events</strong>
+        <span style="font-size:13px;color:var(--muted);">Feeding 10 to 100+</span>
+      </div>
+      <div class="contact-card">
+        <div class="label">Location</div>
+        <strong>Indianapolis, IN</strong>
+        <span style="font-size:13px;color:var(--muted);">Serving the greater Indy area</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%;">
+    <div><strong>J &amp; J A Taste Of Home</strong> · Soul food catering &amp; food truck<br><span style="font-size:13px;">Indianapolis, IN · <a href="mailto:atasteofhomecatering@ymail.com">atasteofhomecatering@ymail.com</a></span></div>
+    <div>Catering trays · Food truck stops · Weekend markets</div>
+  </div>
+</footer>
+
 </body>
 </html>

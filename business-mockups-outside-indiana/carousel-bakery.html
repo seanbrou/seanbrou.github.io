@@ -3,194 +3,347 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carousel Bakery</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Carousel Bakery — Neighborhood Bakery · Hazlet, NJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    
-:root {
-  --bg: #fffdf9;
-  --surface: rgba(255,255,255,0.82);
-  --surface-solid: #ffffff;
-  --text: #171717;
-  --muted: #5f5f66;
-  --border: rgba(23,23,23,0.08);
-  --shadow: 0 18px 60px rgba(17, 24, 39, 0.10);
-  --shadow-soft: 0 10px 30px rgba(17, 24, 39, 0.08);
-  --accent: #d9480f;
-  --accent-2: #0f172a;
-  --accent-3: #f97316;
-  --button: #111827;
-  --button-text: #ffffff;
-  --radius-xl: 34px;
-  --radius-lg: 26px;
-  --radius-md: 20px;
-  --radius-sm: 16px;
-  --max: 1180px;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(249,115,22,0.12), transparent 32%),
-    radial-gradient(circle at 80% 15%, rgba(59,130,246,0.10), transparent 26%),
-    linear-gradient(180deg, var(--bg), #ffffff 58%, #fffefb 100%);
-  color: var(--text);
-}
-a { color: inherit; text-decoration: none; }
-.shell { position: relative; overflow: hidden; }
-.orb { position: absolute; border-radius: 999px; filter: blur(28px); opacity: .8; pointer-events: none; }
-.orb.one { width: 280px; height: 280px; background: rgba(249,115,22,.10); top: -80px; left: -70px; }
-.orb.two { width: 240px; height: 240px; background: rgba(59,130,246,.10); top: 20px; right: -80px; }
-.orb.three { width: 220px; height: 220px; background: rgba(244,114,182,.09); bottom: 260px; left: 10%; }
-.container { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; position: relative; z-index: 1; }
-.header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0 0; }
-.brand { display: inline-flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; background: rgba(255,255,255,.65); backdrop-filter: blur(12px); box-shadow: var(--shadow-soft); }
-.brand-mark { width: 34px; height: 34px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-3)); box-shadow: 0 10px 24px rgba(217,72,15,.25); }
-.brand-title { display: flex; flex-direction: column; line-height: 1.05; }
-.brand-title strong { font-family: 'Outfit', system-ui, sans-serif; font-size: 15px; letter-spacing: .02em; }
-.brand-title span { font-size: 12px; color: var(--muted); }
-.nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-.pill { border: 1px solid var(--border); background: rgba(255,255,255,.76); color: var(--text); padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
-.pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
-.pill.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
-.hero { display: grid; grid-template-columns: 1.02fr .98fr; gap: 34px; align-items: center; padding: 44px 0 26px; min-height: calc(100vh - 100px); }
-.kicker { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid var(--border); font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-.kicker-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
-h1 { margin: 18px 0 14px; font-family: 'Outfit', system-ui, sans-serif; font-size: clamp(42px, 6.1vw, 80px); line-height: .98; letter-spacing: -0.04em; }
-.lead { margin: 0; max-width: 56ch; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; color: var(--muted); }
-.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-.actions .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 999px; font-weight: 700; border: 1px solid var(--border); }
-.actions .btn.primary { background: var(--button); color: var(--button-text); border-color: transparent; }
-.actions .btn.secondary { background: rgba(255,255,255,.76); color: var(--text); }
-.hero-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); }
-.meta-item strong { display: block; font-size: 18px; font-family: 'Outfit', sans-serif; }
-.meta-item span { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
-.visual { position: relative; min-height: 660px; display: grid; place-items: center; }
-.hero-card { width: min(100%, 560px); border-radius: 38px; background: linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.64)); border: 1px solid rgba(255,255,255,.7); box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(14px); }
-.hero-photo { position: relative; height: 420px; background-size: cover; background-position: center; }
-.hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.28)); }
-.photo-badge { position: absolute; left: 22px; top: 22px; z-index: 1; background: rgba(255,255,255,.88); padding: 12px 16px; border-radius: 18px; font-weight: 700; box-shadow: var(--shadow-soft); }
-.card-stack { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 18px; }
-.feature-card { border-radius: 22px; padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
-.feature-card h3 { margin: 0 0 6px; font-family: 'Outfit', sans-serif; font-size: 18px; }
-.feature-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
-.section { padding: 28px 0 0; }
-.section .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.75); border: 1px solid var(--border); text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
-.section h2 { margin: 14px 0 10px; font-family: 'Outfit', sans-serif; font-size: clamp(28px, 3vw, 44px); line-height: 1.02; letter-spacing: -0.03em; }
-.section p.intro { margin: 0 0 22px; max-width: 62ch; color: var(--muted); font-size: 17px; line-height: 1.58; }
-.grid { display: grid; gap: 16px; }
-.grid.cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.tiny-card { background: rgba(255,255,255,.82); border: 1px solid var(--border); border-radius: 24px; padding: 18px; box-shadow: var(--shadow-soft); }
-.tiny-card .label { display: inline-flex; margin-bottom: 12px; padding: 7px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .04em; background: rgba(0,0,0,.04); }
-.tiny-card h3 { margin: 0 0 8px; font-family: 'Outfit', sans-serif; font-size: 22px; }
-.tiny-card p { margin: 0; color: var(--muted); line-height: 1.55; }
-.split { display: grid; grid-template-columns: 1.02fr .98fr; gap: 18px; align-items: stretch; }
-.story { background: rgba(255,255,255,.8); border: 1px solid var(--border); border-radius: 30px; box-shadow: var(--shadow-soft); padding: 22px; }
-.story ul { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 12px; }
-.story li { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 18px; background: rgba(0,0,0,.03); }
-.story li .dot { width: 12px; height: 12px; border-radius: 999px; background: var(--accent); margin-top: 4px; flex: none; }
-.callout { margin: 24px 0 18px; border-radius: 32px; padding: 22px; background: linear-gradient(135deg, rgba(17,24,39,0.98), rgba(17,24,39,0.86)); color: #fff; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
-.callout h3 { margin: 0 0 4px; font-family: 'Outfit', sans-serif; font-size: 28px; }
-.callout p { margin: 0; color: rgba(255,255,255,.75); }
-.footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 0 34px; color: var(--muted); font-size: 14px; }
-.footer strong { color: var(--text); }
-@media (max-width: 1060px) { .hero, .split { grid-template-columns: 1fr; } .visual { min-height: 560px; } .grid.cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 720px) { .container { width: min(var(--max), calc(100% - 22px)); } .header { align-items: flex-start; flex-direction: column; } .nav { justify-content: flex-start; } .hero { padding-top: 30px; min-height: auto; } .hero-card { width: 100%; } .hero-photo { height: 320px; } .card-stack { grid-template-columns: 1fr; } .grid.cards, .grid.two { grid-template-columns: 1fr; } }
+    :root {
+      --red: #b91c1c;
+      --red-dark: #7f1d1d;
+      --red-light: #fce8e8;
+      --cream: #fef9f3;
+      --cream-dark: #fdf0e4;
+      --tan: #c4956a;
+      --text: #1c1008;
+      --text-mid: #4a2c14;
+      --muted: #8a6050;
+      --border: rgba(28,16,8,0.10);
+      --max: 1200px;
+      --r1: 16px;
+      --r2: 28px;
+      --r3: 48px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; }
 
-    :root { --accent: #d61f45; --accent-2: #173b75; --accent-3: #22c1c3; }
-    .brand-mark { background: linear-gradient(135deg, var(--accent), var(--accent-3)); }
-    .kicker-dot, .story li .dot { background: var(--accent); }
-    .hero-photo { background-image: linear-gradient(180deg, rgba(5, 10, 20, .12), rgba(5, 10, 20, .34)), url('https://images.unsplash.com/photo-1517433367423-c7f6c8cbf8c7?auto=format&fit=crop&w=1600&q=80'); }
-    .photo-badge { color: var(--accent-2); }
-    .callout { background: linear-gradient(135deg, #173b75, rgba(17,24,39,0.86)); }
-    .mini-tag { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background: rgba(255,255,255,.78); border:1px solid var(--border); font-size:12px; font-weight:700; }
-    .mini-tag b { font-family:'Outfit',sans-serif; letter-spacing:.02em; }
-    .hero-rail { position:absolute; inset: 0; pointer-events:none; }
-    .hero-rail::before, .hero-rail::after { content:''; position:absolute; border-radius:999px; opacity:.5; }
-    .hero-rail::before { width: 160px; height: 160px; top: 30px; right: 48px; border: 12px solid rgba(255,255,255,.34); }
-    .hero-rail::after { width: 260px; height: 260px; bottom: 18px; left: 18px; border: 1px solid rgba(255,255,255,.18); }
-    .badge-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
-    .stat { display:flex; flex-direction:column; gap:2px; min-width: 140px; padding: 14px 16px; border-radius: 18px; background: rgba(255,255,255,.78); border:1px solid var(--border); box-shadow: var(--shadow-soft); }
-    .stat strong { font-family:'Outfit',sans-serif; font-size: 18px; }
-    .stat span { color: var(--muted); font-size: 13px; line-height:1.4; }
-    .section.alt { padding-top: 36px; }
-    .menu-grid { display:grid; gap:16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .menu-card { position:relative; overflow:hidden; }
-    .menu-card::after { content:''; position:absolute; right:-36px; top:-36px; width:110px; height:110px; border-radius:999px; background: radial-gradient(circle, rgba(255,255,255,.5), transparent 65%); }
-    .menu-head { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
-    .section-cta { margin: 28px 0 10px; display:grid; grid-template-columns: 1.1fr .9fr; gap: 16px; align-items: stretch; }
-    .cta-panel { border-radius: 28px; padding: 22px; background: linear-gradient(135deg, rgba(255,255,255,.90), rgba(255,255,255,.66)); border:1px solid var(--border); box-shadow: var(--shadow-soft); }
-    .cta-panel h3 { margin:0 0 8px; font-family:'Outfit',sans-serif; font-size: 28px; }
-    .cta-panel p { margin:0; color: var(--muted); line-height:1.55; }
-    .contact-list { display:grid; gap:10px; margin-top:16px; }
-    .contact-item { display:flex; justify-content:space-between; gap:12px; padding: 13px 14px; border-radius: 16px; background: rgba(0,0,0,.03); }
-    .contact-item span { color: var(--muted); }
-    @media (max-width: 1060px) { .menu-grid, .section-cta { grid-template-columns: 1fr; } }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
+
+    /* ── Utility ── */
+    .red-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+    .red-label::before { content: ''; display: block; width: 20px; height: 2px; background: var(--red); }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 12px; color: var(--text); }
+    .section-sub { font-size: 16px; color: var(--muted); max-width: 52ch; line-height: 1.65; margin: 0 0 40px; }
+
+    /* ── Announcement bar ── */
+    .announce { background: var(--red); padding: 10px 0; text-align: center; color: #fff; font-size: 13px; font-weight: 600; letter-spacing: .04em; }
+
+    /* ── Header ── */
+    header { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 2px solid var(--text); }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand-emblem { width: 44px; height: 44px; border-radius: 12px; background: var(--red); display: grid; place-items: center; flex: none; }
+    .brand-emblem span { font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700; color: #fff; }
+    .brand-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--text); }
+    .brand-name small { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 400; color: var(--muted); letter-spacing: .04em; }
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+    .hdr-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: var(--r1); font-size: 14px; font-weight: 700; border: 2px solid var(--text); cursor: pointer; transition: all .15s; }
+    .hdr-btn.primary { background: var(--red); color: #fff; border-color: var(--red); }
+    .hdr-btn.primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+    .hdr-btn.ghost:hover { background: var(--text); color: var(--cream); }
+
+    /* ── Hero — bold grid layout ── */
+    .hero { padding: 56px 0 0; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: start; }
+    .hero-main { background: var(--red); border-radius: var(--r3); overflow: hidden; position: relative; }
+    .hero-main-img { height: 480px; overflow: hidden; }
+    .hero-main-img img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-main-body { padding: 32px; background: var(--red); }
+    .hero-main-body .red-label { color: rgba(255,255,255,0.8); }
+    .hero-main-body .red-label::before { background: rgba(255,255,255,0.6); }
+    .hero-main-body h1 { margin: 10px 0 14px; font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.5vw, 48px); line-height: 1.1; color: #fff; letter-spacing: -0.02em; }
+    .hero-main-body p { margin: 0; font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.65; }
+    .hero-cta-row { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-white { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; background: #fff; color: var(--red); font-size: 14px; font-weight: 700; border: none; transition: transform .15s; }
+    .btn-white:hover { transform: translateY(-2px); }
+    .btn-outline-white { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; background: transparent; color: #fff; font-size: 14px; font-weight: 700; border: 2px solid rgba(255,255,255,0.5); transition: transform .15s; }
+    .btn-outline-white:hover { transform: translateY(-2px); border-color: #fff; }
+
+    .hero-side { display: grid; gap: 16px; }
+    .hero-mini { background: var(--cream-dark); border: 2px solid var(--text); border-radius: var(--r2); overflow: hidden; }
+    .hero-mini-img { height: 130px; overflow: hidden; }
+    .hero-mini-img img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-mini-body { padding: 16px; }
+    .hero-mini-body h3 { margin: 0 0 4px; font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+    .hero-mini-body p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .h-stat { background: var(--cream-dark); border: 2px solid var(--text); border-radius: var(--r2); padding: 18px 16px; text-align: center; }
+    .h-stat strong { display: block; font-family: 'Playfair Display', serif; font-size: 28px; color: var(--red); }
+    .h-stat span { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+    /* ── Section ── */
+    .section { padding: 72px 0; }
+
+    /* ── Products grid ── */
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .prod-card { background: var(--cream-dark); border: 2px solid var(--text); border-radius: var(--r2); overflow: hidden; transition: transform .2s, box-shadow .2s; }
+    .prod-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--text); }
+    .prod-card-img { height: 160px; overflow: hidden; }
+    .prod-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .prod-card:hover .prod-card-img img { transform: scale(1.06); }
+    .prod-card-body { padding: 16px; }
+    .prod-card-body h3 { margin: 0 0 6px; font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); }
+    .prod-card-body p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Story ── */
+    .story-section { background: var(--text); border-radius: var(--r3); padding: 64px; }
+    .story-section .red-label { color: var(--tan); }
+    .story-section .red-label::before { background: var(--tan); }
+    .story-section .section-title { color: var(--cream); }
+    .story-section .section-sub { color: rgba(254,249,243,0.65); }
+    .story-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .story-point { display: flex; gap: 14px; padding: 18px; background: rgba(255,255,255,0.05); border-radius: var(--r1); border: 1px solid rgba(254,249,243,0.10); }
+    .story-point-num { width: 32px; height: 32px; border-radius: 8px; background: var(--red); display: grid; place-items: center; flex: none; }
+    .story-point-num span { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: #fff; }
+    .story-point h4 { margin: 0 0 4px; font-family: 'Playfair Display', serif; font-size: 17px; color: var(--cream); }
+    .story-point p { margin: 0; font-size: 13px; color: rgba(254,249,243,0.6); line-height: 1.5; }
+
+    /* ── Hours / Location strip ── */
+    .info-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .info-card { background: var(--cream-dark); border: 2px solid var(--text); border-radius: var(--r2); padding: 24px; }
+    .info-card .label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+    .info-card strong { display: block; font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); margin-bottom: 4px; }
+    .info-card a { color: var(--red); font-weight: 600; font-size: 14px; }
+    .info-card a:hover { text-decoration: underline; }
+
+    /* ── CTA ── */
+    .cta-section { padding: 72px 0; }
+    .cta-box { background: var(--red); border-radius: var(--r3); padding: 56px 64px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .cta-box h2 { margin: 0; font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 44px); color: #fff; letter-spacing: -0.02em; line-height: 1.1; }
+    .cta-box p { margin: 8px 0 0; color: rgba(255,255,255,0.75); font-size: 15px; }
+    .cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ── Footer ── */
+    footer { border-top: 2px solid var(--text); padding: 24px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 14px; color: var(--muted); }
+    footer strong { color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-main-img { height: 360px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .info-strip { grid-template-columns: 1fr; }
+      .story-section { padding: 40px 32px; }
+      .story-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .container { width: min(var(--max), calc(100% - 32px)); }
+      .header-actions .hdr-btn span { display: none; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .cta-box { padding: 36px 28px; }
+    }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-    <div class="orb three"></div>
-    <div class="container">
-      <header class="header">
-        <a class="brand" href="#top"><div class="brand-mark"></div><div class="brand-title"><strong>Carousel Bakery</strong><span>Neighborhood bakery</span></div></a>
-        <nav class="nav"><a class="pill" href="#menu">Highlights</a><a class="pill" href="#story">About</a><a class="pill primary" href="#contact">Contact</a></nav>
-      </header>
-      <section class="hero" id="top">
-        <div>
-          <div class="kicker"><span class="kicker-dot"></span>Hazlet bakery + cakes + breads</div>
-          <h1>The kind of bakery where the bread is fresh, the cases are full, and the regulars know the staff.</h1>
-          <p class="lead">Daily breads, Italian rolls, custom cakes, cupcakes, cookies, and a breakfast case that feels like a neighborhood ritual — built for locals who want the real thing.</p>
-          <div class="actions"><a class="btn primary" href="#contact">Email to order</a><a class="btn secondary" href="#menu">See the highlights</a></div>
-          <div class="hero-meta"><div class="meta-item"><strong>80 Bethany Rd</strong><span>Hazlet, NJ 07730</span></div><div class="meta-item"><strong>Fresh daily</strong><span>breads, pastries, cakes</span></div><div class="meta-item"><strong>Call + email</strong><span>simple ordering</span></div></div>
-        </div>
-        <div class="visual">
-          <div class="hero-card">
-            <div class="hero-photo"><div class="photo-badge">Fresh bread · custom cakes · neighborhood staple</div><div class="hero-rail"></div></div>
-            <div class="card-stack">
-              <div class="feature-card"><h3>Fresh bread daily</h3><p>Italian rolls, loaves, and baked staples that give the bakery its everyday pull.</p></div>
-              <div class="feature-card"><h3>Custom cakes</h3><p>Celebration cakes with clear order info, flavor callouts, and photo-friendly presentation.</p></div>
-              <div class="feature-card"><h3>Pastry case</h3><p>Cupcakes, cookies, and morning sweets that make the front counter feel alive.</p></div>
-              <div class="feature-card"><h3>Family bakery feel</h3><p>Friendly service, clear hours, and the kind of neighborhood energy regulars come back for.</p></div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section alt" id="menu">
-        <div class="eyebrow"><span class="kicker-dot"></span> Bakery staples</div>
-        <h2>Fresh breads, cakes, and pastries every day</h2>
-        <p class="intro">A quick view of the items that keep regulars coming back.</p>
-        <div class="grid cards"><article class="tiny-card menu-card"><div class="menu-head"><h3>Bread & rolls</h3></div><p>Lead with the classics: Italian rolls, loaves, and everyday staples that drive repeat visits.</p></article><article class="tiny-card menu-card"><div class="menu-head"><h3>Custom cakes</h3></div><p>A polished cakes section with celebration photos, flavor callouts, and a fast order button.</p></article><article class="tiny-card menu-card"><div class="menu-head"><h3>Breakfast case</h3></div><p>Pastries, cupcakes, cookies, and coffee-bar energy for the morning crowd.</p></article><article class="tiny-card menu-card"><div class="menu-head"><h3>Family-owned feel</h3></div><p>Friendly copy, clear hours, and an approachable look that feels rooted in the block.</p></article></div>
-      </section>
-      <section class="section" id="story">
-        <div class="split">
-          <div class="story">
-            <div class="eyebrow"><span class="kicker-dot"></span> Why regulars return</div>
-            <h2>A neighborhood bakery where the case stays full and the bread stays fresh.</h2>
-            <p class="intro">The site leads with the items people actually search for: bread, rolls, cakes, pastries, and morning sweets.</p>
-            <ul>
-              <li><span class="dot"></span><div><strong>Daily staples first.</strong> Bread and rolls are featured like the neighborhood essentials they are.</div></li>
-              <li><span class="dot"></span><div><strong>Celebration-ready cakes.</strong> Custom cake orders are easy to find and easy to start.</div></li>
-              <li><span class="dot"></span><div><strong>Morning case energy.</strong> Pastries and cookies make the homepage feel active and current.</div></li>
-              <li><span class="dot"></span><div><strong>Friendly local tone.</strong> The copy sounds like a family bakery, not a chain.</div></li>
-            </ul>
-          </div>
-          <div class="story">
-            <div class="eyebrow"><span class="kicker-dot"></span> How to order</div>
-            <h2>Call or email for custom cakes, trays, and pickup plans.</h2>
-            <p class="intro">The contact area keeps the address, phone, and email together so customers can book quickly without digging.</p>
-            <div class="badge-row"><div class="mini-tag"><b>Order</b> Custom cakes</div><div class="mini-tag"><b>Order</b> Bread orders</div><div class="mini-tag"><b>Order</b> Dessert trays</div><div class="mini-tag"><b>Order</b> Morning pickup</div></div>
-          </div>
-        </div>
-      </section>
-      <section class="section"><div class="section-cta" id="contact"><div class="cta-panel"><h3>Order a custom cake</h3><p>Email Carousel for bread orders, dessert trays, or celebration cakes. The site keeps contact and pickup details close together.</p><div class="badge-row"><div class="mini-tag"><b>Breads</b> Daily rolls</div><div class="mini-tag"><b>Cakes</b> Custom orders</div><div class="mini-tag"><b>Pickup</b> Morning bakery</div></div></div><div class="cta-panel"><h3>Contact & pickup</h3><div class="contact-list"><div class="contact-item"><span>Email</span><strong><a href="mailto:carouselbakery1@gmail.com">carouselbakery1@gmail.com</a></strong></div><div class="contact-item"><span>Phone</span><strong><a href="tel:7328889112">(732) 888-9112</a></strong></div><div class="contact-item"><span>Location</span><strong>80 Bethany Rd, Hazlet, NJ 07730</strong></div></div></div></div></section>
-      <footer class="footer"><div><strong>Carousel Bakery</strong> · Neighborhood bakery</div><div>Fresh bread • Custom cakes • Hazlet</div></footer>
+
+<!-- Announcement bar -->
+<div class="announce">Fresh breads, custom cakes &amp; pastries — 80 Bethany Rd, Hazlet NJ</div>
+
+<!-- Header -->
+<header>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+    <a class="brand" href="#">
+      <div class="brand-emblem"><span>CB</span></div>
+      <div class="brand-name">Carousel Bakery<small>Neighborhood bakery · Hazlet, NJ</small></div>
+    </a>
+    <div class="header-actions">
+      <a class="hdr-btn ghost" href="#menu">Menu</a>
+      <a class="hdr-btn ghost" href="#story">About</a>
+      <a class="hdr-btn primary" href="#contact">Order now</a>
     </div>
-  </main>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-main">
+        <div class="hero-main-img">
+          <img src="https://images.unsplash.com/photo-1517433367423-c7f6c8cbf8c7?auto=format&fit=crop&w=1400&q=80" alt="Carousel Bakery fresh breads">
+        </div>
+        <div class="hero-main-body">
+          <div class="red-label">Hazlet bakery · Est.</div>
+          <h1>The kind of bakery where the bread is fresh and the regulars feel at home.</h1>
+          <p>Daily breads, Italian rolls, custom cakes, cupcakes, and a breakfast case that feels like a neighborhood ritual — built for locals who want the real thing.</p>
+          <div class="hero-cta-row">
+            <a class="btn-white" href="mailto:carouselbakery1@gmail.com">Email to order</a>
+            <a class="btn-outline-white" href="#menu">See the highlights</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-mini">
+          <div class="hero-mini-img">
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80" alt="Fresh bread loaves">
+          </div>
+          <div class="hero-mini-body">
+            <h3>Fresh bread daily</h3>
+            <p>Italian rolls, loaves, and everyday staples that keep regulars coming back.</p>
+          </div>
+        </div>
+        <div class="hero-mini">
+          <div class="hero-mini-img">
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Custom cakes">
+          </div>
+          <div class="hero-mini-body">
+            <h3>Custom cakes</h3>
+            <p>Celebration cakes with clear ordering — perfect for birthdays and special occasions.</p>
+          </div>
+        </div>
+        <div class="hero-mini">
+          <div class="hero-mini-img">
+            <img src="https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?auto=format&fit=crop&w=600&q=80" alt="Pastry case">
+          </div>
+          <div class="hero-mini-body">
+            <h3>Morning pastries</h3>
+            <p>Cupcakes, cookies, and sweets that make the front counter feel alive.</p>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="h-stat"><strong>80</strong><span>Bethany Rd</span></div>
+          <div class="h-stat"><strong>Daily</strong><span>Fresh baked</span></div>
+          <div class="h-stat"><strong>Call</strong><span>(732) 888-9112</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Menu highlights -->
+<section class="section" id="menu">
+  <div class="container">
+    <div class="red-label">Bakery staples</div>
+    <h2 class="section-title">Fresh breads, cakes, and pastries every day.</h2>
+    <p class="section-sub">A quick view of the items that keep regulars coming back — available for pickup or order ahead.</p>
+    <div class="products-grid">
+      <article class="prod-card">
+        <div class="prod-card-img">
+          <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80" alt="Fresh bread">
+        </div>
+        <div class="prod-card-body">
+          <h3>Bread &amp; Rolls</h3>
+          <p>Italian rolls, loaves, and everyday staples that drive repeat visits.</p>
+        </div>
+      </article>
+      <article class="prod-card">
+        <div class="prod-card-img">
+          <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Custom cakes">
+        </div>
+        <div class="prod-card-body">
+          <h3>Custom Cakes</h3>
+          <p>Celebration cakes with clear order info and photo-friendly presentation.</p>
+        </div>
+      </article>
+      <article class="prod-card">
+        <div class="prod-card-img">
+          <img src="https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?auto=format&fit=crop&w=600&q=80" alt="Pastries">
+        </div>
+        <div class="prod-card-body">
+          <h3>Pastry Case</h3>
+          <p>Cupcakes, cookies, and morning sweets that make the counter feel alive.</p>
+        </div>
+      </article>
+      <article class="prod-card">
+        <div class="prod-card-img">
+          <img src="https://images.unsplash.com/photo-1607920591413-4ec007e70023?auto=format&fit=crop&w=600&q=80" alt="Dessert trays">
+        </div>
+        <div class="prod-card-body">
+          <h3>Dessert Trays</h3>
+          <p>Party trays and catering quantities — email or call to arrange.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="section" id="story">
+  <div class="container">
+    <div class="story-section">
+      <div class="red-label">Why regulars return</div>
+      <h2 class="section-title">A neighborhood bakery where the case stays full.</h2>
+      <p class="section-sub">The site leads with the items people actually search for — bread, rolls, cakes, pastries, and morning sweets — in a voice that sounds like a family business, not a chain.</p>
+      <div class="story-grid">
+        <div class="story-point">
+          <div class="story-point-num"><span>1</span></div>
+          <div><h4>Daily staples first</h4><p>Bread and rolls are featured like the neighborhood essentials they are — not buried in a menu.</p></div>
+        </div>
+        <div class="story-point">
+          <div class="story-point-num"><span>2</span></div>
+          <div><h4>Celebration-ready cakes</h4><p>Custom cake orders are easy to find and easy to start — call or email to get the process going.</p></div>
+        </div>
+        <div class="story-point">
+          <div class="story-point-num"><span>3</span></div>
+          <div><h4>Morning case energy</h4><p>Pastries and cookies make the homepage feel active and current — the kind of place you visit every day.</p></div>
+        </div>
+        <div class="story-point">
+          <div class="story-point-num"><span>4</span></div>
+          <div><h4>Friendly local tone</h4><p>The copy sounds like a family bakery — approachable, clear, and rooted in the block.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Info strip -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="info-strip">
+      <div class="info-card">
+        <div class="label">Call us</div>
+        <strong><a href="tel:+17328889112">(732) 888-9112</a></strong>
+        <span>Fastest for same-day orders</span>
+      </div>
+      <div class="info-card">
+        <div class="label">Email</div>
+        <strong><a href="mailto:carouselbakery1@gmail.com">carouselbakery1@gmail.com</a></strong>
+        <span>Best for custom cake orders</span>
+      </div>
+      <div class="info-card">
+        <div class="label">Find us</div>
+        <strong>80 Bethany Rd</strong>
+        <span>Hazlet, NJ 07730</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <div>
+        <h2>Ready to place an order?</h2>
+        <p>Call or email for custom cakes, bread orders, dessert trays, and morning pickup.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn-white" href="tel:+17328889112">Call (732) 888-9112</a>
+        <a class="btn-outline-white" href="mailto:carouselbakery1@gmail.com">Email to order</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%;">
+    <div><strong>Carousel Bakery</strong> · Neighborhood bakery<br><span style="font-size:13px;">80 Bethany Rd, Hazlet NJ 07730 · <a href="mailto:carouselbakery1@gmail.com" style="color:var(--red);">carouselbakery1@gmail.com</a></span></div>
+    <div>Fresh bread daily · Custom cakes · Hazlet</div>
+  </div>
+</footer>
+
 </body>
 </html>
