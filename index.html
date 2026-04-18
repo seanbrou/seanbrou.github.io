@@ -1762,7 +1762,7 @@ function switchTab(name){
 /* ========== DAY RECAP ========== */
 let RECAP_SLIDE=0, RECAP_TOTAL=0, RECAP_SWIPE_START=null, RECAP_AUTO_ADV=null;
 const RECAP_GRADIENTS=[
-  ['#0A0A0A','#1a0a2e'],['#0A0A0A','#0a1e2e'],['#0A0A0A','#0a2e1a'],['#0A0A0A','#2e1a0a'],['#0A0A0A','#2e0a1a'],['#0A0A0A','#1a0a28'],['#0A0A0A','#2e0a20'],['#0A0A0A','#0a202e'],['#0A0A0A','#1e2e0a']
+  ['#0A0A0A','#1a0a2e'],['#0A0A0A','#0a1e2e'],['#0A0A0A','#0a2e1a'],['#0A0A0A','#2e1a0a'],['#0A0A0A','#2e0a1a'],['#0A0A0A','#1a0a28'],['#0A0A0A','#2e0a20'],['#0A0A0A','#0a202e'],['#0A0A0A','#1e2e0a'],['#0A0A0A','#0a1a2e']
 ];
 function recapGradient(i){
   const pair=RECAP_GRADIENTS[i % RECAP_GRADIENTS.length];
@@ -1786,6 +1786,384 @@ function animateWidth(el, from, to, duration=1000){
   requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.transition=`width ${duration}ms cubic-bezier(.4,0,.2,1)`;el.style.width=to+'%';}));
 }
 
+// ── FACT POOL ──────────────────────────────────────────────────────────────
+// 23 niche facts. Each day, 3 are randomly selected (shuffled by day-seed).
+// Slides 0–3 (Intro, Daily, Best, Worst) and slides 7–9 (Total, Grid, Close)
+// are always fixed.
+const RECAP_FACT_POOL = (s, fmt, formatShares, pct0) => [
+  // 0: Concentration
+  () => ({
+    emoji: '🎯', kicker: 'Concentration check',
+    label: `${s.holdings.reduce((a,b)=>a.value>b.value?a:b).symbol} is your biggest bet`,
+    value: s.holdings.reduce((a,b)=>a.value>b.value?a:b).value / s.totalValue * 100,
+    valueFmt: (v) => `${v.toFixed(1)}%`,
+    sub: `${s.holdings.reduce((a,b)=>a.value>b.value?a:b).name} makes up ${(s.holdings.reduce((a,b)=>a.value>b.value?a:b).value/s.totalValue*100).toFixed(1)}% of your portfolio. ${(s.holdings.reduce((a,b)=>a.value>b.value?a:b).value/s.totalValue*100)>40?'That\'s heavy concentration — ride or die.':'Solid diversification balance.'}`,
+    color: (s.holdings.reduce((a,b)=>a.value>b.value?a:b).value/s.totalValue*100)>40?'#FF9F0A':'#00D4AA'
+  }),
+  // 1: Paper gains / underwater
+  () => {
+    const unrealPct = s.invested ? (s.unrealized/s.invested*100) : 0;
+    return {
+      emoji: s.totalReturn>=0 ? '💰' : '📉',
+      kicker: s.totalReturn>=0 ? 'Paper gains' : 'Underwater',
+      label: `You put in ${fmt(s.invested)}`,
+      value: Math.abs(s.totalReturn),
+      valueFmt: (v) => `${s.totalReturn>=0?'+':'-'}${fmt(Math.round(v))}`,
+      sub: `${s.totalReturn>=0 ? "That\'s" : "You\'re"} ${Math.abs(unrealPct).toFixed(1)}% ${s.totalReturn>=0 ? "on top of what you invested" : "from your cost basis"}. ${s.totalReturn>=0 && s.totalReturnPct>100 ? "Your money more than doubled." : s.totalReturn>=0 ? "Decent multiples." : ""}`,
+      color: s.totalReturn>=0 ? '#00D4AA' : '#FF4D4F'
+    };
+  },
+  // 2: Longest held
+  () => {
+    const longestHeld = s.holdings.reduce((best, h) => {
+      const firstTx = TRANSACTIONS.filter(t=>t.s===h.symbol&&t.w==='BUY'&&!t.status).sort((a,b)=>new Date(a.d)-new Date(b.d))[0];
+      if(!firstTx) return best;
+      const days = Math.floor((Date.now()-new Date(firstTx.d).getTime())/86400000);
+      return days>(best?.days||0) ? {symbol:h.symbol,days,firstTx} : best;
+    }, null);
+    if(!longestHeld || longestHeld.days <= 0) return null;
+    const years = Math.floor(longestHeld.days/365);
+    const months = Math.floor((longestHeld.days%365)/30);
+    const heldStr = years>0 ? `${years}y ${months}m` : `${longestHeld.days}d`;
+    return {
+      emoji: '⏳', kicker: 'Your longest hold',
+      label: `${longestHeld.symbol} — diamond hands?`,
+      value: longestHeld.days,
+      valueFmt: (v) => heldStr,
+      sub: `First bought ${new Date(longestHeld.firstTx.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}. ${longestHeld.days>730?'That\'s commitment.':longestHeld.days>365?'Over a year strong.':'Still early in the game.'}`,
+      color: '#A78BFA'
+    };
+  },
+  // 3: Daily vs all-time best day
+  () => {
+    const hist = s.history || [];
+    if(hist.length < 2) return null;
+    const allDailies = hist.map((h,i)=>i===0?0:h.dailyChange).filter(v=>v!==0);
+    const bestEver = allDailies.length ? Math.max(...allDailies) : 0;
+    const isBest = s.dailyChange >= bestEver && bestEver > 0;
+    return {
+      emoji: isBest ? '🏆' : '📅', kicker: 'Daily context',
+      label: isBest ? 'Best day ever?' : 'How today stacks up',
+      value: bestEver,
+      valueFmt: (v) => `${bestEver>0?'+':''}${fmt(Math.round(v))}`,
+      sub: isBest ? `Today\'s +${fmt(Math.round(s.dailyChange))} tops your all-time best single-day gain. New record!` : `Your best single-day gain was +${fmt(Math.round(bestEver))}. Today\'s ${fmt(Math.round(Math.abs(s.dailyChange)))} ${s.dailyChange>=0?'gains':'losses'} didn\'t beat it.`,
+      color: isBest ? '#FFD700' : '#A78BFA'
+    };
+  },
+  // 4: Average position size
+  () => {
+    const avg = s.totalValue / s.holdings.length;
+    return {
+      emoji: '📊', kicker: 'Position sizing',
+      label: `Average position size`,
+      value: avg,
+      valueFmt: (v) => fmt(Math.round(v)),
+      sub: `${s.holdings.length} positions averaging ${fmt(Math.round(avg))} each. ${avg>50000?'You\'re playing with serious size.':'Typical retail positioning.'}`,
+      color: '#00D4AA'
+    };
+  },
+  // 5: Number of positions
+  () => ({
+    emoji: '🧱', kicker: 'Portfolio depth',
+    label: `${s.holdings.length} position${s.holdings.length!==1?'s':''} in play`,
+    value: s.holdings.length,
+    valueFmt: (v) => v,
+    sub: `${s.holdings.length < 3 ? 'Concentrated. High conviction, high variance.' : s.holdings.length < 6 ? 'A solid core portfolio. Not too thin, not too thick.' : 'Well spread. Like a mini index fund.'}`,
+    color: '#60A5FA'
+  }),
+  // 6: Streak tracker
+  () => {
+    const hist = s.history || [];
+    if(hist.length < 3) return null;
+    let streak = 0, i = hist.length-1;
+    const today = s.dailyChange>=0;
+    while(i>=0 && (hist[i].dailyChange>=0)===today){streak++;i--;}
+    if(streak===0) streak=1;
+    return {
+      emoji: today ? '🔥' : '🥶', kicker: today ? 'Green streak' : 'Red streak',
+      label: `${streak} day${streak!==1?'s':''} in a row ${today?'up':'down'}`,
+      value: streak,
+      valueFmt: (v) => v,
+      sub: today ? `You\'ve been green for ${streak} straight trading day${streak!==1?'s':''}. ${streak>=5?'Incredible run.':'Keep it going.'}` : `Red days back-to-back. ${streak>=3?'Rough stretch.':''} Markets always bounce.`,
+      color: today ? '#FF6B35' : '#4EA8DE'
+    };
+  },
+  // 7: Daily hour-by-hour range (intraday)
+  () => {
+    const intra = CURRENT_STATE?.intradayHistory;
+    if(!intra || !Object.keys(intra).length) return null;
+    const closes = Object.values(intra).flat().map(b=>b.close);
+    if(closes.length < 2) return null;
+    const open = closes[0], close = closes[closes.length-1];
+    const high = Math.max(...closes), low = Math.min(...closes);
+    const range = high - low;
+    const pctRange = (range/open*100).toFixed(1);
+    const direction = close >= open;
+    return {
+      emoji: direction ? '📈' : '📉', kicker: 'Intraday range',
+      label: `Today\'s full swing`,
+      value: parseFloat(pctRange),
+      valueFmt: (v) => `${v}%`,
+      sub: `Opened at ${fmt(open)}, swung to ${fmt(low)} low / ${fmt(high)} high. That\'s a ${pctRange}% total range today. ${range > s.totalValue*0.02 ? 'Volatile session.' : 'Calm by comparison.'}`,
+      color: direction ? '#00D4AA' : '#FF4D4F'
+    };
+  },
+  // 8: Portfolio turnover signal
+  () => {
+    const recentTxs = TRANSACTIONS.filter(t=>!t.status&&t.w==='BUY').sort((a,b)=>new Date(b.d)-new Date(a.d));
+    const lastBuy = recentTxs[0];
+    if(!lastBuy) return null;
+    const daysAgo = Math.floor((Date.now()-new Date(lastBuy.d).getTime())/86400000);
+    return {
+      emoji: '🛒', kicker: 'Trading activity',
+      label: `${daysAgo === 0 ? 'Bought today!' : `Last buy ${daysAgo} day${daysAgo!==1?'s':''} ago`}`,
+      value: daysAgo,
+      valueFmt: (v) => v === 0 ? 'Today' : `${v}d ago`,
+      sub: lastBuy ? `Most recent purchase: ${lastBuy.s} on ${new Date(lastBuy.d).toLocaleDateString('en-US',{month:'short',day:'numeric'})}. ${daysAgo>30?'Patience is a virtue.':'Active trader.'}` : '',
+      color: '#F59E0B'
+    };
+  },
+  // 9: Diversification score
+  () => {
+    const sectorMap = {'TSLA':'EV','HOOD':'Fintech','IVV':'Index','NBIS':'EV','RVI':'Retail'};
+    const sectors = new Set(s.holdings.map(h=>sectorMap[h.symbol]||'Other'));
+    const score = Math.round((s.holdings.length / Math.max(sectors.size,1)) * 20);
+    return {
+      emoji: '🛡️', kicker: 'Diversification score',
+      label: `${sectors.size} sector${sectors.size!==1?'s':''} across ${s.holdings.length} holdings`,
+      value: score,
+      valueFmt: (v) => `${Math.min(100,v)}/100`,
+      sub: `Score based on position count vs unique sectors. ${score<40?'Heavy sector overlap — risky if one sector dumps.':'Good spread across ${sectors.size} sector${sectors.size!==1?'s':''}.'}`,
+      color: score<40?'#FF9F0A':'#00D4AA'
+    };
+  },
+  // 10: TSLA special (if held)
+  () => {
+    const tsla = s.holdings.find(h=>h.symbol==='TSLA');
+    if(!tsla) return null;
+    const tslaPct = tsla.value / s.totalValue * 100;
+    return {
+      emoji: '⚡', kicker: 'Tesla check',
+      label: `TSLA = ${tslaPct.toFixed(1)}% of portfolio`,
+      value: tslaPct,
+      valueFmt: (v) => `${v.toFixed(1)}%`,
+      sub: `${tsla.shares} shares worth ${fmt(tsla.value)}. ${tsla.changePct>3?'TSLA is carrying today.':tsla.changePct<-3?'TSLA dragging you down.':'TSLA moving with the market.'}`,
+      color: '#FF4D4F'
+    };
+  },
+  // 11: IVV benchmark comparison
+  () => {
+    const ivv = s.holdings.find(h=>h.symbol==='IVV');
+    if(!ivv) return null;
+    const ivvPct = ivv.changePct;
+    const portfolioPct = s.dailyChangePct;
+    const alpha = (portfolioPct - ivvPct).toFixed(2);
+    return {
+      emoji: '📏', kicker: 'vs the S&P 500',
+      label: `Today you ${portfolioPct>=ivvPct?'outperformed':'underperformed'} IVV`,
+      value: Math.abs(parseFloat(alpha)),
+      valueFmt: (v) => `${alpha>=0?'+':''}${alpha}%`,
+      sub: `IVV moved ${ivvPct.toFixed(2)}% today. Your portfolio: ${portfolioPct.toFixed(2)}%. ${alpha>=0?'You beat the market today!':'Market did better than you today.'}`,
+      color: portfolioPct>=ivvPct?'#00D4AA':'#FF4D4F'
+    };
+  },
+  // 12: Cash buffer signal
+  () => {
+    const cash = (s as any).cash || 0;
+    if(!cash) return null;
+    const cashPct = cash / (s.totalValue + cash) * 100;
+    return {
+      emoji: '💵', kicker: 'Cash on sidelines',
+      label: `${fmt(Math.round(cash))} in cash`,
+      value: cashPct,
+      valueFmt: (v) => `${v.toFixed(1)}%`,
+      sub: `${cashPct.toFixed(1)}% of your total resources sitting as cash. ${cashPct>20?'Dry powder ready to deploy.':cashPct<5?'Fully deployed. Nothing on the bench.':'Reasonably deployed.'}`,
+      color: '#10B981'
+    };
+  },
+  // 13: Average cost vs current price
+  () => {
+    const weighted = s.holdings.reduce((sum,h)=>sum+(h.avgCost*h.shares),0);
+    const avgCostOverall = s.invested ? weighted/s.holdings.reduce((s2,h)=>s2+h.shares,0) : 0;
+    const avgPriceOverall = s.holdings.reduce((sum,h)=>sum+(h.price*h.shares),0)/s.holdings.reduce((s2,h)=>s2+h.shares,0);
+    const avgGain = avgPriceOverall > 0 && avgCostOverall > 0 ? ((avgPriceOverall-avgCostOverall)/avgCostOverall*100) : 0;
+    return {
+      emoji: '🏷️', kicker: 'Average cost vs now',
+      label: `Avg cost across all positions`,
+      value: avgGain,
+      valueFmt: (v) => `${avgGain>=0?'+':''}${avgGain.toFixed(1)}%`,
+      sub: `Average cost basis ~${fmt(Math.round(avgCostOverall))}/share vs current avg ~${fmt(Math.round(avgPriceOverall))}. ${avgGain>20?'Nice average cost advantage.':avgGain<0?'Average cost is above current prices.':''}`,
+      color: avgGain>=0?'#00D4AA':'#FF4D4F'
+    };
+  },
+  // 14: Win rate today (up vs down positions)
+  () => {
+    const up = s.holdings.filter(h=>h.change>=0).length;
+    const total = s.holdings.length;
+    const rate = total ? up/total*100 : 0;
+    return {
+      emoji: rate>=60 ? '🌞' : rate>=40 ? '⛅' : '🌧️', kicker: 'Win rate today',
+      label: `${up} of ${total} positions green`,
+      value: rate,
+      valueFmt: (v) => `${Math.round(v)}%`,
+      sub: `${rate}% of your holdings are up today. ${rate===100?'Sweep. Every single position green.':rate===0?'Nothing green today. Brutal.':rate>=60?'Majority winning.':'More red than green.'}`,
+      color: rate>=60?'#00D4AA':rate>=40?'#F59E0B':'#FF4D4F'
+    };
+  },
+  // 15: Market cap exposure (if identifiable)
+  () => {
+    const meta = {'TSLA':'Large-cap','HOOD':'Mid-cap','IVV':'Large-cap (synthetic)','NBIS':'Small-cap','RVI':'Small-cap'};
+    const caps = s.holdings.map(h=>({cap:meta[h.symbol]||'Unknown',value:h.value}));
+    const large = caps.filter(c=>c.cap==='Large-cap').reduce((s2,c)=>s2+c.value,0);
+    const pct = large/s.totalValue*100;
+    return {
+      emoji: '🏛️', kicker: 'Market cap exposure',
+      label: `${pct.toFixed(0)}% large-cap exposure`,
+      value: pct,
+      valueFmt: (v) => `${v.toFixed(0)}%`,
+      sub: `You\'re ${pct>70?'heavily tilted toward mega-caps — stable but growth-limited.':pct>40?'mostly in large-cap blue chips with some small-cap spice.':'spread across market caps.'}`,
+      color: '#7C3AED'
+    };
+  },
+  // 16: Total shares held
+  () => {
+    const totalShares = s.holdings.reduce((sum,h)=>sum+h.shares,0);
+    return {
+      emoji: '🔢', kicker: 'Share count',
+      label: `${totalShares.toLocaleString()} total shares`,
+      value: totalShares,
+      valueFmt: (v) => v.toLocaleString(),
+      sub: `Across ${s.holdings.length} tickers. ${totalShares<50?'Low share count — quality over quantity.':'${totalShares>500?'That\'s a lot of individual shares.':'Solid share base.'}`,
+      color: '#06B6D4'
+    };
+  },
+  // 17: Portfolio beta feel (up vs down day magnitude)
+  () => {
+    if(!s.dailyChangePct) return null;
+    const mag = Math.abs(s.dailyChangePct);
+    const beta = mag > 3 ? 'High' : mag > 1.5 ? 'Medium' : 'Low';
+    return {
+      emoji: '🌊', kicker: 'Volatility feel',
+      label: `${beta} beta portfolio today`,
+      value: mag,
+      valueFmt: (v) => `${v.toFixed(2)}% swing`,
+      sub: `Today\'s ${Math.abs(s.dailyChangePct).toFixed(2)}% move feels ${beta.toLowerCase()}. ${beta==='High'?'You\'re along for the ride. Big moves both ways.':beta==='Medium'?'Moderate day — some action but not wild.':'Slow and steady. A quiet session.'}`,
+      color: beta==='High'?'#FF4D4F':beta==='Medium'?'#F59E0B':'#00D4AA'
+    };
+  },
+  // 18: HOOD-specific (if held)
+  () => {
+    const hood = s.holdings.find(h=>h.symbol==='HOOD');
+    if(!hood) return null;
+    return {
+      emoji: '🐦', kicker: 'Robinhood territory',
+      label: `${hood.shares} HOOD shares`,
+      value: hood.value,
+      valueFmt: (v) => fmt(Math.round(v)),
+      sub: `${hood.name} at ${fmt(hood.price)}/share. ${hood.changePct>5?'HOOD is flying.':hood.changePct<-5?'HOOD getting hammered.':'HOOD moving with the market.'}`,
+      color: '#00C853'
+    };
+  },
+  // 19: Best vs worst spread
+  () => {
+    if(s.holdings.length < 2) return null;
+    const bestPct = Math.max(...s.holdings.map(h=>h.changePct));
+    const worstPct = Math.min(...s.holdings.map(h=>h.changePct));
+    const spread = (bestPct - worstPct).toFixed(1);
+    return {
+      emoji: '📊', kicker: 'Spread of the day',
+      label: `${spread}% gap between best and worst`,
+      value: parseFloat(spread),
+      valueFmt: (v) => `${v}%`,
+      sub: `Best: +${bestPct.toFixed(1)}% | Worst: ${worstPct.toFixed(1)}%. ${parseFloat(spread)>10?'Huge dispersion. Concentration matters today.':'Tight spread — market-wide move.'}`,
+      color: parseFloat(spread)>10?'#FF9F0A':'#00D4AA'
+    };
+  },
+  // 20: Daily dollars per hour (if intraday available)
+  () => {
+    const now = new Date();
+    const mktOpen = new Date(now.getFullYear(),now.getMonth(),now.getDate(),9,30).getTime();
+    const mktClose = new Date(now.getFullYear(),now.getMonth(),now.getDate(),16,0).getTime();
+    const elapsed = Math.max((Date.now()-mktOpen)/3600000, 0.1);
+    const hourly = s.dailyChange / elapsed;
+    const atClose = s.dailyChange / elapsed * 6.5;
+    return {
+      emoji: '⏱️', kicker: 'Earn rate today',
+      label: `Portfolio earning ~${fmt(Math.round(Math.abs(hourly)))}/hour`,
+      value: hourly,
+      valueFmt: (v) => `${v>=0?'+':'-'}${fmt(Math.round(Math.abs(v)))}/hr`,
+      sub: `${Math.abs(s.dailyChange) > 1000 ? 'That\'s a fast-moving day.' : 'Slow and steady.'} At this rate, by market close you\'d be ${atClose>=0?'+':''}${fmt(Math.round(atClose))}.`,
+      color: hourly>=0?'#00D4AA':'#FF4D4F'
+    };
+  },
+  // 21: NBIS special (if held)
+  () => {
+    const nb = s.holdings.find(h=>h.symbol==='NBIS');
+    if(!nb) return null;
+    return {
+      emoji: '🔋', kicker: 'Next-Billion special',
+      label: `${nb.shares} NBIS shares in play`,
+      value: nb.value,
+      valueFmt: (v) => fmt(Math.round(v)),
+      sub: `Nio Inc — Chinese EV maker. ${nb.changePct>5?'NBIS is up big. China EV momentum.':nb.changePct<-5?'NBIS taking heat. China sentiment weak.':'NBIS moving with the broader EV sector.'}`,
+      color: '#F59E0B'
+    };
+  },
+  // 22: Portfolio asymmetry score
+  () => {
+    const sortedValues = s.holdings.map(h=>h.value).sort((a,b)=>b-a);
+    const top2 = sortedValues.slice(0,2).reduce((s2,v)=>s2+v,0);
+    const asym = top2/s.totalValue*100;
+    return {
+      emoji: '⚖️', kicker: 'Asymmetry score',
+      label: `Top 2 positions = ${asym.toFixed(0)}% of portfolio`,
+      value: asym,
+      valueFmt: (v) => `${v.toFixed(0)}%`,
+      sub: `Your two biggest holdings control ${asym.toFixed(0)}% of the outcome. ${asym>70?'Highly top-heavy — big wins if they rally, big hits if they dump.':'More balanced. No single stock dominates.'}`,
+      color: asym>70?'#FF4D4F':'#00D4AA'
+    };
+  }
+];
+
+// Select 3 random facts from the pool using a day-seed so the same 3 show all day
+function getRecapFacts(s, fmt, formatShares, pct0){
+  // Build flat list of available facts (filter out nulls)
+  const available = RECAP_FACT_POOL.map(fn => {
+    try { return fn(); } catch(e) { return null; }
+  }).filter(Boolean);
+  if(available.length === 0) return [];
+  // Seed by day so it\'s stable across refreshes
+  const today = new Date().toISOString().slice(0,10);
+  let seed = today.split('').reduce((acc,c)=>acc+c.charCodeAt(0),0);
+  const pick3 = [];
+  let idx = seed % available.length;
+  for(let i=0;i<Math.min(3,available.length);i++){
+    pick3.push(available[idx % available.length]);
+    idx = (idx * 7 + seed + i) % available.length;
+    if(pick3.length >= available.length) break;
+  }
+  return pick3;
+}
+
+function factSlideHtml(fact, gradIdx){
+  return `
+    <div class="recap-gradient" style="background:${recapGradient(gradIdx)}"></div>
+    <div class="recap-content">
+      <div class="recap-emoji">${fact.emoji}</div>
+      <div class="recap-kicker">${fact.kicker}</div>
+      <div class="recap-fact-card">
+        <div class="recap-fact-label">${fact.label}</div>
+        <div class="recap-fact-value" id="recap-fact-val-${gradIdx}" style="color:${fact.color}">—</div>
+        <div class="recap-fact-sub">${fact.sub}</div>
+      </div>
+    </div>
+  `;
+}
+
+function factSlideAnimate(fact, gradIdx){
+  animateCounter(document.getElementById(`recap-fact-val-${gradIdx}`), 0, fact.value, 900, '', '');
+}
+
 function buildRecapSlides(){
   if(!CURRENT_STATE) return [];
   const s=CURRENT_STATE;
@@ -1798,21 +2176,7 @@ function buildRecapSlides(){
   const dayName=today.toLocaleDateString('en-US',{weekday:'long'});
   const dateStr=today.toLocaleDateString('en-US',{month:'long',day:'numeric'});
   const slides=[];
-
-  // Compute fun facts
-  const biggestPosition=s.holdings.reduce((a,b)=>a.value>b.value?a:b);
-  const biggestPct=biggestPosition ? (biggestPosition.value/s.totalValue*100).toFixed(1) : 0;
-  const totalShares=s.holdings.reduce((sum,h)=>sum+h.shares,0);
-  const avgCost=s.holdings.reduce((sum,h)=>sum+h.avgCost,0)/s.holdings.length;
-  const longestHeld=s.holdings.reduce((best,h)=>{
-    const firstTx=TRANSACTIONS.filter(t=>t.s===h.symbol&&t.w==='BUY'&&!t.status).sort((a,b)=>new Date(a.d)-new Date(b.d))[0];
-    if(!firstTx) return best;
-    const days=Math.floor((Date.now()-new Date(firstTx.d).getTime())/(86400000));
-    return days>(best?.days||0) ? {symbol:h.symbol,days,firstTx} : best;
-  },null);
-  const daysSinceFirst=Math.floor((Date.now()-new Date(TRANSACTIONS.filter(t=>!t.status&&t.w==='BUY').sort((a,b)=>new Date(a.d)-new Date(b.d))[0]?.d||Date.now()).getTime())/(86400000));
-  const unrealizedPct=s.invested ? (s.unrealized/s.invested*100) : 0;
-  const washValue=s.totalValue * 0.01;
+  const facts = getRecapFacts(s, fmt, formatShares, pct0);
 
   // Slide 0: Intro
   slides.push({type:'intro',html:`
@@ -1825,7 +2189,7 @@ function buildRecapSlides(){
     </div>
   `});
 
-  // Slide 1: Total daily change — hero number
+  // Slide 1: Total daily change
   slides.push({type:'daily',html:`
     <div class="recap-gradient" style="background:${recapGradient(1)}"></div>
     <div class="recap-content">
@@ -1885,56 +2249,12 @@ function buildRecapSlides(){
     }});
   }
 
-  // Slide 4: Niche Fact — Concentration
-  slides.push({type:'fact',html:`
-    <div class="recap-gradient" style="background:${recapGradient(4)}"></div>
-    <div class="recap-content">
-      <div class="recap-emoji">🎯</div>
-      <div class="recap-kicker">Concentration check</div>
-      <div class="recap-fact-card">
-        <div class="recap-fact-label">${biggestPosition.symbol} is your biggest bet</div>
-        <div class="recap-fact-value" id="recap-conc-val" style="color:${biggestPct>40?'#FF9F0A':'#00D4AA'}">${biggestPct}%</div>
-        <div class="recap-fact-sub">of your portfolio sits in ${biggestPosition.name}. ${biggestPct>40?'That\'s heavy concentration — ride or die.':'Solid diversification balance.'}</div>
-      </div>
-      <div class="recap-sub">${fmt(biggestPosition.value)} in one position · ${s.holdings.length} total holdings</div>
-    </div>
-  `});
+  // Slides 4–6: Rotating facts (3 from the pool)
+  facts.forEach((fact, i) => {
+    slides.push({type:'fact',html:factSlideHtml(fact, 4+i),animate:()=>factSlideAnimate(fact, 4+i)});
+  });
 
-  // Slide 5: Niche Fact — Cost basis vs value
-  slides.push({type:'fact',html:`
-    <div class="recap-gradient" style="background:${recapGradient(5)}"></div>
-    <div class="recap-content">
-      <div class="recap-emoji">${s.totalReturn>=0?'💰':'📉'}</div>
-      <div class="recap-kicker">${s.totalReturn>=0?'Paper gains':'Underwater'}</div>
-      <div class="recap-fact-card">
-        <div class="recap-fact-label">You put in ${fmt(s.invested)}</div>
-        <div class="recap-fact-value" style="color:${s.totalReturn>=0?'#00D4AA':'#FF4D4F'}">${s.totalReturn>=0?'+':''}${fmt(s.totalReturn)}</div>
-<div class="recap-fact-sub">${s.totalReturn>=0 ? "That\u2019s" : "You\u2019re down"} ${Math.abs(unrealizedPct).toFixed(1)}% ${s.totalReturn>=0 ? "on top of what you invested" : "from your cost basis"}. ${s.totalReturn>=0 && s.totalReturnPct>100 ? "Your money more than doubled." : (s.totalReturn>=0 ? "Decent multiples." : "")}</div>
-      </div>
-      <div class="recap-sub">${fmt(s.invested)} cost basis → ${fmt(s.totalValue)} market value</div>
-    </div>
-  `});
-
-  // Slide 6: Niche Fact — Longest held
-  if(longestHeld && longestHeld.days > 0){
-    const years=Math.floor(longestHeld.days/365);
-    const remainMonths=Math.floor((longestHeld.days%365)/30);
-    const heldStr=years>0 ? `${years}y ${remainMonths}m` : `${longestHeld.days} days`;
-   slides.push({type:'fact',html:`
-      <div class="recap-gradient" style="background:${recapGradient(6)}"></div>
-      <div class="recap-content">
-        <div class="recap-emoji">⏳</div>
-        <div class="recap-kicker">Your longest hold</div>
-        <div class="recap-fact-card">
-          <div class="recap-fact-label">${longestHeld.symbol} — diamond hands?</div>
-          <div class="recap-fact-value">${heldStr}</div>
-          <div class="recap-fact-sub">First bought on ${new Date(longestHeld.firstTx.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}. ${longestHeld.days>730?'That\'s commitment.':longestHeld.days>365?'Over a year strong.':'Still early in the game.'}</div>
-        </div>
-      </div>
-    `});
-  }
-
-  // Slide 7: Portfolio total with progress
+  // Slide 7: Portfolio total
   slides.push({type:'total',html:`
     <div class="recap-gradient" style="background:${recapGradient(7)}"></div>
     <div class="recap-content">
@@ -1950,7 +2270,7 @@ function buildRecapSlides(){
     animateCounter(document.getElementById('recap-total-pct2'),0,Math.abs(totalPct),1000,up?'+':'-','%');
   }});
 
-  // Slide 8: All positions compact
+  // Slide 8: All positions
   slides.push({type:'grid',html:`
     <div class="recap-gradient" style="background:${recapGradient(8)}"></div>
     <div class="recap-content" style="padding:0;gap:10px">
@@ -1970,6 +2290,7 @@ function buildRecapSlides(){
   `});
 
   // Slide 9: Closing
+  const daysSinceFirst=Math.floor((Date.now()-new Date((TRANSACTIONS.filter(t=>!t.status&&t.w==='BUY').sort((a,b)=>new Date(a.d)-new Date(b.d))[0]?.d)||Date.now())).getTime()/86400000);
   slides.push({type:'end',html:`
     <div class="recap-gradient" style="background:${recapGradient(0)}"></div>
     <div class="recap-content">
