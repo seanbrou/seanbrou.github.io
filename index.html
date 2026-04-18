@@ -1969,7 +1969,7 @@ const RECAP_FACT_POOL = (s, fmt, formatShares, pct0) => [
   },
   // 12: Cash buffer signal
   () => {
-    const cash = (s as any).cash || 0;
+    const cash = (s && s.cash) || 0;
     if(!cash) return null;
     const cashPct = cash / (s.totalValue + cash) * 100;
     return {
