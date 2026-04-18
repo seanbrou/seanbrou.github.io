@@ -477,6 +477,8 @@ function buildSymbolDailyHistory(sym, livePrice){
   const endTs = startOfUTCDay(new Date()).getTime();
   const out=[];
   for(let ts=startTs; ts<=endTs; ts+=DAY_MS){
+    const dow = new Date(ts).getUTCDay();
+    if(dow === 0 || dow === 6) continue;
     out.push({d:formatDayKey(new Date(ts)), v:Number(interpolateSeriesValue(series, ts).toFixed(2))});
   }
   return out;
