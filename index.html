@@ -1350,6 +1350,8 @@ function renderDashboard(state){
 
   const hist = getPortfolioChartHistory(state, CURRENT_PERIOD);
   const histChange = CURRENT_PERIOD==='ALL' ? {amount:state.totalReturn, pct:state.totalReturnPct} : historyChange(hist);
+  const returnLabel = document.querySelector('.return-label');
+  if(returnLabel) returnLabel.textContent = CURRENT_PERIOD==='ALL' ? 'All time' : (CURRENT_PERIOD==='1D' ? 'Today' : periodLabel(CURRENT_PERIOD));
   document.getElementById('chart-header').style.display='flex';
   document.getElementById('chart-price').textContent = fmt(state.totalValue);
   const chartChange = document.getElementById('chart-change');
