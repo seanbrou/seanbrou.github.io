@@ -1236,10 +1236,10 @@ function renderTransactions(filter){
   }).join('');
 }
 function holdingRowMarkup(h){
-  const gain = h.value - h.costBasis;
-  const gp = h.costBasis ? gain / h.costBasis * 100 : 0;
+  const dailyPnL = h.change * h.shares;
+  const dailyPct = h.changePct;
   const sharesStr = formatShares(h.shares);
-  return `<div class="holding-row" onclick="openStock('${h.symbol}')"><div class="holding-left"><div class="holding-icon" style="background:${h.color}22;color:${h.color}">${h.symbol.slice(0,2)}</div><div><div class="holding-symbol">${h.symbol}</div><div class="holding-name">${h.name}</div><div class="holding-name">${sharesStr} shares · avg ${fmt(h.avgCost)}</div></div></div><div class="holding-right"><div class="holding-value">${fmt(h.value)}</div><div class="holding-change ${gp>=0?'up':'down'}">${pct(gp)}</div><div class="holding-change ${gain>=0?'up':'down'}">${gain>=0?'+':''}${fmt(gain)}</div></div></div>`;
+  return `<div class="holding-row" onclick="openStock('${h.symbol}')"><div class="holding-left"><div class="holding-icon" style="background:${h.color}22;color:${h.color}">${h.symbol.slice(0,2)}</div><div><div class="holding-symbol">${h.symbol}</div><div class="holding-name">${h.name}</div><div class="holding-name">${sharesStr} shares · avg ${fmt(h.avgCost)}</div></div></div><div class="holding-right"><div class="holding-value">${fmt(h.value)}</div><div class="holding-change ${dailyPct>=0?'up':'down'}">${pct0(dailyPct)}</div><div class="holding-change ${dailyPnL>=0?'up':'down'}">${dailyPnL>=0?'+':''}${fmt(dailyPnL)}</div></div></div>`;
 }
 function renderDashboardHoldings(state){
   const top=state.holdings.slice(0,4);
