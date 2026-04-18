@@ -1933,7 +1933,7 @@ const RECAP_FACT_POOL = (s, fmt, formatShares, pct0) => [
       label: `${sectors.size} sector${sectors.size!==1?'s':''} across ${s.holdings.length} holdings`,
       value: score,
       valueFmt: (v) => `${Math.min(100,v)}/100`,
-      sub: `Score based on position count vs unique sectors. ${score<40?'Heavy sector overlap — risky if one sector dumps.':'Good spread across ${sectors.size} sector${sectors.size!==1?'s':''}.'}`,
+      sub: `Score based on position count vs unique sectors. ${score<40?"Heavy sector overlap \u2014 risky if one sector dumps.":`Good spread across ${sectors.size} sector${sectors.size!==1?"s":""}.`}`,
       color: score<40?'#FF9F0A':'#00D4AA'
     };
   },
@@ -2033,7 +2033,7 @@ const RECAP_FACT_POOL = (s, fmt, formatShares, pct0) => [
       label: `${totalShares.toLocaleString()} total shares`,
       value: totalShares,
       valueFmt: (v) => v.toLocaleString(),
-      sub: `Across ${s.holdings.length} tickers. ${totalShares<50?'Low share count — quality over quantity.':'${totalShares>500?'That\'s a lot of individual shares.':'Solid share base.'}`,
+      sub: `Across ${s.holdings.length} tickers. ${totalShares<50?"Low share count \u2014 quality over quantity.":totalShares>500?"That\u2019s a lot of individual shares.":"Solid share base."}`,
       color: '#06B6D4'
     };
   },
@@ -2128,7 +2128,7 @@ const RECAP_FACT_POOL = (s, fmt, formatShares, pct0) => [
 // Select 3 random facts from the pool using a day-seed so the same 3 show all day
 function getRecapFacts(s, fmt, formatShares, pct0){
   // Build flat list of available facts (filter out nulls)
-  const available = RECAP_FACT_POOL.map(fn => {
+  const available = RECAP_FACT_POOL(s, fmt, formatShares, pct0).map(fn => {
     try { return fn(); } catch(e) { return null; }
   }).filter(Boolean);
   if(available.length === 0) return [];
