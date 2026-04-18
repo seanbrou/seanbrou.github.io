@@ -577,6 +577,8 @@ function buildPortfolioHistory(prices){
   const raw=[];
   let txIndex=0, cash=0, minCash=0;
   for(let ts=startTs; ts<=endTs; ts+=DAY_MS){
+    const dow = new Date(ts).getUTCDay();
+    if(dow === 0 || dow === 6) continue;
     const dayEnd = ts + DAY_MS - 1;
     while(txIndex < txs.length && new Date(txs[txIndex].d).getTime() <= dayEnd){
       const tx = txs[txIndex++];
