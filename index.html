@@ -171,39 +171,44 @@ html,body{height:100dvh;overflow:hidden;background:var(--bg);color:var(--white);
 /* Day Recap Overlay */
 .recap-overlay{position:fixed;inset:0;z-index:200;background:#0A0A0A;display:none;flex-direction:column;overflow:hidden;-webkit-user-select:none;user-select:none}
 .recap-overlay.open{display:flex}
-.recap-slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;opacity:0;transform:translateY(40px);transition:opacity .5s ease,transform .5s ease}
-.recap-slide.active{opacity:1;transform:translateY(0)}
-.recap-slide.exit{opacity:0;transform:translateY(-40px)}
-.recap-gradient{position:absolute;inset:0;opacity:.6}
-.recap-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
-.recap-emoji{font-size:52px;line-height:1}
-.recap-kicker{color:#888;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px}
-.recap-big{color:#fff;font-size:44px;font-weight:800;line-height:1.1}
-.recap-medium{color:#fff;font-size:28px;font-weight:700;line-height:1.2}
-.recap-sub{color:#999;font-size:15px;font-weight:500;line-height:1.4}
-.recap-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:24px;font-size:16px;font-weight:700}
-.recap-badge.up{background:rgba(0,212,170,.14);color:#00D4AA}
-.recap-badge.down{background:rgba(255,77,79,.14);color:#FF4D4F}
-.recap-holding-card{background:#141414;border-radius:18px;padding:18px 20px;width:100%;text-align:left;border:1px solid rgba(255,255,255,.04)}
+.recap-slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;padding-top:max(50px,env(safe-area-inset-top));text-align:center;opacity:0;transform:translateY(40px) scale(.97);transition:opacity .45s ease,transform .45s ease}
+.recap-slide.active{opacity:1;transform:translateY(0) scale(1)}
+.recap-slide.exit{opacity:0;transform:translateY(-30px) scale(.97)}
+.recap-gradient{position:absolute;inset:0;opacity:.7}
+.recap-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:380px}
+.recap-emoji{font-size:48px;line-height:1;filter:saturate(1.2)}
+.recap-kicker{color:rgba(255,255,255,.45);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px}
+.recap-big{color:#fff;font-size:42px;font-weight:800;line-height:1.05}
+.recap-medium{color:#fff;font-size:26px;font-weight:700;line-height:1.2}
+.recap-sub{color:rgba(255,255,255,.5);font-size:14px;font-weight:500;line-height:1.45}
+.recap-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;border-radius:24px;font-size:16px;font-weight:700}
+.recap-badge.up{background:rgba(0,212,170,.12);color:#00D4AA;border:1px solid rgba(0,212,170,.2)}
+.recap-badge.down{background:rgba(255,77,79,.12);color:#FF4D4F;border:1px solid rgba(255,77,79,.2)}
+.recap-holding-card{background:rgba(255,255,255,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px;padding:20px;width:100%;text-align:left;border:1px solid rgba(255,255,255,.08)}
 .recap-holding-row{display:flex;align-items:center;gap:14px}
-.recap-holding-icon{width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0}
+.recap-holding-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0}
 .recap-holding-symbol{color:#fff;font-size:17px;font-weight:700}
-.recap-holding-name{color:#888;font-size:13px;margin-top:2px}
 .recap-holding-pct{color:#fff;font-size:22px;font-weight:700;text-align:right}
 .recap-holding-delta{font-size:14px;font-weight:600;margin-top:2px}
-.recap-progress{width:100%;max-width:320px;height:6px;border-radius:999px;background:#1C1C1E;overflow:hidden;margin-top:8px}
+.recap-fact-card{background:rgba(255,255,255,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px;padding:20px 22px;width:100%;text-align:left;border:1px solid rgba(255,255,255,.08)}
+.recap-fact-label{color:rgba(255,255,255,.4);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
+.recap-fact-value{color:#fff;font-size:20px;font-weight:700;line-height:1.2}
+.recap-fact-sub{color:rgba(255,255,255,.45);font-size:13px;font-weight:500;margin-top:6px;line-height:1.35}
+.recap-progress{width:100%;max-width:320px;height:6px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:8px}
 .recap-progress-fill{height:100%;border-radius:999px;transition:width 1s ease}
-.recap-dismiss{position:absolute;bottom:max(24px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:3;color:#555;font-size:12px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
-.recap-nav{position:absolute;bottom:max(50px,calc(env(safe-area-inset-bottom)+26px));left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:6px}
-.recap-dot{width:8px;height:8px;border-radius:4px;background:#333;transition:all .3s ease}
-.recap-dot.active{background:#00D4AA;width:20px}
-.recap-skip{position:absolute;top:max(12px,env(safe-area-inset-top));right:16px;z-index:3;background:none;border:none;color:#555;font-size:14px;font-weight:600;cursor:pointer;padding:8px}
-.recap-trigger-btn{display:block;width:100%;margin-top:12px;padding:14px 20px;border:1px solid rgba(0,212,170,.2);border-radius:14px;background:rgba(0,212,170,.06);color:#00D4AA;font-size:15px;font-weight:700;cursor:pointer;text-align:center;transition:background .15s,transform .1s}
-.recap-trigger-btn:active{transform:scale(.98);background:rgba(0,212,170,.12)}
+.recap-dismiss{position:absolute;bottom:max(20px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,.25);font-size:11px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.recap-nav{position:absolute;bottom:max(44px,calc(env(safe-area-inset-bottom)+22px));left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:6px}
+.recap-dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.15);transition:all .3s ease}
+.recap-dot.active{background:#00D4AA;width:18px}
+.recap-skip{position:absolute;top:max(14px,env(safe-area-inset-top));right:16px;z-index:3;background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);font-size:13px;font-weight:600;cursor:pointer;padding:8px 14px;border-radius:20px;transition:background .15s}
+.recap-skip:active{background:rgba(255,255,255,.15)}
 .recap-counter{font-variant-numeric:tabular-nums;font-feature-settings:'tnum'}
-@keyframes recapPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-.recap-pulse{animation:recapPulse 1.2s ease-in-out infinite}
-@media(min-width:500px){body{display:flex;align-items:center;justify-content:center;background:#111}#app{max-width:393px;border-radius:40px;border:2px solid #333;margin:20px 0;box-shadow:0 20px 60px rgba(0,0,0,.5)}#app .tab-bar{position:absolute}.loading-overlay{border-radius:40px}}
+@keyframes recapPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@keyframes recapShimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.recap-pulse{animation:recapPulse 1.8s ease-in-out infinite}
+.recap-shimmer{background:linear-gradient(90deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%);background-size:200% 100%;animation:recapShimmer 2s ease-in-out infinite}
+.recap-trigger-btn{display:block;width:100%;margin-top:12px;padding:14px 20px;border:1px solid rgba(0,212,170,.2);border-radius:14px;background:linear-gradient(135deg,rgba(0,212,170,.06) 0%,rgba(0,122,255,.04) 100%);color:#00D4AA;font-size:15px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s}
+.recap-trigger-btn:active{transform:scale(.98);background:rgba(0,212,170,.12)}
 </style>
 </head>
 <body>
@@ -1757,13 +1762,14 @@ function switchTab(name){
 /* ========== DAY RECAP ========== */
 let RECAP_SLIDE=0, RECAP_TOTAL=0, RECAP_SWIPE_START=null, RECAP_AUTO_ADV=null;
 const RECAP_GRADIENTS=[
-  ['#0A0A0A','#1a0a2e'],['#0A0A0A','#0a1a2e'],['#0A0A0A','#0a2e1a'],['#0A0A0A','#2e1a0a'],['#0A0A0A','#2e0a1a'],['#0A0A0A','#0a0a2e']
+  ['#0A0A0A','#1a0a2e'],['#0A0A0A','#0a1e2e'],['#0A0A0A','#0a2e1a'],['#0A0A0A','#2e1a0a'],['#0A0A0A','#2e0a1a'],['#0A0A0A','#1a0a28'],['#0A0A0A','#2e0a20'],['#0A0A0A','#0a202e'],['#0A0A0A','#1e2e0a']
 ];
 function recapGradient(i){
   const pair=RECAP_GRADIENTS[i % RECAP_GRADIENTS.length];
-  return `linear-gradient(135deg, ${pair[0]} 0%, ${pair[1]} 100%)`;
+  return `linear-gradient(160deg, ${pair[0]} 0%, ${pair[1]} 100%)`;
 }
 function animateCounter(el, from, to, duration=900, prefix='', suffix=''){
+  if(!el) return;
   const start=performance.now();
   const step=(now)=>{
     const t=Math.min((now-start)/duration,1);
@@ -1774,6 +1780,12 @@ function animateCounter(el, from, to, duration=900, prefix='', suffix=''){
   };
   requestAnimationFrame(step);
 }
+function animateWidth(el, from, to, duration=1000){
+  if(!el) return;
+  el.style.width=from+'%';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.transition=`width ${duration}ms cubic-bezier(.4,0,.2,1)`;el.style.width=to+'%';}));
+}
+
 function buildRecapSlides(){
   if(!CURRENT_STATE) return [];
   const s=CURRENT_STATE;
@@ -1787,114 +1799,169 @@ function buildRecapSlides(){
   const dateStr=today.toLocaleDateString('en-US',{month:'long',day:'numeric'});
   const slides=[];
 
+  // Compute fun facts
+  const biggestPosition=s.holdings.reduce((a,b)=>a.value>b.value?a:b);
+  const biggestPct=biggestPosition ? (biggestPosition.value/s.totalValue*100).toFixed(1) : 0;
+  const totalShares=s.holdings.reduce((sum,h)=>sum+h.shares,0);
+  const avgCost=s.holdings.reduce((sum,h)=>sum+h.avgCost,0)/s.holdings.length;
+  const longestHeld=s.holdings.reduce((best,h)=>{
+    const firstTx=TRANSACTIONS.filter(t=>t.s===h.symbol&&t.w==='BUY'&&!t.status).sort((a,b)=>new Date(a.d)-new Date(b.d))[0];
+    if(!firstTx) return best;
+    const days=Math.floor((Date.now()-new Date(firstTx.d).getTime())/(86400000));
+    return days>(best?.days||0) ? {symbol:h.symbol,days,firstTx} : best;
+  },null);
+  const daysSinceFirst=Math.floor((Date.now()-new Date(TRANSACTIONS.filter(t=>!t.status&&t.w==='BUY').sort((a,b)=>new Date(a.d)-new Date(b.d))[0]?.d||Date.now()).getTime())/(86400000));
+  const unrealizedPct=s.invested ? (s.unrealized/s.invested*100) : 0;
+  const washValue=s.totalValue * 0.01;
+
   // Slide 0: Intro
   slides.push({type:'intro',html:`
     <div class="recap-gradient" style="background:${recapGradient(0)}"></div>
     <div class="recap-content">
       <div class="recap-emoji">📊</div>
-      <div class="recap-kicker">${dayName}</div>
-      <div class="recap-big" style="font-size:36px">Your Day<br>at a Glance</div>
-      <div class="recap-sub">${dateStr} · ${s.holdings.length} position${s.holdings.length!==1?'s':''}</div>
+      <div class="recap-kicker">${dayName} · ${dateStr}</div>
+      <div class="recap-big" style="font-size:34px;line-height:1.15">Your Day<br>at a Glance</div>
+      <div class="recap-sub">${s.holdings.length} position${s.holdings.length!==1?'s':''} · ${fmt(s.totalValue)} portfolio</div>
     </div>
   `});
 
-  // Slide 1: Total daily change
+  // Slide 1: Total daily change — hero number
   slides.push({type:'daily',html:`
     <div class="recap-gradient" style="background:${recapGradient(1)}"></div>
     <div class="recap-content">
       <div class="recap-kicker">${up?'You gained':'You lost'} today</div>
       <div class="recap-big recap-counter" id="recap-daily-value" style="color:${up?'#00D4AA':'#FF4D4F'}">${up?'+':'-'}$0</div>
       <div class="recap-badge ${up?'up':'down'}">${up?'▲':'▼'} <span id="recap-daily-pct">0.00%</span></div>
-      <div class="recap-sub">Across your ${s.holdings.length} position${s.holdings.length!==1?'s':''}</div>
+      <div class="recap-sub">${up?'Gain':'Loss'} across ${s.holdings.length} position${s.holdings.length!==1?'s':''}</div>
     </div>
   `,animate:()=>{
-    const valEl=document.getElementById('recap-daily-value');
-    const pctEl=document.getElementById('recap-daily-pct');
-    if(valEl) animateCounter(valEl,0,Math.abs(s.dailyChange),1000,up?'+':'-','$');
-    if(pctEl) animateCounter(pctEl,0,Math.abs(s.dailyChangePct),1000,up?'+':'-','%');
+    animateCounter(document.getElementById('recap-daily-value'),0,Math.abs(s.dailyChange),1100,up?'+':'-','$');
+    animateCounter(document.getElementById('recap-daily-pct'),0,Math.abs(s.dailyChangePct),1100,up?'+':'-','%');
   }});
 
   // Slide 2: Best performer
   if(best && best.changePct!==0){
     const bUp=best.change>=0;
+    const bestDelta=best.change*best.shares;
     slides.push({type:'mover',html:`
       <div class="recap-gradient" style="background:${recapGradient(2)}"></div>
       <div class="recap-content">
-        <div class="recap-emoji">${bUp?'🟢':'🔴'}</div>
-        <div class="recap-kicker">${bUp?'Best performer':'Biggest mover'}</div>
+        <div class="recap-kicker" style="color:${bUp?'#00D4AA':'#FF4D4F'}">${bUp?'🏆 Best performer':'📉 Biggest mover'}</div>
         <div class="recap-holding-card">
           <div class="recap-holding-row">
             <div class="recap-holding-icon" style="background:${best.color}22;color:${best.color}">${best.symbol.slice(0,2)}</div>
-            <div style="flex:1;min-width:0"><div class="recap-holding-symbol">${best.symbol}</div><div style="color:#888;font-size:13px">${best.name}</div></div>
-            <div><div class="recap-holding-pct" id="recap-best-pct" style="color:${bUp?'#00D4AA':'#FF4D4F'}">0.00%</div><div class="recap-holding-delta" id="recap-best-delta" style="color:${bUp?'#00D4AA':'#FF4D4F'}">$0</div></div>
+            <div style="flex:1;min-width:0"><div class="recap-holding-symbol">${best.symbol}</div><div style="color:rgba(255,255,255,.45);font-size:13px">${best.name}</div></div>
+            <div style="text-align:right"><div class="recap-holding-pct" id="recap-best-pct" style="color:${bUp?'#00D4AA':'#FF4D4F'}">0.00%</div><div class="recap-holding-delta" id="recap-best-delta" style="color:${bUp?'#00D4AA':'#FF4D4F'}">$0</div></div>
           </div>
         </div>
-        <div class="recap-sub">${formatShares(best.shares)} shares · ${fmt(best.value)} value</div>
+        <div class="recap-sub">${formatShares(best.shares)} shares · ${fmt(best.value)} at ${fmt(best.price)}/share</div>
       </div>
     `,animate:()=>{
-      const pctEl=document.getElementById('recap-best-pct');
-      const deltaEl=document.getElementById('recap-best-delta');
-      if(pctEl) animateCounter(pctEl,0,Math.abs(best.changePct),800,bUp?'+':'-','%');
-      if(deltaEl) animateCounter(deltaEl,0,Math.abs(best.change*best.shares),800,bUp?'+':'-','$');
+      animateCounter(document.getElementById('recap-best-pct'),0,Math.abs(best.changePct),800,bUp?'+':'-','%');
+      animateCounter(document.getElementById('recap-best-delta'),0,Math.abs(bestDelta),800,bUp?'+':'-','$');
     }});
   }
 
-  // Slide 3: Worst performer (if different from best)
-  if(worst && worst.symbol!==best?.symbol && worst.changePct!==0){
+  // Slide 3: Worst performer (if different)
+  if(worst && worst.symbol!==best?.symbol){
     const wUp=worst.change>=0;
+    const worstDelta=worst.change*worst.shares;
     slides.push({type:'mover',html:`
       <div class="recap-gradient" style="background:${recapGradient(3)}"></div>
       <div class="recap-content">
-        <div class="recap-emoji">${wUp?'📈':'📉'}</div>
-        <div class="recap-kicker">${wUp?'Smallest gain':'Worst performer'}</div>
+        <div class="recap-kicker" style="color:${wUp?'#00D4AA':'#FF4D4F'}">${wUp?'📈 Smallest climb':'🔴 Worst performer'}</div>
         <div class="recap-holding-card">
           <div class="recap-holding-row">
             <div class="recap-holding-icon" style="background:${worst.color}22;color:${worst.color}">${worst.symbol.slice(0,2)}</div>
-            <div style="flex:1;min-width:0"><div class="recap-holding-symbol">${worst.symbol}</div><div style="color:#888;font-size:13px">${worst.name}</div></div>
-            <div><div class="recap-holding-pct" id="recap-worst-pct" style="color:${wUp?'#00D4AA':'#FF4D4F'}">0.00%</div><div class="recap-holding-delta" id="recap-worst-delta" style="color:${wUp?'#00D4AA':'#FF4D4F'}">$0</div></div>
+            <div style="flex:1;min-width:0"><div class="recap-holding-symbol">${worst.symbol}</div><div style="color:rgba(255,255,255,.45);font-size:13px">${worst.name}</div></div>
+            <div style="text-align:right"><div class="recap-holding-pct" id="recap-worst-pct" style="color:${wUp?'#00D4AA':'#FF4D4F'}">0.00%</div><div class="recap-holding-delta" id="recap-worst-delta" style="color:${wUp?'#00D4AA':'#FF4D4F'}">$0</div></div>
           </div>
         </div>
-        <div class="recap-sub">${formatShares(worst.shares)} shares · ${fmt(worst.value)} value</div>
+        <div class="recap-sub">${formatShares(worst.shares)} shares · ${fmt(worst.value)} at ${fmt(worst.price)}/share</div>
       </div>
     `,animate:()=>{
-      const pctEl=document.getElementById('recap-worst-pct');
-      const deltaEl=document.getElementById('recap-worst-delta');
-      if(pctEl) animateCounter(pctEl,0,Math.abs(worst.changePct),800,wUp?'+':'-','%');
-      if(deltaEl) animateCounter(deltaEl,0,Math.abs(worst.change*worst.shares),800,wUp?'+':'-','$');
+      animateCounter(document.getElementById('recap-worst-pct'),0,Math.abs(worst.changePct),800,wUp?'+':'-','%');
+      animateCounter(document.getElementById('recap-worst-delta'),0,Math.abs(worstDelta),800,wUp?'+':'-','$');
     }});
   }
 
-  // Slide 4: Portfolio total
-  slides.push({type:'total',html:`
+  // Slide 4: Niche Fact — Concentration
+  slides.push({type:'fact',html:`
     <div class="recap-gradient" style="background:${recapGradient(4)}"></div>
     <div class="recap-content">
+      <div class="recap-emoji">🎯</div>
+      <div class="recap-kicker">Concentration check</div>
+      <div class="recap-fact-card">
+        <div class="recap-fact-label">${biggestPosition.symbol} is your biggest bet</div>
+        <div class="recap-fact-value" id="recap-conc-val" style="color:${biggestPct>40?'#FF9F0A':'#00D4AA'}">${biggestPct}%</div>
+        <div class="recap-fact-sub">of your portfolio sits in ${biggestPosition.name}. ${biggestPct>40?'That\'s heavy concentration — ride or die.':'Solid diversification balance.'}</div>
+      </div>
+      <div class="recap-sub">${fmt(biggestPosition.value)} in one position · ${s.holdings.length} total holdings</div>
+    </div>
+  `});
+
+  // Slide 5: Niche Fact — Cost basis vs value
+  slides.push({type:'fact',html:`
+    <div class="recap-gradient" style="background:${recapGradient(5)}"></div>
+    <div class="recap-content">
+      <div class="recap-emoji">${s.totalReturn>=0?'💰':'📉'}</div>
+      <div class="recap-kicker">${s.totalReturn>=0?'Paper gains':'Underwater'}</div>
+      <div class="recap-fact-card">
+        <div class="recap-fact-label">You put in ${fmt(s.invested)}</div>
+        <div class="recap-fact-value" style="color:${s.totalReturn>=0?'#00D4AA':'#FF4D4F'}">${s.totalReturn>=0?'+':''}${fmt(s.totalReturn)}</div>
+<div class="recap-fact-sub">${s.totalReturn>=0 ? "That\u2019s" : "You\u2019re down"} ${Math.abs(unrealizedPct).toFixed(1)}% ${s.totalReturn>=0 ? "on top of what you invested" : "from your cost basis"}. ${s.totalReturn>=0 && s.totalReturnPct>100 ? "Your money more than doubled." : (s.totalReturn>=0 ? "Decent multiples." : "")}</div>
+      </div>
+      <div class="recap-sub">${fmt(s.invested)} cost basis → ${fmt(s.totalValue)} market value</div>
+    </div>
+  `});
+
+  // Slide 6: Niche Fact — Longest held
+  if(longestHeld && longestHeld.days > 0){
+    const years=Math.floor(longestHeld.days/365);
+    const remainMonths=Math.floor((longestHeld.days%365)/30);
+    const heldStr=years>0 ? `${years}y ${remainMonths}m` : `${longestHeld.days} days`;
+   slides.push({type:'fact',html:`
+      <div class="recap-gradient" style="background:${recapGradient(6)}"></div>
+      <div class="recap-content">
+        <div class="recap-emoji">⏳</div>
+        <div class="recap-kicker">Your longest hold</div>
+        <div class="recap-fact-card">
+          <div class="recap-fact-label">${longestHeld.symbol} — diamond hands?</div>
+          <div class="recap-fact-value">${heldStr}</div>
+          <div class="recap-fact-sub">First bought on ${new Date(longestHeld.firstTx.d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}. ${longestHeld.days>730?'That\'s commitment.':longestHeld.days>365?'Over a year strong.':'Still early in the game.'}</div>
+        </div>
+      </div>
+    `});
+  }
+
+  // Slide 7: Portfolio total with progress
+  slides.push({type:'total',html:`
+    <div class="recap-gradient" style="background:${recapGradient(7)}"></div>
+    <div class="recap-content">
       <div class="recap-emoji">🏦</div>
-      <div class="recap-kicker">Portfolio value</div>
+      <div class="recap-kicker">Portfolio snapshot</div>
       <div class="recap-big recap-counter" id="recap-total-val">$0</div>
       <div class="recap-progress"><div class="recap-progress-fill" id="recap-progress-bar" style="width:0%;background:${up?'#00D4AA':'#FF4D4F'}"></div></div>
       <div class="recap-sub">${up?'Up':'Down'} <span id="recap-total-pct2">0%</span> from yesterday's close</div>
     </div>
   `,animate:()=>{
-    const valEl=document.getElementById('recap-total-val');
-    const pbar=document.getElementById('recap-progress-bar');
-    const pctEl=document.getElementById('recap-total-pct2');
-    if(valEl) animateCounter(valEl,Math.round(s.totalValue*0.85),Math.round(s.totalValue),1200,'$','');
-    if(pbar) setTimeout(()=>{pbar.style.width=Math.min(100,50+Math.abs(totalPct)*4)+'%';},100);
-    if(pctEl){pctEl.textContent='0%';animateCounter(pctEl,0,Math.abs(totalPct),1000,up?'+':'-','%');}
+    animateCounter(document.getElementById('recap-total-val'),Math.round(s.totalValue*0.85),Math.round(s.totalValue),1200,'$','');
+    animateWidth(document.getElementById('recap-progress-bar'),0,Math.min(100,50+Math.abs(totalPct)*4),1000);
+    animateCounter(document.getElementById('recap-total-pct2'),0,Math.abs(totalPct),1000,up?'+':'-','%');
   }});
 
-  // Slide 5: All positions grid
+  // Slide 8: All positions compact
   slides.push({type:'grid',html:`
-    <div class="recap-gradient" style="background:${recapGradient(5)}"></div>
-    <div class="recap-content" style="padding:20px">
+    <div class="recap-gradient" style="background:${recapGradient(8)}"></div>
+    <div class="recap-content" style="padding:0;gap:10px">
       <div class="recap-kicker">All positions today</div>
-      <div style="width:100%;display:flex;flex-direction:column;gap:10px;margin-top:4px">
+      <div style="width:100%;display:flex;flex-direction:column;gap:8px">
         ${s.holdings.map(h=>{
           const hu=h.change>=0;
           return `<div class="recap-holding-card" style="padding:12px 16px">
             <div style="display:flex;align-items:center;justify-content:space-between">
-              <div style="display:flex;align-items:center;gap:10px"><div class="recap-holding-icon" style="width:36px;height:36px;font-size:13px;background:${h.color}22;color:${h.color}">${h.symbol.slice(0,2)}</div><div><div style="color:#fff;font-size:15px;font-weight:700">${h.symbol}</div></div></div>
-              <div style="text-align:right"><div style="color:${hu?'#00D4AA':'#FF4D4F'};font-size:15px;font-weight:700">${pct0(h.changePct)}</div><div style="color:${hu?'#00D4AA':'#FF4D4F'};font-size:13px;font-weight:600">${hu?'+':''}${fmt(h.change*h.shares)}</div></div>
+              <div style="display:flex;align-items:center;gap:10px"><div class="recap-holding-icon" style="width:36px;height:36px;font-size:12px;border-radius:10px;background:${h.color}22;color:${h.color}">${h.symbol.slice(0,2)}</div><div><div style="color:#fff;font-size:15px;font-weight:700">${h.symbol}</div><div style="color:rgba(255,255,255,.35);font-size:11px">${formatShares(h.shares)} shares</div></div></div>
+              <div style="text-align:right"><div style="color:${hu?'#00D4AA':'#FF4D4F'};font-size:15px;font-weight:700">${pct0(h.changePct)}</div><div style="color:${hu?'#00D4AA':'#FF4D4F'};font-size:12px;font-weight:600;opacity:.8">${hu?'+':''}${fmt(h.change*h.shares)}</div></div>
             </div>
           </div>`;
         }).join('')}
@@ -1902,16 +1969,16 @@ function buildRecapSlides(){
     </div>
   `});
 
-  // Slide 6: Closing
+  // Slide 9: Closing
   slides.push({type:'end',html:`
     <div class="recap-gradient" style="background:${recapGradient(0)}"></div>
     <div class="recap-content">
-      <div class="recap-emoji">${up?'🚀':'💪'}</div>
-      <div class="recap-kicker">${up?'Keep it rolling':'Tomorrow is a new day'}</div>
-      <div class="recap-medium recap-pulse" style="color:${up?'#00D4AA':'#FF4D4F'}">${up?'+':'-'}${fmt(Math.abs(s.dailyChange))}</div>
-      <div class="recap-sub" id="recap-final-pct" style="font-size:18px;font-weight:600">${up?'+':'-'}${Math.abs(totalPct).toFixed(2)}% today</div>
-      <div class="recap-sub" style="margin-top:8px">Portfolio value ${fmt(s.totalValue)}</div>
-      <button style="margin-top:20px;background:#00D4AA;color:#04100E;border:none;border-radius:14px;padding:14px 40px;font-size:16px;font-weight:800;cursor:pointer" onclick="closeDayRecap()">Done</button>
+      <div class="recap-emoji" style="font-size:56px">${up?'🚀':'💪'}</div>
+      <div class="recap-kicker">${up?'Keep it rolling':'Bounce back incoming'}</div>
+      <div class="recap-medium recap-pulse" style="color:${up?'#00D4AA':'#FF4D4F'};font-size:32px">${up?'+':'-'}${fmt(Math.abs(s.dailyChange))}</div>
+      <div class="recap-sub" style="font-size:17px;font-weight:600;color:rgba(255,255,255,.6)">${up?'+':'-'}${Math.abs(totalPct).toFixed(2)}% today</div>
+      <div class="recap-sub" style="margin-top:4px">${fmt(s.totalValue)} total · ${daysSinceFirst>0?daysSinceFirst+' days investing':''}</div>
+      <button style="margin-top:24px;background:#00D4AA;color:#04100E;border:none;border-radius:14px;padding:14px 48px;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:.3px" onclick="closeDayRecap()">Done</button>
     </div>
   `});
 
@@ -1926,12 +1993,11 @@ function renderRecapSlide(index){
   if(!container) return;
   container.innerHTML=slides.map((s,i)=>`<div class="recap-slide${i===index?' active':''}" data-idx="${i}">${s.html}</div>`).join('');
   nav.innerHTML=slides.map((_, i)=>`<div class="recap-dot${i===index?' active':''}"></div>`).join('');
-  document.getElementById('recap-dismiss').textContent = index < RECAP_TOTAL-1 ? 'Swipe or tap to continue' : '';
-  // Trigger animations after a brief delay
+  document.getElementById('recap-dismiss').textContent = index < RECAP_TOTAL-1 ? 'Tap to continue' : '';
   setTimeout(()=>{
     const slide=slides[index];
     if(slide && slide.animate) slide.animate();
-  },200);
+  },250);
 }
 
 function advanceRecap(){
@@ -1939,7 +2005,7 @@ function advanceRecap(){
     RECAP_SLIDE++;
     const prev=document.querySelector('.recap-slide.active');
     if(prev){prev.classList.remove('active');prev.classList.add('exit');}
-    setTimeout(()=>renderRecapSlide(RECAP_SLIDE),50);
+    setTimeout(()=>renderRecapSlide(RECAP_SLIDE),60);
   } else {
     closeDayRecap();
   }
@@ -1950,14 +2016,14 @@ function openDayRecap(){
   RECAP_SLIDE=0;
   const overlay=document.getElementById('day-recap-overlay');
   overlay.classList.add('open');
+  document.body.style.overflow='hidden';
   renderRecapSlide(0);
-  // Auto-advance timer
   clearTimeout(RECAP_AUTO_ADV);
   const autoAdvance=()=>{
     RECAP_AUTO_ADV=setTimeout(()=>{
       advanceRecap();
       autoAdvance();
-    },4000);
+    },4500);
   };
   autoAdvance();
 }
@@ -1965,6 +2031,7 @@ function openDayRecap(){
 function closeDayRecap(){
   clearTimeout(RECAP_AUTO_ADV);
   document.getElementById('day-recap-overlay').classList.remove('open');
+  document.body.style.overflow='';
 }
 
 // Swipe/tap gestures for recap
