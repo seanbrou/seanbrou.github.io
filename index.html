@@ -380,6 +380,7 @@ let HOLDING_META=JSON.parse(JSON.stringify(SEED_HOLDING_META));
 let TRANSACTIONS=SEED_TRANSACTIONS.slice();
 let STOCK_HISTORY=JSON.parse(JSON.stringify(SEED_STOCK_HISTORY));
 let INTRADAY_HISTORY={};
+let MULTIDAY_INTRADAY_HISTORY={};
 let FALLBACK=JSON.parse(JSON.stringify(SEED_FALLBACK));
 let CURRENT_STATE=null;
 let CURRENT_FILTER='ALL';
@@ -401,6 +402,7 @@ const USER_DATA_KEY='portfolio_userData_v1';
 const HISTORY_CACHE_KEY='portfolio_history_cache_v1';
 const INTRADAY_CACHE_KEY='portfolio_intraday_cache_v1';
 const QUOTE_CACHE_KEY='portfolio_quote_cache_v1';
+const MULTIDAY_INTRADAY_CACHE_KEY='portfolio_multiday_intraday_cache_v1';
 const CASH_TOTALS_PREF_KEY='portfolio_includeCashTotals_v1';
 const COLOR_POOL=['#00D4AA','#007AFF','#FF9F0A','#BF5AF2','#FF375F','#30D158','#FFD60A','#64D2FF','#AC8E68','#FF6B6B'];
 const TAB_ICONS={
@@ -498,6 +500,32 @@ function buildSymbolIntradayHistory(sym, livePrice){
   const series=normalizeIntradaySeries(INTRADAY_HISTORY[sym] || [], livePrice);
   return series.map(pt=>({t:new Date(pt.t).toISOString(), v:Number(pt.v.toFixed(2))}));
 }
+async function fetchMultiDayIntradaySeries(sym, range='5d', interval='30m'){
+  const base=`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=${interval}&range=${range}&includePrePost=true&events=div%2Csplits`;
+  const urls=[base, `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`, `https://corsproxy.io/?${encodeURIComponent(base)}`];
+  for(const url of urls){
+    try{
+      const resp=await fetch(url,{signal:AbortSignal.timeout(12000)});
+      if(!resp.ok) continue;
+      const data=await resp.json();
+      const result=data?.chart?.result?.[0];
+      const ts=result?.timestamp || [];
+      const quote=result?.indicators?.quote?.[0] || {};
+      const closes=quote.close || [];
+      const opens=quote.open || [];
+      const series=ts.map((t,i)=>{
+        const value=safeNum(closes[i] ?? opens[i]);
+        return {t:new Date(t*1000).toISOString(), v:value};
+      }).filter(pt=>pt.v>0);
+      if(series.length) return series;
+    }catch(e){}
+  }
+  return [];
+}
+function buildSymbolMultiDayIntradayHistory(sym, livePrice){
+  const series=normalizeIntradaySeries(MULTIDAY_INTRADAY_HISTORY[sym] || [], livePrice);
+  return series.map(pt=>({t:new Date(pt.t).toISOString(), v:Number(pt.v.toFixed(2))}));
+}
 function getPortfolioPositionsAtTime(prices, targetTs){
   const holdings={};
   let cashBalanceRaw=0, minCashRaw=0;
@@ -514,6 +542,27 @@ function getPortfolioPositionsAtTime(prices, targetTs){
     else if(t.w==='SPLIT') h.shares = safeNum(h.shares) * Math.max(1, safeNum(t.rt) || 1);
   }
   return {sharesBySymbol:Object.fromEntries(Object.entries(holdings).map(([sym,h])=>[sym,safeNum(h.shares)])), cashBalance:cashBalanceRaw + Math.max(0, -minCashRaw)};
+}
+function buildPortfolioMultiDayIntradayHistory(prices){
+  const symbols=Object.keys(HOLDING_META);
+  const mdSeriesBySymbol=Object.fromEntries(symbols.map(sym=>[
+    sym,
+    normalizeIntradaySeries(MULTIDAY_INTRADAY_HISTORY[sym] || [], (prices[sym] || FALLBACK[sym]).p)
+  ]));
+  const allTimestamps=[...new Set(symbols.flatMap(sym=>mdSeriesBySymbol[sym].map(pt=>pt.t)))].sort((a,b)=>a-b);
+  if(!allTimestamps.length) return [];
+  return allTimestamps.map(ts=>{
+    const {sharesBySymbol, cashBalance}=getPortfolioPositionsAtTime(prices, pointTimestamp(ts));
+    let holdingsTotal=0;
+    symbols.forEach(sym=>{
+      const shares=safeNum(sharesBySymbol[sym]);
+      if(!shares) return;
+      const series=mdSeriesBySymbol[sym];
+      const price=series.length ? interpolateSeriesValue(series, pointTimestamp(ts)) : safeNum((prices[sym] || FALLBACK[sym]).p);
+      holdingsTotal += shares * price;
+    });
+    return {t:new Date(ts).toISOString(), v:Number((holdingsTotal + (INCLUDE_CASH_IN_TOTALS ? cashBalance : 0)).toFixed(2))};
+  }).filter(pt=>pt.v>0);
 }
 function buildPortfolioIntradayHistory(prices){
   const symbols=Object.keys(HOLDING_META);
@@ -643,6 +692,17 @@ function primeIntradaySeriesFromCache(){
     const updatedTs=pointTimestamp(cache[sym]?.updatedAt);
     if(cache[sym]?.series?.length && Number.isFinite(updatedTs) && startOfUTCDay(updatedTs).getTime()===startOfUTCDay(Date.now()).getTime()){
       INTRADAY_HISTORY[sym]=cache[sym].series;
+    }
+  });
+}
+function primeMultiDayIntradaySeriesFromCache(){
+  const cache=(()=>{try{return JSON.parse(localStorage.getItem(MULTIDAY_INTRADAY_CACHE_KEY)||'{}');}catch(e){return {};}})();
+  const weekAgo=Date.now()-7*24*60*60*1000;
+  Object.keys(HOLDING_META).forEach(sym=>{
+    const cached=cache[sym];
+    const cachedAt=pointTimestamp(cached?.updatedAt);
+    if(cached?.series?.length && Number.isFinite(cachedAt) && cachedAt > weekAgo){
+      MULTIDAY_INTRADAY_HISTORY[sym]=cached.series;
     }
   });
 }
@@ -823,6 +883,28 @@ async function hydrateIntradaySeries(symbols, prices){
   }));
   saveIntradayCache(cache);
 }
+async function hydrateMultiDayIntradaySeries(symbols, prices){
+  const cache=(()=>{try{return JSON.parse(localStorage.getItem(MULTIDAY_INTRADAY_CACHE_KEY)||'{}');}catch(e){return {};}})();
+  const weekAgo=Date.now()-7*24*60*60*1000;
+  await Promise.all(symbols.map(async sym=>{
+    const cached=cache[sym];
+    const cachedAt=pointTimestamp(cached?.updatedAt);
+    if(cached?.series?.length && Number.isFinite(cachedAt) && cachedAt > weekAgo){
+      MULTIDAY_INTRADAY_HISTORY[sym]=cached.series;
+      return;
+    }
+    const fetched=await fetchMultiDayIntradaySeries(sym);
+    if(fetched.length){
+      MULTIDAY_INTRADAY_HISTORY[sym]=fetched;
+      cache[sym]={series:fetched, updatedAt:new Date().toISOString()};
+      return;
+    }
+    const fallbackPoint={t:new Date().toISOString(), v:safeNum((prices[sym]||FALLBACK[sym]||{}).p)};
+    MULTIDAY_INTRADAY_HISTORY[sym]=[fallbackPoint];
+    cache[sym]={series: MULTIDAY_INTRADAY_HISTORY[sym], updatedAt:new Date().toISOString()};
+  }));
+  try{localStorage.setItem(MULTIDAY_INTRADAY_CACHE_KEY, JSON.stringify(cache));}catch(e){}
+}
 const SYMBOL_SEARCH_CACHE={};
 const QUOTE_DETAILS_CACHE={};
 const QUOTE_DETAILS_INFLIGHT={};
@@ -917,7 +999,10 @@ async function refreshLivePricesInBackground(includeHistory=false){
     CURRENT_PRICES={...CURRENT_PRICES,...latest};
     saveQuoteCache(CURRENT_PRICES);
     await hydrateIntradaySeries(Object.keys(HOLDING_META), CURRENT_PRICES);
-    if(includeHistory) await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
+    if(includeHistory){
+      await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
+      await hydrateMultiDayIntradaySeries(Object.keys(HOLDING_META), CURRENT_PRICES);
+    }
     CURRENT_STATE=buildPortfolioState(CURRENT_PRICES);
     applyStateToUI();
   }catch(e){}
@@ -1007,12 +1092,14 @@ function buildPortfolioState(prices){
     dailyChange,
     dailyChangePct,
     intradayHistory: dailyHistory,
+    multiDayIntradayHistory: buildPortfolioMultiDayIntradayHistory(prices),
     history: buildPortfolioHistory(prices)
   };
 }
 
 function getPortfolioChartHistory(state, period){
   if(period==='1D') return state?.intradayHistory?.length ? state.intradayHistory : [];
+  if(period==='1W') return state?.multiDayIntradayHistory?.length ? state.multiDayIntradayHistory : filterHistoryByPeriod(state?.history || [], period);
   return filterHistoryByPeriod(state?.history || [], period);
 }
 
@@ -1404,6 +1491,10 @@ function setPeriod(p, isDetail=false){
 function filterStockHistory(sym, period){
   const livePrice = (CURRENT_PRICES[sym] || FALLBACK[sym]).p;
   if(period==='1D') return buildSymbolIntradayHistory(sym, livePrice);
+  if(period==='1W'){
+    const md=buildSymbolMultiDayIntradayHistory(sym, livePrice);
+    if(md.length>=2) return md;
+  }
   const hist = buildSymbolDailyHistory(sym, livePrice);
   return filterHistoryByPeriod(hist, period);
 }
@@ -1615,6 +1706,7 @@ async function init(){
   refreshDataModel();
   primeHistoricalSeriesFromCache();
   primeIntradaySeriesFromCache();
+  primeMultiDayIntradaySeriesFromCache();
   CURRENT_PRICES = {...FALLBACK, ...loadQuoteCache()};
   CURRENT_STATE = buildPortfolioState(CURRENT_PRICES);
   applyStateToUI();
