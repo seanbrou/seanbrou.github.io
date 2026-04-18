@@ -1011,6 +1011,7 @@ async function refreshHistoryOnlyInBackground(){
   try{
     await hydrateHistoricalSeries(Object.keys(HOLDING_META), CURRENT_PRICES);
     await hydrateIntradaySeries(Object.keys(HOLDING_META), CURRENT_PRICES);
+    await hydrateMultiDayIntradaySeries(Object.keys(HOLDING_META), CURRENT_PRICES);
     CURRENT_STATE=buildPortfolioState(CURRENT_PRICES);
     applyStateToUI();
   }catch(e){}
@@ -1486,6 +1487,13 @@ function setPeriod(p, isDetail=false){
       drawArea('detail-chart', filtered, h.color, 180);
     }
   } else if(CURRENT_STATE){
+    if(p==='1W' && !CURRENT_STATE.multiDayIntradayHistory?.length){
+      // Kick off multi-day fetch in background, render stale chart while loading
+      hydrateMultiDayIntradaySeries(Object.keys(HOLDING_META), CURRENT_PRICES).then(()=>{
+        CURRENT_STATE=buildPortfolioState(CURRENT_PRICES);
+        renderDashboard(CURRENT_STATE);
+      });
+    }
     renderDashboard(CURRENT_STATE);
   }
 }
@@ -1715,6 +1723,11 @@ async function init(){
   document.getElementById('loader').style.display='none';
   setTimeout(()=>{ refreshLivePricesInBackground(false); }, 0);
   setTimeout(()=>{ refreshHistoryOnlyInBackground(); }, 0);
+  // Kick off multi-day intraday fetch immediately so 1W is ready ASAP
+  setTimeout(()=>{ hydrateMultiDayIntradaySeries(Object.keys(HOLDING_META), CURRENT_PRICES).then(()=>{
+    CURRENT_STATE=buildPortfolioState(CURRENT_PRICES);
+    if(CURRENT_PERIOD==='1W') renderDashboard(CURRENT_STATE);
+  }); }, 0);
   startBackgroundPriceRefresh();
   document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) refreshLivePricesInBackground(false); }, {passive:true});
 }
