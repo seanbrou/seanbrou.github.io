@@ -2290,7 +2290,7 @@ function buildRecapSlides(){
   `});
 
   // Slide 9: Closing
-  const daysSinceFirst=Math.floor((Date.now()-new Date((TRANSACTIONS.filter(t=>!t.status&&t.w==='BUY').sort((a,b)=>new Date(a.d)-new Date(b.d))[0]?.d)||Date.now())).getTime()/86400000);
+  const daysSinceFirst=Math.floor((Date.now()-new Date((TRANSACTIONS.filter(t=>!t.status&&t.w==='BUY').sort((a,b)=>new Date(a.d)-new Date(b.d))[0]?.d)||Date.now()).getTime())/86400000);
   slides.push({type:'end',html:`
     <div class="recap-gradient" style="background:${recapGradient(0)}"></div>
     <div class="recap-content">
